@@ -1477,7 +1477,7 @@ html = """<!DOCTYPE html>
 </body>
 </html>"""
 
-with open('/home/claude/dashboard_final.html', 'w', encoding='utf-8') as f:
+with open('dashboard_final.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
 print('Done:', len(html), 'chars')
