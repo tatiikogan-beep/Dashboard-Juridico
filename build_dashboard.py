@@ -5,7 +5,7 @@ import streamlit as st
 logo_path = 'igsa_b64.txt'
 if os.path.exists(logo_path):
         with open(logo_path) as f:
-                    LOGO = 'data:image/jpeg;base64,' + f.read().strip()
+                    LOGO = 'data:image/png;base64,' + f.read().strip()
 else:
         LOGO = ''
 
