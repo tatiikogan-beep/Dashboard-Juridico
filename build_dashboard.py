@@ -1,7 +1,12 @@
 import base64
+import os
 
-with open('/home/claude/igsa_b64.txt') as f:
-    LOGO = 'data:image/jpeg;base64,' + f.read().strip()
+logo_path = 'igsa_b64.txt'
+if os.path.exists(logo_path):
+        with open(logo_path) as f:
+                    LOGO = 'data:image/jpeg;base64,' + f.read().strip()
+else:
+        LOGO = ''
 
 # Build the HTML in Python parts to avoid any escaping issues
 CSS = """
