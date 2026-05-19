@@ -1,5 +1,6 @@
 import base64
 import os
+import streamlit as st
 
 logo_path = 'igsa_b64.txt'
 if os.path.exists(logo_path):
@@ -1477,22 +1478,6 @@ html = """<!DOCTYPE html>
 </body>
 </html>"""
 
-with open('dashboard_final.html', 'w', encoding='utf-8') as f:
-    f.write(html)
-
-print('Done:', len(html), 'chars')
-
-# Quick sanity checks
-assert html.count('function generate()') == 1
-assert html.count('<script>') == 1
-assert html.count('</script>') >= 1  # CDN scripts are separate tags
-# No </script> inside the JS content
-js_start = html.rfind('<script>') + 8
-js_end = html.rfind('</script>')
-js_content = html[js_start:js_end]
-assert '</script>' not in js_content.lower(), 'FATAL: </script> inside script!'
-# Brace balance
-opens = js_content.count('{'); closes = js_content.count('}')
-assert opens == closes, f'Brace mismatch: {opens} vs {closes}'
-print('All checks passed')
-print('Braces balanced:', opens)
+# Display in Streamlit
+st.set_page_config(page_title="Dashboard Jur\u00eddico - IGSA", layout="wide")
+st.components.v1.html(html, height=900, scrolling=True)
