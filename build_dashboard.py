@@ -1315,6 +1315,8 @@ function shareDash(){
   if(cloneCfg)cloneCfg.style.display="none";
   var cloneDsh=clone.querySelector("#dsh");
   if(cloneDsh)cloneDsh.style.display="block";
+  var cloneTbar=clone.querySelector(".tbar");
+  if(cloneTbar)cloneTbar.style.display="none";
   var scripts=clone.querySelectorAll("script");
   for(var j=0;j<scripts.length;j++)scripts[j].parentNode.removeChild(scripts[j]);
   var html="<!DOCTYPE html>"+clone.outerHTML;
