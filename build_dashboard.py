@@ -1292,8 +1292,8 @@ function exportXLS(){
 
 function goBack(){ document.getElementById('dsh').style.display='none'; document.getElementById('cfg').style.display='flex'; }
 function hideReport(){ document.getElementById('rpt').style.display='none'; document.getElementById('dsh').style.display='block'; }
-function printDash(){ document.body.setAttribute('data-print','dash'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');}
-function shareDash(){ var nm=document.getElementById("dtitle")?document.getElementById("dtitle").innerText.replace(/[^\w\s-]/g,"").trim().substring(0,50):"dashboard"; var html=document.documentElement.outerHTML; var blob=new Blob([html],{type:"text/html"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Dashboard_"+nm+".html"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(a.href);},1000); },2000); }
+function printDash(){ document.body.setAttribute('data-print','dash'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');},2000); }
+function shareDash(){ var nm=document.getElementById("dtitle")?document.getElementById("dtitle").innerText.replace(/[^\w\s-]/g,"").trim().substring(0,50):"dashboard"; var html=document.documentElement.outerHTML; var blob=new Blob([html],{type:"text/html"}); var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Dashboard_"+nm+".html"; document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(a.href);},1000); }
 function printReport(){ document.body.setAttribute('data-print','report'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');},2000); }
 
 window.addEventListener('load', function(){
