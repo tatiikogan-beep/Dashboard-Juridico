@@ -1295,30 +1295,24 @@ function hideReport(){ document.getElementById('rpt').style.display='none'; docu
 function printDash(){ document.body.setAttribute('data-print','dash'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');},2000); }
 function shareDash(){
   var nm=document.getElementById("dtitle")?document.getElementById("dtitle").innerText.replace(/[^\w\s-]/g,"").trim().substring(0,50):"dashboard";
-  var canvases=document.querySelectorAll("canvas");
   var clone=document.documentElement.cloneNode(true);
-  var cloneCanvases=clone.querySelectorAll("canvas");
-  for(var i=0;i<canvases.length;i++){
-    try{
-      var img=document.createElement("img");
-      img.src=canvases[i].toDataURL("image/png");
-      img.setAttribute("width",canvases[i].offsetWidth);
-      img.setAttribute("height",canvases[i].offsetHeight);
-      img.style.cssText=canvases[i].style.cssText;
-      img.style.width=canvases[i].offsetWidth+"px";
-      img.style.height=canvases[i].offsetHeight+"px";
-      img.style.display="block";
-      cloneCanvases[i].parentNode.replaceChild(img,cloneCanvases[i]);
-    }catch(e){}
-  }
   var cloneCfg=clone.querySelector("#cfg");
   if(cloneCfg)cloneCfg.style.display="none";
   var cloneDsh=clone.querySelector("#dsh");
   if(cloneDsh)cloneDsh.style.display="block";
   var cloneTbar=clone.querySelector(".tbar");
   if(cloneTbar)cloneTbar.style.display="none";
-  var scripts=clone.querySelectorAll("script");
-  for(var j=0;j<scripts.length;j++)scripts[j].parentNode.removeChild(scripts[j]);
+  var chartData={};
+  for(var id in CH){
+    try{
+      var cfg=CH[id].config;
+      chartData[id]={type:cfg.type,data:JSON.parse(JSON.stringify(cfg.data)),options:JSON.parse(JSON.stringify(cfg.options||{}))};
+    }catch(e){}
+  }
+  var reinitScript=clone.ownerDocument?clone.ownerDocument.createElement("script"):document.createElement("script");
+  reinitScript.textContent='window.addEventListener("load",function(){var D='+JSON.stringify(chartData)+';for(var id in D){var el=document.getElementById(id);if(!el)continue;var ctx=el.getContext("2d");new Chart(ctx,{type:D[id].type,data:D[id].data,options:D[id].options});} });';
+  var cloneBody=clone.querySelector("body");
+  if(cloneBody)cloneBody.appendChild(reinitScript);
   var html="<!DOCTYPE html>"+clone.outerHTML;
   var blob=new Blob([html],{type:"text/html"});
   var a=document.createElement("a");
