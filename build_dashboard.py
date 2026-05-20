@@ -922,17 +922,43 @@ function generate(){
   mkBar('chay', ayK, ayK.map(function(y){return archY[y]||0;}), false,
     ayK.map(function(){return GOLD;}));
 
-  // ── Item 2: Cadastrados vs Encerrados por mês no ano vigente ──
-  document.getElementById('ctcmp').textContent = 'Processos Cadastrados × Encerrados em '+refY+' (por mês)';
+  // ── Item 2a: Cadastrados por mês no ano vigente ──
+  var todayMon = new Date().getMonth(); // 0-based, e.g. 4 = Mai
+  var cmpRegLabels = MONTHS.slice(0, todayMon + 1);
+  var cmpRegData   = cmpRegMon.slice(0, todayMon + 1);
+  document.getElementById('ctcmp').textContent = 'Processos Cadastrados em '+refY+' (por mês)';
   if(CH['chcmp2']) CH['chcmp2'].destroy();
   CH['chcmp2'] = new Chart(document.getElementById('chcmp2'), {
     type:'bar',
     data:{
-      labels: MONTHS,
+      labels: cmpRegLabels,
       datasets:[
-        {label:'Cadastrados', data:cmpRegMon,
-          backgroundColor:'#8B0E1A',borderRadius:3,borderSkipped:false},
-        {label:'Encerrados',  data:cmpArcMon,
+        {label:'Cadastrados', data:cmpRegData,
+          backgroundColor:'#8B0E1A',borderRadius:3,borderSkipped:false}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{position:'bottom',labels:{font:{family:'Inter,sans-serif',size:10},color:'#4A2030',padding:8}},
+        datalabels:{anchor:'end',align:'top',color:'#333',font:{size:9,weight:'700'},
+          formatter:function(v){return v>0?v:'';},clamp:true,clip:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'#4A2030',font:{size:10}},border:{display:false}},
+        y:{grid:{color:'#F5E8EA'},ticks:{color:'#9A5060',font:{size:10},stepSize:1},border:{display:false}}},
+      layout:{padding:{top:24}}}
+  });
+
+  // ── Item 2b: Encerrados por mês no ano vigente (até hoje) ──
+  var cmpArcLabels = MONTHS.slice(0, todayMon + 1);
+  var cmpArcData   = cmpArcMon.slice(0, todayMon + 1);
+  document.getElementById('ctcmp3').textContent = 'Processos Encerrados em '+refY+' (por mês)';
+  if(CH['chcmp3']) CH['chcmp3'].destroy();
+  CH['chcmp3'] = new Chart(document.getElementById('chcmp3'), {
+    type:'bar',
+    data:{
+      labels: cmpArcLabels,
+      datasets:[
+        {label:'Encerrados', data:cmpArcData,
           backgroundColor:GOLD,borderRadius:3,borderSkipped:false}
       ]
     },
@@ -1440,8 +1466,9 @@ html = """<!DOCTYPE html>
     <div class="cc"><div class="ct">Processos Cadastrados por Ano</div><div class="ch" style="height:190px"><canvas id="chry"></canvas></div></div>
     <div class="cc"><div class="ct">Processos Encerrados por Ano</div><div class="ch" style="height:190px"><canvas id="chay"></canvas></div></div>
   </div>
-  <div class="cg c2" style="margin-bottom:12px">
+  <div class="cg c3" style="margin-bottom:12px">
     <div class="cc"><div class="ct" id="ctcmp">—</div><div class="ch" style="height:200px"><canvas id="chcmp2"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctcmp3">—</div><div class="ch" style="height:200px"><canvas id="chcmp3"></canvas></div></div>
     <div class="cc"><div class="ct">Distribuição por Fase Processual</div><div class="ch" style="height:200px"><canvas id="chfase"></canvas></div></div>
   </div>
   <div class="cg c2" style="margin-bottom:12px">
