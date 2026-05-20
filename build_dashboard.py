@@ -529,6 +529,34 @@ function uNat(n){
   return NAT_MAP[String(n).trim()] || String(n).trim();
 }
 
+function extractNat(assunto){
+  if(!assunto || String(assunto).trim()==='') return 'Não classificado';
+  var s = String(assunto).trim().toUpperCase();
+  // Must start with CONSULTIVO
+  if(s.indexOf('CONSULTIVO') !== 0) return 'Não classificado';
+  // Remove leading CONSULTIVO and optional spaces
+  var rest = s.replace(/^CONSULTIVO\s*/, '');
+  // Extract first word (the nature keyword)
+  var word = rest.split(/[\s:,/\-]/)[0] || '';
+  if(!word) return 'Não classificado';
+  // Normalization map
+  var norm = {
+    'CONTRATOS':'Contratos','CONTRATUAL':'Contratos',
+    'TRIBUTARIO':'Tributário','TRIBUTARIA':'Tributário','TRIBUTÁRIA':'Tributário','TRIBUTÁRIO':'Tributário',
+    'CIVEL':'Cível','CÍVEL':'Cível',
+    'REGULATORIO':'Regulatório','REGULATÓRIO':'Regulatório',
+    'TRABALHISTA':'Trabalhista',
+    'HOSPITALAR':'Hospitalar',
+    'AMBIENTAL':'Ambiental',
+    'DIGITAL':'Digital',
+    'EMPRESARIAL':'Empresarial',
+    'CIVIL':'Cível'
+  };
+  if(norm[word]) return norm[word];
+  // Capitalize first letter, rest lowercase
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
 
 function uT(t){
   if(!t || String(t).trim()==='' || t==='nan') return 'Consulta';
@@ -851,7 +879,7 @@ function generate(){
   serv.forEach(function(r){
     var d=r[servDateFld]; if(!d) return;
     if(parseYear(d)!==refY) return;
-    var n=uNat(r['Natureza']); sNatY[n]=(sNatY[n]||0)+1;
+    var n=extractNat(r['Assunto']); sNatY[n]=(sNatY[n]||0)+1;
   });
   var sNYS = Object.entries(sNatY).sort(function(a,b){return b[1]-a[1];}).slice(0,12);
 
