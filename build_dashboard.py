@@ -1581,3 +1581,33 @@ html = """<!DOCTYPE html>
 # Display in Streamlit
 st.set_page_config(page_title="Dashboard Jur\u00eddico - IGSA", layout="wide")
 st.components.v1.html(html, height=900, scrolling=True)
+
+
+# ── Ferramenta: Corrigir HTML antigo (sem gráficos) ──────────────────────────
+with st.sidebar:
+    st.markdown("---")
+    st.markdown("### 🔧 Corrigir HTML existente")
+    st.caption("Faça upload de um HTML gerado antes do fix para embutir as bibliotecas automaticamente.")
+    uploaded_fix = st.file_uploader("Selecione o arquivo HTML", type=["html"], key="fix_uploader")
+    if uploaded_fix is not None:
+        with st.spinner("Baixando bibliotecas e corrigindo... (pode levar ~20s)"):
+            import re as _re
+            _html = uploaded_fix.read().decode("utf-8")
+            _xlsx   = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js")
+            _chart  = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js")
+            _dlbl   = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js")
+            _html = _re.sub(r'<script src="https://cdnjs\.cloudflare\.com/ajax/libs/xlsx/[^"]+"></script>',
+                            f'<script>{_xlsx}</script>', _html)
+            _html = _re.sub(r'<script src="https://cdnjs\.cloudflare\.com/ajax/libs/Chart\.js/[^"]+"></script>',
+                            f'<script>{_chart}</script>', _html)
+            _html = _re.sub(r'<script src="https://cdnjs\.cloudflare\.com/ajax/libs/chartjs-plugin-datalabels/[^"]+"></script>',
+                            f'<script>{_dlbl}</script>', _html)
+            _html = _re.sub(r'<link[^>]*fonts\.googleapis\.com[^>]*>', '', _html)
+            _out_name = uploaded_fix.name.replace(".html", "_OFFLINE.html")
+            st.success("✅ HTML corrigido com sucesso!")
+            st.download_button(
+                label="⬇️ Baixar HTML corrigido (funciona offline e no Teams)",
+                data=_html.encode("utf-8"),
+                file_name=_out_name,
+                mime="text/html"
+            )
