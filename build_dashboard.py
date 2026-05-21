@@ -1611,3 +1611,71 @@ with st.sidebar:
                 file_name=_out_name,
                 mime="text/html"
             )
+
+
+# ── Ferramenta: Publicar dashboard no Netlify ────────────────────────────────
+with st.sidebar:
+    st.markdown("---")
+    st.markdown("### 🌐 Publicar no Netlify")
+    st.caption("Publique o HTML gerado e receba um link para enviar por e-mail ou WhatsApp.")
+
+    _netlify_token = st.secrets.get("NETLIFY_TOKEN", "") if hasattr(st, "secrets") else ""
+    if not _netlify_token:
+        _netlify_token = st.text_input("Token do Netlify (Personal Access Token)", type="password", key="netlify_token_input")
+        st.caption("Crie seu token em: app.netlify.com → User settings → Applications → Personal access tokens")
+
+    _html_to_publish = st.file_uploader("Selecione o HTML do dashboard", type=["html"], key="netlify_uploader")
+
+    if _html_to_publish is not None and _netlify_token:
+        if st.button("📤 Publicar e gerar link", key="netlify_publish_btn"):
+            import urllib.request as _ur2
+            import urllib.parse as _up2
+            import json as _json2
+            import zipfile as _zf
+            import io as _io2
+
+            with st.spinner("Publicando no Netlify... aguarde"):
+                try:
+                    # Cria um ZIP com o HTML como index.html
+                    _zip_buf = _io2.BytesIO()
+                    with _zf.ZipFile(_zip_buf, 'w', _zf.ZIP_DEFLATED) as _zobj:
+                        _html_bytes = _html_to_publish.read()
+                        _zobj.writestr("index.html", _html_bytes)
+                    _zip_data = _zip_buf.getvalue()
+
+                    # Cria novo site no Netlify via API
+                    _req_site = _ur2.Request(
+                        "https://api.netlify.com/api/v1/sites",
+                        data=_json2.dumps({}).encode("utf-8"),
+                        headers={
+                            "Authorization": f"Bearer {_netlify_token}",
+                            "Content-Type": "application/json"
+                        },
+                        method="POST"
+                    )
+                    with _ur2.urlopen(_req_site) as _resp_site:
+                        _site_info = _json2.loads(_resp_site.read().decode("utf-8"))
+                    _site_id = _site_info["id"]
+
+                    # Faz deploy do ZIP no site criado
+                    _req_deploy = _ur2.Request(
+                        f"https://api.netlify.com/api/v1/sites/{_site_id}/deploys",
+                        data=_zip_data,
+                        headers={
+                            "Authorization": f"Bearer {_netlify_token}",
+                            "Content-Type": "application/zip"
+                        },
+                        method="POST"
+                    )
+                    with _ur2.urlopen(_req_deploy) as _resp_deploy:
+                        _deploy_info = _json2.loads(_resp_deploy.read().decode("utf-8"))
+
+                    _link = _deploy_info.get("ssl_url") or _deploy_info.get("url") or _site_info.get("ssl_url") or _site_info.get("url")
+                    st.success("✅ Dashboard publicado com sucesso!")
+                    st.markdown(f"### 🔗 Link para enviar ao cliente:")
+                    st.code(_link, language=None)
+                    st.caption("Copie o link acima e envie por e-mail ou WhatsApp. O cliente abre direto no navegador.")
+                except Exception as _e:
+                    st.error(f"Erro ao publicar: {str(_e)}")
+    elif _html_to_publish is not None and not _netlify_token:
+        st.warning("⚠️ Informe o token do Netlify para publicar.")
