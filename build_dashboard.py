@@ -1613,7 +1613,7 @@ with st.sidebar:
             )
 
 
-# ── Ferramenta: Publicar dashboard no Netlify ────────────────────────────────
+# ── Ferramenta: Publicar dashboard no Netlify ────────────────────────────────────────────
 with st.sidebar:
     st.markdown("---")
     st.markdown("### 🌐 Publicar no Netlify")
@@ -1626,12 +1626,12 @@ with st.sidebar:
         pass
     if not _netlify_token:
         _netlify_token = st.text_input("Token do Netlify (Personal Access Token)", type="password", key="netlify_token_input")
-        st.caption("Crie seu token em: app.netlify.com → User settings → Applications → Personal access tokens")
+        st.caption("Crie seu token em: app.netlify.com")
 
     _html_to_publish = st.file_uploader("Selecione o HTML do dashboard", type=["html"], key="netlify_uploader")
 
     if _html_to_publish is not None and _netlify_token:
-        if st.button("📤 Publicar e gerar link", key="netlify_publish_btn"):
+        if st.button("\U0001f4e4 Publicar e gerar link", key="netlify_publish_btn"):
             import urllib.request as _ur2
             import json as _json2
             import zipfile as _zf
@@ -1641,12 +1641,20 @@ with st.sidebar:
                 try:
                     _html_bytes = _html_to_publish.read()
 
-                    # Cria ZIP com index.html + netlify.toml para forçar text/html
-                    _toml = b'[[headers]]\n  for = "/*"\n  [headers.values]\n    Content-Type = "text/html; charset=utf-8"\n'
+                    # netlify.toml para forçar Content-Type correto
+                    _toml_lines = [
+                        "[[headers]]",
+                        '  for = "/*"',
+                        "  [headers.values]",
+                        '    Content-Type = "text/html; charset=utf-8"'
+                    ]
+                    _toml_bytes = "\n".join(_toml_lines).encode("utf-8")
+
+                    # Cria ZIP com index.html + netlify.toml
                     _zip_buf = _io2.BytesIO()
-                    with _zf.ZipFile(_zip_buf, 'w', _zf.ZIP_DEFLATED) as _zobj:
+                    with _zf.ZipFile(_zip_buf, "w", _zf.ZIP_DEFLATED) as _zobj:
                         _zobj.writestr("index.html", _html_bytes)
-                        _zobj.writestr("netlify.toml", _toml)
+                        _zobj.writestr("netlify.toml", _toml_bytes)
                     _zip_data = _zip_buf.getvalue()
 
                     # Passo 1: Criar site
@@ -1676,9 +1684,10 @@ with st.sidebar:
                     with _ur2.urlopen(_req_deploy) as _r:
                         _deploy = _json2.loads(_r.read().decode("utf-8"))
 
-                    # Aguarda deploy ficar pronto (polling)
+                    # Polling até ficar pronto
                     import time as _time
                     _deploy_id = _deploy["id"]
+                    _status = _deploy
                     for _ in range(15):
                         _time.sleep(2)
                         _req_check = _ur2.Request(
@@ -1691,11 +1700,11 @@ with st.sidebar:
                             break
 
                     _link = _status.get("ssl_url") or _status.get("url") or _site.get("ssl_url") or _site.get("url", "")
-                    st.success("✅ Dashboard publicado com sucesso!")
-                    st.markdown("### 🔗 Link para enviar ao cliente:")
+                    st.success("\u2705 Dashboard publicado com sucesso!")
+                    st.markdown("### \U0001f517 Link para enviar ao cliente:")
                     st.code(_link, language=None)
-                    st.caption("Copie o link acima e envie por e-mail ou WhatsApp. O cliente abre direto no navegador.")
+                    st.caption("Copie o link acima e envie por e-mail ou WhatsApp.")
                 except Exception as _e:
                     st.error(f"Erro ao publicar: {str(_e)}")
     elif _html_to_publish is not None and not _netlify_token:
-        st.warning("⚠️ Token do Netlify não encontrado nos secrets.")
+        st.warning("\u26a0\ufe0f Token do Netlify n\u00e3o encontrado nos secrets.")
