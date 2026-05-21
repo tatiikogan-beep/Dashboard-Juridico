@@ -1634,18 +1634,25 @@ with st.sidebar:
         if st.button("📤 Publicar e gerar link", key="netlify_publish_btn"):
             import urllib.request as _ur2
             import json as _json2
-            import hashlib as _hl
+            import zipfile as _zf
             import io as _io2
 
             with st.spinner("Publicando no Netlify... aguarde"):
                 try:
                     _html_bytes = _html_to_publish.read()
-                    _sha = _hl.sha256(_html_bytes).hexdigest()
+
+                    # Cria ZIP com index.html + netlify.toml para forçar text/html
+                    _toml = b'[[headers]]\n  for = "/*"\n  [headers.values]\n    Content-Type = "text/html; charset=utf-8"\n'
+                    _zip_buf = _io2.BytesIO()
+                    with _zf.ZipFile(_zip_buf, 'w', _zf.ZIP_DEFLATED) as _zobj:
+                        _zobj.writestr("index.html", _html_bytes)
+                        _zobj.writestr("netlify.toml", _toml)
+                    _zip_data = _zip_buf.getvalue()
 
                     # Passo 1: Criar site
                     _req_site = _ur2.Request(
                         "https://api.netlify.com/api/v1/sites",
-                        data=_json2.dumps({"name": None}).encode("utf-8"),
+                        data=_json2.dumps({}).encode("utf-8"),
                         headers={
                             "Authorization": f"Bearer {_netlify_token}",
                             "Content-Type": "application/json"
@@ -1656,35 +1663,34 @@ with st.sidebar:
                         _site = _json2.loads(_r.read().decode("utf-8"))
                     _site_id = _site["id"]
 
-                    # Passo 2: Criar deploy informando o SHA256 do index.html
+                    # Passo 2: Deploy via ZIP
                     _req_deploy = _ur2.Request(
                         f"https://api.netlify.com/api/v1/sites/{_site_id}/deploys",
-                        data=_json2.dumps({"files": {"/index.html": _sha}}).encode("utf-8"),
+                        data=_zip_data,
                         headers={
                             "Authorization": f"Bearer {_netlify_token}",
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/zip"
                         },
                         method="POST"
                     )
                     with _ur2.urlopen(_req_deploy) as _r:
                         _deploy = _json2.loads(_r.read().decode("utf-8"))
+
+                    # Aguarda deploy ficar pronto (polling)
+                    import time as _time
                     _deploy_id = _deploy["id"]
+                    for _ in range(15):
+                        _time.sleep(2)
+                        _req_check = _ur2.Request(
+                            f"https://api.netlify.com/api/v1/deploys/{_deploy_id}",
+                            headers={"Authorization": f"Bearer {_netlify_token}"}
+                        )
+                        with _ur2.urlopen(_req_check) as _r:
+                            _status = _json2.loads(_r.read().decode("utf-8"))
+                        if _status.get("state") in ("ready", "current"):
+                            break
 
-                    # Passo 3: Enviar o arquivo index.html
-                    _req_file = _ur2.Request(
-                        f"https://api.netlify.com/api/v1/deploys/{_deploy_id}/files/index.html",
-                        data=_html_bytes,
-                        headers={
-                            "Authorization": f"Bearer {_netlify_token}",
-                            "Content-Type": "text/html; charset=utf-8",
-                            "Content-Size": str(len(_html_bytes))
-                        },
-                        method="PUT"
-                    )
-                    with _ur2.urlopen(_req_file) as _r:
-                        pass
-
-                    _link = _deploy.get("ssl_url") or _deploy.get("url") or _site.get("ssl_url") or _site.get("url", "")
+                    _link = _status.get("ssl_url") or _status.get("url") or _site.get("ssl_url") or _site.get("url", "")
                     st.success("✅ Dashboard publicado com sucesso!")
                     st.markdown("### 🔗 Link para enviar ao cliente:")
                     st.code(_link, language=None)
