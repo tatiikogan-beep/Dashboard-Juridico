@@ -1,6 +1,21 @@
 import base64
 import os
+import urllib.request
 import streamlit as st
+
+# ── Embed external JS/CSS libraries inline for offline/Teams compatibility ──
+def _fetch_lib(url, fallback=""):
+    import urllib.request
+    try:
+        with urllib.request.urlopen(url, timeout=15) as r:
+            return r.read().decode("utf-8")
+    except Exception:
+        return fallback
+
+XLSX_JS        = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js")
+CHART_JS       = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js")
+DATALABELS_JS  = _fetch_lib("https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js")
+
 
 logo_path = 'igsa_b64.txt'
 if os.path.exists(logo_path):
@@ -1392,8 +1407,6 @@ html = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Dashboard Jurídico — IGSA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 """ + CSS + """
 </style>
@@ -1556,9 +1569,9 @@ html = """<!DOCTYPE html>
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+    <script>""" + XLSX_JS + """</script>
+    <script>""" + CHART_JS + """</script>
+    <script>""" + DATALABELS_JS + """</script>
 <script>
 """ + JS + """
 </script>
