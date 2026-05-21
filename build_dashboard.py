@@ -1619,7 +1619,11 @@ with st.sidebar:
     st.markdown("### 🌐 Publicar no Netlify")
     st.caption("Publique o HTML gerado e receba um link para enviar por e-mail ou WhatsApp.")
 
-    _netlify_token = st.secrets.get("NETLIFY_TOKEN", "") if hasattr(st, "secrets") else ""
+    _netlify_token = ""
+    try:
+        _netlify_token = st.secrets.get("NETLIFY_TOKEN", "")
+    except Exception:
+        pass
     if not _netlify_token:
         _netlify_token = st.text_input("Token do Netlify (Personal Access Token)", type="password", key="netlify_token_input")
         st.caption("Crie seu token em: app.netlify.com → User settings → Applications → Personal access tokens")
@@ -1629,53 +1633,63 @@ with st.sidebar:
     if _html_to_publish is not None and _netlify_token:
         if st.button("📤 Publicar e gerar link", key="netlify_publish_btn"):
             import urllib.request as _ur2
-            import urllib.parse as _up2
             import json as _json2
-            import zipfile as _zf
+            import hashlib as _hl
             import io as _io2
 
             with st.spinner("Publicando no Netlify... aguarde"):
                 try:
-                    # Cria um ZIP com o HTML como index.html
-                    _zip_buf = _io2.BytesIO()
-                    with _zf.ZipFile(_zip_buf, 'w', _zf.ZIP_DEFLATED) as _zobj:
-                        _html_bytes = _html_to_publish.read()
-                        _zobj.writestr("index.html", _html_bytes)
-                    _zip_data = _zip_buf.getvalue()
+                    _html_bytes = _html_to_publish.read()
+                    _sha = _hl.sha256(_html_bytes).hexdigest()
 
-                    # Cria novo site no Netlify via API
+                    # Passo 1: Criar site
                     _req_site = _ur2.Request(
                         "https://api.netlify.com/api/v1/sites",
-                        data=_json2.dumps({}).encode("utf-8"),
+                        data=_json2.dumps({"name": None}).encode("utf-8"),
                         headers={
                             "Authorization": f"Bearer {_netlify_token}",
                             "Content-Type": "application/json"
                         },
                         method="POST"
                     )
-                    with _ur2.urlopen(_req_site) as _resp_site:
-                        _site_info = _json2.loads(_resp_site.read().decode("utf-8"))
-                    _site_id = _site_info["id"]
+                    with _ur2.urlopen(_req_site) as _r:
+                        _site = _json2.loads(_r.read().decode("utf-8"))
+                    _site_id = _site["id"]
 
-                    # Faz deploy do ZIP no site criado
+                    # Passo 2: Criar deploy informando o SHA256 do index.html
                     _req_deploy = _ur2.Request(
                         f"https://api.netlify.com/api/v1/sites/{_site_id}/deploys",
-                        data=_zip_data,
+                        data=_json2.dumps({"files": {"/index.html": _sha}}).encode("utf-8"),
                         headers={
                             "Authorization": f"Bearer {_netlify_token}",
-                            "Content-Type": "application/zip"
+                            "Content-Type": "application/json"
                         },
                         method="POST"
                     )
-                    with _ur2.urlopen(_req_deploy) as _resp_deploy:
-                        _deploy_info = _json2.loads(_resp_deploy.read().decode("utf-8"))
+                    with _ur2.urlopen(_req_deploy) as _r:
+                        _deploy = _json2.loads(_r.read().decode("utf-8"))
+                    _deploy_id = _deploy["id"]
 
-                    _link = _deploy_info.get("ssl_url") or _deploy_info.get("url") or _site_info.get("ssl_url") or _site_info.get("url")
+                    # Passo 3: Enviar o arquivo index.html
+                    _req_file = _ur2.Request(
+                        f"https://api.netlify.com/api/v1/deploys/{_deploy_id}/files/index.html",
+                        data=_html_bytes,
+                        headers={
+                            "Authorization": f"Bearer {_netlify_token}",
+                            "Content-Type": "text/html; charset=utf-8",
+                            "Content-Size": str(len(_html_bytes))
+                        },
+                        method="PUT"
+                    )
+                    with _ur2.urlopen(_req_file) as _r:
+                        pass
+
+                    _link = _deploy.get("ssl_url") or _deploy.get("url") or _site.get("ssl_url") or _site.get("url", "")
                     st.success("✅ Dashboard publicado com sucesso!")
-                    st.markdown(f"### 🔗 Link para enviar ao cliente:")
+                    st.markdown("### 🔗 Link para enviar ao cliente:")
                     st.code(_link, language=None)
                     st.caption("Copie o link acima e envie por e-mail ou WhatsApp. O cliente abre direto no navegador.")
                 except Exception as _e:
                     st.error(f"Erro ao publicar: {str(_e)}")
     elif _html_to_publish is not None and not _netlify_token:
-        st.warning("⚠️ Informe o token do Netlify para publicar.")
+        st.warning("⚠️ Token do Netlify não encontrado nos secrets.")
