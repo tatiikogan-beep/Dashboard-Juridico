@@ -104,9 +104,9 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .c3{grid-template-columns:1fr 1fr 1fr}
 .c2{grid-template-columns:1fr 1fr}
 .c1{grid-template-columns:1fr}
-.cc{background:var(--wh);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.cc{background:var(--wh);border-radius:var(--r);padding:16px;box-shadow:var(--sh);overflow:hidden}
 .ct{font-size:.67rem;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid var(--c0)}
-.ch{position:relative}
+.ch{position:relative;overflow:hidden}
 .sd{height:2px;background:var(--c1);margin:20px 0}
 /* REPORT */
 .rw{max-width:1100px;margin:0 auto;padding:28px 36px;background:#fff;min-height:100vh}
@@ -667,7 +667,7 @@ function mkBar(id, labels, vals, horiz, colors){
         anchor: horiz?'end':'end', align: horiz?'end':'top',
         color: '#333', font:{size:10, weight:'700', family:"Inter,sans-serif"},
         formatter: function(v){ return v>0?v:''; },
-        clamp:true, clip:false,
+        clamp:true, clip:true,
         padding: horiz?{right:6}:{top:2}
       }};
     }
@@ -1242,11 +1242,12 @@ function generate(){
 
   // ── Audiências e Perícias Futuras ──
   var today = new Date(); today.setHours(0,0,0,0);
-  var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo']) : null;
+  function futDate(r){ return r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']||null; }
+  var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente principal','cliente principal']) : null;
   var fut = ST.fut ? ((clients && futFld) ? filterClients(ST.fut, futFld, clients) : ST.fut) : [];
   var futAud = [], futPer = [];
   fut.forEach(function(r){
-    var d = r['Data de Início'] || r['Data de inicio'] || r['Data'];
+    var d = futDate(r);
     if(!d) return;
     var dt = d instanceof Date ? d : new Date(String(d).trim());
     if(isNaN(dt.getTime())) return;
@@ -1256,7 +1257,7 @@ function generate(){
     if(tipo === 'Perícia' || tipo === 'Pericia') futPer.push(r);
     else futAud.push(r);
   });
-  function sortByDate(arr){ return arr.slice().sort(function(a,b){ var da=new Date(a['Data de Início']||a['Data de inicio']||a['Data']), db=new Date(b['Data de Início']||b['Data de inicio']||b['Data']); return da-db; }); }
+  function sortByDate(arr){ return arr.slice().sort(function(a,b){ var da=new Date(futDate(a)||0), db=new Date(futDate(b)||0); return da-db; }); }
   futAud = sortByDate(futAud);
   futPer = sortByDate(futPer);
   var futAudNat={}, futPerNat={}, futAudCid={}, futPerCid={};
@@ -1270,25 +1271,25 @@ function generate(){
     proc:{rows:proc,active:active,archived:archived,natSort:natSort,nAud:nAud,nPrz:nPrz,nPer:nPer},
     serv:{rows:ST.serv||[]}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[]},
     fut:{rows:ST.fut||[],futAud:futAud,futPer:futPer} };
-  if(ST.fut && fut.length===0 && clients) warns.push('Nenhum registro futuro encontrado para os clientes em Aud. e Perícias Futuras.');
+  if(ST.fut && fut.length===0 && ST.fut.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
   (function(){
     var fb=document.getElementById('futblock');
     if(!ST.fut){ fb.style.display='none'; return; }
-    var proxAud=futAud.length>0?fDate(futAud[0]['Data de Início']||futAud[0]['Data de inicio']||futAud[0]['Data']):'—';
-    var proxPer=futPer.length>0?fDate(futPer[0]['Data de Início']||futPer[0]['Data de inicio']||futPer[0]['Data']):'—';
+    var proxAud=futAud.length>0?fDate(futDate(futAud[0])):'—';
+    var proxPer=futPer.length>0?fDate(futDate(futPer[0])):'—';
     document.getElementById('futkpi').innerHTML=
       kpiCard('c6','Audiências Futuras',futAud.length,'Agendadas a partir de hoje')+
       kpiCard('gd','Perícias Futuras',futPer.length,'Agendadas a partir de hoje')+
       kpiCard('c5','Próxima Audiência',proxAud,'Data mais próxima')+
       kpiCard('c4','Próxima Perícia',proxPer,'Data mais próxima');
     document.getElementById('ctfut1').textContent='Audiências Futuras por Natureza';
-    mkBar('chfut1',futAudNatSort.map(function(e){return e[0];}),futAudNatSort.map(function(e){return e[1];}),true,futAudNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    if(futAudNatSort.length>0) mkBar('chfut1',futAudNatSort.map(function(e){return e[0];}),futAudNatSort.map(function(e){return e[1];}),true,futAudNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
     document.getElementById('ctfut2').textContent='Perícias Futuras por Natureza';
-    mkBar('chfut2',futPerNatSort.map(function(e){return e[0];}),futPerNatSort.map(function(e){return e[1];}),true,futPerNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    if(futPerNatSort.length>0) mkBar('chfut2',futPerNatSort.map(function(e){return e[0];}),futPerNatSort.map(function(e){return e[1];}),true,futPerNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
     document.getElementById('ctfut3').textContent='Audiências Futuras por Cidade/UF';
-    mkBar('chfut3',futAudCidSort.map(function(e){return e[0];}),futAudCidSort.map(function(e){return e[1];}),true,futAudCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    if(futAudCidSort.length>0) mkBar('chfut3',futAudCidSort.map(function(e){return e[0];}),futAudCidSort.map(function(e){return e[1];}),true,futAudCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
     document.getElementById('ctfut4').textContent='Perícias Futuras por Cidade/UF';
-    mkBar('chfut4',futPerCidSort.map(function(e){return e[0];}),futPerCidSort.map(function(e){return e[1];}),true,futPerCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    if(futPerCidSort.length>0) mkBar('chfut4',futPerCidSort.map(function(e){return e[0];}),futPerCidSort.map(function(e){return e[1];}),true,futPerCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   })();
 
   document.getElementById('cfg').style.display = 'none';
@@ -1502,7 +1503,7 @@ function exportXLS_fut(){
     var dRows=rows.map(function(r,i){
       var bg=i%2?ALT:'#fff';
       var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';
-      var vals=[fDate(r['Data de Início']||r['Data de inicio']||r['Data']),esc(r['Natureza']),esc(r['Tipo']),esc(r['Número CNJ']||r['Numero CNJ']||r['CNJ']),esc(r['Parte Contrária']||r['Parte Contraria']),esc(r['Cliente do Processo']||r['Cliente Processo']),esc(r['Órgão']||r['Orgao']),esc(r['Cidade/UF']||r['Cidade'])];
+      var vals=[fDate(r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']),esc(r['Natureza']),esc(r['Tipo']),esc(r['Número CNJ']||r['Numero CNJ']||r['CNJ']),esc(r['Parte Contrária']||r['Parte Contraria']),esc(r['Cliente do Processo']||r['Cliente Processo']),esc(r['Órgão']||r['Orgao']),esc(r['Cidade/UF']||r['Cidade'])];
       return '<tr>'+vals.map(function(v){return '<td '+co+'>'+(v||'')+'</td>';}).join('')+'</tr>';
     }).join('');
     return '<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — '+label+'</td></tr>'+hRow+dRows+'</table>';
