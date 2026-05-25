@@ -3,7 +3,7 @@ import os
 import urllib.request
 import streamlit as st
 
-# ── Embed external JS/CSS libraries inline for offline/Teams compatibility ──
+# ââ Embed external JS/CSS libraries inline for offline/Teams compatibility ââ
 def _fetch_lib(url, fallback=""):
     import urllib.request
     try:
@@ -85,7 +85,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .warn{background:#FFF8E0;border:1.5px solid #C4A020;border-radius:var(--r);padding:10px 14px;margin-bottom:14px}
 .warn h4{color:#7A6000;font-size:.76rem;font-weight:700;margin-bottom:5px}
 .warn li{font-size:.7rem;color:#7A6000;padding:2px 0 2px 16px;position:relative;list-style:none}
-.warn li::before{content:'⚠';position:absolute;left:0}
+.warn li::before{content:'â ';position:absolute;left:0}
 .sbn{background:var(--c8);color:#fff;padding:9px 16px;border-radius:var(--r);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .sbn h2{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;letter-spacing:.03em}
 .kr{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:12px;margin-bottom:12px}
@@ -145,380 +145,380 @@ const CH={};
 
 
 const TAX = {
-// AUDIÊNCIA
-'Audiência':'Audiência','Audiência - Cível':'Audiência','Audiência / Audiência Cível':'Audiência',
-'Audiência / Conciliação':'Audiência','Audiência / Inaugural':'Audiência',
-'Audiência / Instrução':'Audiência','Audiência / Instrução e Julgamento':'Audiência',
-'Audiência / Julgamento':'Audiência','Audiência / Justificação Prévia':'Audiência',
-'Audiência / Una':'Audiência','Audiência Una':'Audiência',
-'Serviço / Audiência':'Audiência','Pauta de Julgamento':'Audiência',
-'Workflow / Registro de audiência':'Audiência','Workflow / Sinalizar audiência':'Audiência',
-'Serviço / Conciliação Extrajudicial':'Audiência',
-// REUNIÃO
-'Reunião':'Reunião','Reunião / Cliente':'Reunião','Reunião / Coordenadores':'Reunião',
-'Reunião / Prospect':'Reunião','Reunião / Sócios':'Reunião','Reunião / Treinamento':'Reunião',
-'Reunião de Captação':'Reunião','Reunião de Consultoria':'Reunião','Reunião Interna':'Reunião',
-'Reunião / Reunião':'Reunião','Serviço / Reunião':'Reunião',
-'Serviço / Acompanhamento em Reunião':'Acompanhamento em Reunião',
+// AUDIÃNCIA
+'AudiÃªncia':'AudiÃªncia','AudiÃªncia - CÃ­vel':'AudiÃªncia','AudiÃªncia / AudiÃªncia CÃ­vel':'AudiÃªncia',
+'AudiÃªncia / ConciliaÃ§Ã£o':'AudiÃªncia','AudiÃªncia / Inaugural':'AudiÃªncia',
+'AudiÃªncia / InstruÃ§Ã£o':'AudiÃªncia','AudiÃªncia / InstruÃ§Ã£o e Julgamento':'AudiÃªncia',
+'AudiÃªncia / Julgamento':'AudiÃªncia','AudiÃªncia / JustificaÃ§Ã£o PrÃ©via':'AudiÃªncia',
+'AudiÃªncia / Una':'AudiÃªncia','AudiÃªncia Una':'AudiÃªncia',
+'ServiÃ§o / AudiÃªncia':'AudiÃªncia','Pauta de Julgamento':'AudiÃªncia',
+'Workflow / Registro de audiÃªncia':'AudiÃªncia','Workflow / Sinalizar audiÃªncia':'AudiÃªncia',
+'ServiÃ§o / ConciliaÃ§Ã£o Extrajudicial':'AudiÃªncia',
+// REUNIÃO
+'ReuniÃ£o':'ReuniÃ£o','ReuniÃ£o / Cliente':'ReuniÃ£o','ReuniÃ£o / Coordenadores':'ReuniÃ£o',
+'ReuniÃ£o / Prospect':'ReuniÃ£o','ReuniÃ£o / SÃ³cios':'ReuniÃ£o','ReuniÃ£o / Treinamento':'ReuniÃ£o',
+'ReuniÃ£o de CaptaÃ§Ã£o':'ReuniÃ£o','ReuniÃ£o de Consultoria':'ReuniÃ£o','ReuniÃ£o Interna':'ReuniÃ£o',
+'ReuniÃ£o / ReuniÃ£o':'ReuniÃ£o','ServiÃ§o / ReuniÃ£o':'ReuniÃ£o',
+'ServiÃ§o / Acompanhamento em ReuniÃ£o':'Acompanhamento em ReuniÃ£o',
 // CONSULTA
-'Serviço / Consulta':'Consulta','Serviço / Orientação':'Consulta',
+'ServiÃ§o / Consulta':'Consulta','ServiÃ§o / OrientaÃ§Ã£o':'Consulta',
 // DESPACHO
 'Despacho com Magistrado':'Despacho com Magistrado',
-// DILIGÊNCIA
-'Diligência externa':'Diligência','Serviço / Diligência':'Diligência',
-'Diversos / Diligência':'Diligência',
+// DILIGÃNCIA
+'DiligÃªncia externa':'DiligÃªncia','ServiÃ§o / DiligÃªncia':'DiligÃªncia',
+'Diversos / DiligÃªncia':'DiligÃªncia',
 // TREINAMENTO
-'TREINAMENTO':'Treinamento','Elaboração de Plano de Treinamento':'Elaboração de Plano de Treinamento',
+'TREINAMENTO':'Treinamento','ElaboraÃ§Ã£o de Plano de Treinamento':'ElaboraÃ§Ã£o de Plano de Treinamento',
 // PALESTRA
-'Serviço / Palestra':'Palestra',
+'ServiÃ§o / Palestra':'Palestra',
 // PARECER
-'Serviço / Parecer':'Parecer','Serviço / Parecer Complexo':'Parecer',
+'ServiÃ§o / Parecer':'Parecer','ServiÃ§o / Parecer Complexo':'Parecer',
 // ACOMPANHAMENTO
-'Serviço / Acompanhamento em Depoimento/Oitiva':'Acompanhamento em Depoimento/Oitiva',
+'ServiÃ§o / Acompanhamento em Depoimento/Oitiva':'Acompanhamento em Depoimento/Oitiva',
 // DEMANDA SEFAZ
-'Serviço / Demanda Sefaz':'Demanda Sefaz',
-// SERVIÇOS ESPECÍFICOS
-'Serviço / Serviços Redesim':'Serviços Redesim','Serviço / Serviços Siscoex':'Serviços Siscoex',
-'Serviços Redesim':'Serviços Redesim','Serviços Siscoex':'Serviços Siscoex',
-// ANÁLISE CONTRATUAL/SOCIETÁRIA
-'Serviço / Análise de Aditivo':'Análise de Aditivo',
-'Serviço / Análise de Contrato':'Análise de Contrato',
-'Serviço / Revisão Contratual':'Análise de Contrato',
-'Serviço / Análise de Distrato':'Análise de Distrato',
-'Serviço / Análise de Inst. Societário':'Análise de Inst. Societário',
-// ALTERAÇÃO
-'Serviço / Alteração AGE':'Alteração AGE','Serviço / Alteração Contratual':'Alteração Contratual',
-'Serviço / Alteração Estatuto':'Alteração Estatuto',
-'Serviço / Alteração Inst. Societário':'Alteração Inst. Societário',
-// ELABORAÇÃO CONTRATUAL/SOCIETÁRIA
-'Serviço / Elaboração de Aditivo':'Elaboração de Aditivo',
-'Serviço / Protocolo de Aditivo':'Elaboração de Aditivo',
-'Aditivo contratual de cláusulas de Proteção de Dados':'Elaboração de Aditivo',
-'Serviço / Elaboração de cláusula':'Elaboração de Cláusula',
-'Elaboração de cláusula contratual':'Elaboração de Contrato',
-'Serviço / Elaboração de Contrato':'Elaboração de Contrato',
-'Serviço / Contratual Comum':'Elaboração de Contrato',
-'Serviço / Contratual Complexo':'Elaboração de Contrato',
-'Serviço / Contratual Extraordinário':'Elaboração de Contrato',
-'Serviço':'Elaboração de Contrato',
-'Serviço / Elaboração de Distrato':'Elaboração de Distrato',
-'Serviço / Elaboração de doc societário':'Elaboração de Inst. Societário',
-'Serviço / Elaboração de Inst. Societário':'Elaboração de Inst. Societário',
-'Serviço / Elaboração de Minuta':'Elaboração de Minuta',
-'Serviço / Elaboração de Notificação.':'Elaboração de Notificação',
-'Serviço / Elaboração de Ofício':'Elaboração de Ofício',
-'Serviço / Elaboração de Requerimento':'Elaboração de Requerimento',
-'Serviço / Elaboração de Termo de Compromisso':'Elaboração de Termo de Compromisso',
-'ELABORAÇÃO DE TERMO DE COMPROMISSO':'Elaboração de Termo de Compromisso',
-'Elaboração de Termo':'Elaboração de Termo',
+'ServiÃ§o / Demanda Sefaz':'Demanda Sefaz',
+// SERVIÃOS ESPECÃFICOS
+'ServiÃ§o / ServiÃ§os Redesim':'ServiÃ§os Redesim','ServiÃ§o / ServiÃ§os Siscoex':'ServiÃ§os Siscoex',
+'ServiÃ§os Redesim':'ServiÃ§os Redesim','ServiÃ§os Siscoex':'ServiÃ§os Siscoex',
+// ANÃLISE CONTRATUAL/SOCIETÃRIA
+'ServiÃ§o / AnÃ¡lise de Aditivo':'AnÃ¡lise de Aditivo',
+'ServiÃ§o / AnÃ¡lise de Contrato':'AnÃ¡lise de Contrato',
+'ServiÃ§o / RevisÃ£o Contratual':'AnÃ¡lise de Contrato',
+'ServiÃ§o / AnÃ¡lise de Distrato':'AnÃ¡lise de Distrato',
+'ServiÃ§o / AnÃ¡lise de Inst. SocietÃ¡rio':'AnÃ¡lise de Inst. SocietÃ¡rio',
+// ALTERAÃÃO
+'ServiÃ§o / AlteraÃ§Ã£o AGE':'AlteraÃ§Ã£o AGE','ServiÃ§o / AlteraÃ§Ã£o Contratual':'AlteraÃ§Ã£o Contratual',
+'ServiÃ§o / AlteraÃ§Ã£o Estatuto':'AlteraÃ§Ã£o Estatuto',
+'ServiÃ§o / AlteraÃ§Ã£o Inst. SocietÃ¡rio':'AlteraÃ§Ã£o Inst. SocietÃ¡rio',
+// ELABORAÃÃO CONTRATUAL/SOCIETÃRIA
+'ServiÃ§o / ElaboraÃ§Ã£o de Aditivo':'ElaboraÃ§Ã£o de Aditivo',
+'ServiÃ§o / Protocolo de Aditivo':'ElaboraÃ§Ã£o de Aditivo',
+'Aditivo contratual de clÃ¡usulas de ProteÃ§Ã£o de Dados':'ElaboraÃ§Ã£o de Aditivo',
+'ServiÃ§o / ElaboraÃ§Ã£o de clÃ¡usula':'ElaboraÃ§Ã£o de ClÃ¡usula',
+'ElaboraÃ§Ã£o de clÃ¡usula contratual':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o / ElaboraÃ§Ã£o de Contrato':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o / Contratual Comum':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o / Contratual Complexo':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o / Contratual ExtraordinÃ¡rio':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o':'ElaboraÃ§Ã£o de Contrato',
+'ServiÃ§o / ElaboraÃ§Ã£o de Distrato':'ElaboraÃ§Ã£o de Distrato',
+'ServiÃ§o / ElaboraÃ§Ã£o de doc societÃ¡rio':'ElaboraÃ§Ã£o de Inst. SocietÃ¡rio',
+'ServiÃ§o / ElaboraÃ§Ã£o de Inst. SocietÃ¡rio':'ElaboraÃ§Ã£o de Inst. SocietÃ¡rio',
+'ServiÃ§o / ElaboraÃ§Ã£o de Minuta':'ElaboraÃ§Ã£o de Minuta',
+'ServiÃ§o / ElaboraÃ§Ã£o de NotificaÃ§Ã£o.':'ElaboraÃ§Ã£o de NotificaÃ§Ã£o',
+'ServiÃ§o / ElaboraÃ§Ã£o de OfÃ­cio':'ElaboraÃ§Ã£o de OfÃ­cio',
+'ServiÃ§o / ElaboraÃ§Ã£o de Requerimento':'ElaboraÃ§Ã£o de Requerimento',
+'ServiÃ§o / ElaboraÃ§Ã£o de Termo de Compromisso':'ElaboraÃ§Ã£o de Termo de Compromisso',
+'ELABORAÃÃO DE TERMO DE COMPROMISSO':'ElaboraÃ§Ã£o de Termo de Compromisso',
+'ElaboraÃ§Ã£o de Termo':'ElaboraÃ§Ã£o de Termo',
 // LGPD
-'Análise de Inventario de processos com dados pessoais':'Análise de Inventário de Processos com Dados Pessoais',
-'Análise de Política de Privacidade':'Análise de Política de Privacidade',
-'Análise de Política de Segurança da Informação':'Análise de Política de Segurança da Informação',
-'ANÁLISE DE TERMO DE COMPROMISSO':'Análise de Termo de Compromisso',
+'AnÃ¡lise de Inventario de processos com dados pessoais':'AnÃ¡lise de InventÃ¡rio de Processos com Dados Pessoais',
+'AnÃ¡lise de PolÃ­tica de Privacidade':'AnÃ¡lise de PolÃ­tica de Privacidade',
+'AnÃ¡lise de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o':'AnÃ¡lise de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o',
+'ANÃLISE DE TERMO DE COMPROMISSO':'AnÃ¡lise de Termo de Compromisso',
 'Atendimento Titular de Dados -DPO':'Atendimento Titular de Dados DPO',
-'Atualização Be Compliance':'Atualização Be Compliance',
-'Elaboração de Aviso de cookies':'Elaboração de Aviso de Cookies',
-'Elaboração de Aviso de Privacidade':'Elaboração de Aviso de Privacidade',
-'Elaboração de Plano de Notificações':'Elaboração de Plano de Notificações',
-'Elaboração de Política':'Elaboração de Política',
-'Elaboração de Política de Privacidade':'Elaboração de Política de Privacidade',
-'Elaboração de Política de Segurança da Informação':'Elaboração de Política de Segurança da Informação',
-'Elaboração de relatório da análise dos riscos':'Elaboração de Relatório da Análise dos Riscos',
-'Elaboração de ROPA':'Elaboração de ROPA',
-'Elaboração de termos de uso':'Elaboração de Termos de Uso',
-// ELABORAÇÃO DE PEÇA PROCESSUAL
-'Prazo':'Elaboração de Peça Processual',
-'Prazo / Ação Rescisória-Razões Finais (art. 973 CPC)':'Elaboração de Peça Processual',
-'Prazo / Acompanhar Julgamento.':'Elaboração de Peça Processual',
-'Prazo / Aditivo do contrato':'Elaboração de Peça Processual',
-'Prazo / Agravo contra decisão que inadmite na origem Resp ou Rext - Contrarrazões (art. 1.042, § 3º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Agravo contra decisão que inadmite na origem Resp ou Rext (art. 1.042 c/c art. 1.003, § 5º CPC)':'Elaboração de Peça Processual',
-'Prazo / Agravo de Instrumento':'Elaboração de Peça Processual',
-'Prazo / Agravo de Instrumento Civel pz em dobro (Art. 525 c/c 191 CPC)':'Elaboração de Peça Processual',
-'Prazo / Agravo de Instrumento Trabalhista':'Elaboração de Peça Processual',
-'Prazo / Agravo de Instrumento Trabalhista (art. 897, b CLT)':'Elaboração de Peça Processual',
-'Prazo / Agravo de Petição (art. 897, § 1º, CLT)':'Elaboração de Peça Processual',
-'Prazo / Agravo de Petição (art. 897, a, CLT)':'Elaboração de Peça Processual',
-'Prazo / Agravo Interno - Contrarrazões (art. 1.021, § 2º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Agravo Interno de decisão TRT':'Elaboração de Peça Processual',
-'Prazo / Agravo Interno/Regimental':'Elaboração de Peça Processual',
-'Prazo / Agravo Retido':'Elaboração de Peça Processual',
-'Prazo / AIRO':'Elaboração de Peça Processual',
-'Prazo / AIRR':'Elaboração de Peça Processual',
-'Prazo / Apelação - Contrarrazões (art. 1.010, § 1º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Apelação Civel':'Elaboração de Peça Processual',
-'Prazo / Apresentação De-Documentos':'Elaboração de Peça Processual',
-'Prazo / Ato processual sem prazo fixado (art. 218, § 3º CPC)':'Elaboração de Peça Processual',
-'Prazo / Contestação':'Elaboração de Peça Processual',
-'Contestação (art. 190 c/c 240, III CPC - Prazo em dobro)':'Elaboração de Peça Processual',
-'Prazo / Contestação (art. 335 CPC)':'Elaboração de Peça Processual',
-'Prazo / Contestação Trabalhista':'Elaboração de Peça Processual',
-'Prazo / Contra Razões em Recurso Trabalhista (4d)':'Elaboração de Peça Processual',
-'Prazo / Contrarrazões':'Elaboração de Peça Processual',
-'Prazo / Contrarrazões Embargos à Execução':'Elaboração de Peça Processual',
-'Prazo / Contrarrazões RO/RR':'Elaboração de Peça Processual',
-'Prazo / Cumprimento de Sentença':'Elaboração de Peça Processual',
-'Prazo / Defesa Administrativa':'Elaboração de Peça Processual',
-'Prazo / Defesa Administrativa - SEMACE':'Elaboração de Peça Processual',
-'Prazo / Defesa Penal':'Elaboração de Peça Processual',
-'Prazo / Defesa Penal - Arts. 396 e 396 A do CPP':'Elaboração de Peça Processual',
-'Prazo / Elaborar e protocolar Agravo para CARF':'Elaboração de Peça Processual',
-'Prazo / Elaborar e Protocolar ED para CARF':'Elaboração de Peça Processual',
-'Prazo / Embargos à Execução':'Elaboração de Peça Processual',
-'Prazo / Embargos à Execução Fiscal':'Elaboração de Peça Processual',
-'Prazo / Embargos à Execução Trabalhista':'Elaboração de Peça Processual',
-'Prazo / Embargos a Execução Trabalhista (art. 884 CLT)':'Elaboração de Peça Processual',
-'Prazo / Embargos de Declaração':'Elaboração de Peça Processual',
-'Prazo / Embargos de Declaração (art. 1.023/1.024 CPC)':'Elaboração de Peça Processual',
-'Prazo / Embargos de Divergência (art. 1.003 CPC)':'Elaboração de Peça Processual',
-'Prazo / Embargos de Terceiro':'Elaboração de Peça Processual',
-'Prazo / Embargos Monitórios':'Elaboração de Peça Processual',
-'Prazo / Emenda da petição inicial na tutela antecipada em caráter antecedente denegada (art. 303, § 6º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Emendar Inicial':'Elaboração de Peça Processual',
-'Prazo / Especificar provas e temas sobre provas':'Elaboração de Peça Processual',
-'Prazo / Exceção de Pré-Executividade':'Elaboração de Peça Processual',
-'Prazo / Exceção Pré Executividade Trabalhista':'Elaboração de Peça Processual',
-'Prazo / Habilitação - Manifestação dos Requeridos (art. 690, CPC)':'Elaboração de Peça Processual',
-'Prazo / Impugnação aos Embargos Monitórios':'Elaboração de Peça Processual',
-'Prazo / Impugnação Auto de Infração SRFB':'Elaboração de Peça Processual',
-'Prazo / Impugnação de Cálculos Trabalhista 8d':'Elaboração de Peça Processual',
-'Prazo / Indicação de bens À-Penhora':'Elaboração de Peça Processual',
-'Prazo / Indicação de testemunhas (CPC art. 357) ou assistente técnico e apresentação de quesitos à perícia (art. 465, CPC)':'Elaboração de Peça Processual',
-'Prazo / Juntar Documentos':'Elaboração de Peça Processual',
-'Prazo / Liminar':'Elaboração de Peça Processual',
-'Prazo / Mandado de Segurança':'Elaboração de Peça Processual',
-'Prazo / Manfestação Diversa (20d)':'Elaboração de Peça Processual',
-'Prazo / Manif Trab 48h':'Elaboração de Peça Processual',
-'Prazo / Manifestação diversa':'Elaboração de Peça Processual',
-'Prazo / Manifestação Diversa (30d)':'Elaboração de Peça Processual',
-'Prazo / Manifestação Diversa 10d':'Elaboração de Peça Processual',
-'Prazo / Manifestação Diversa 15d':'Elaboração de Peça Processual',
-'Prazo / Manifestação Diversa 5d':'Elaboração de Peça Processual',
-'Prazo / Manifestação Diversa 8d':'Elaboração de Peça Processual',
-'Prazo / Manifestação do sócio ou da pessoa jurídica no pedido de desconsideração da personalidade jurídica (art. 135, CPC)':'Elaboração de Peça Processual',
-'Prazo / Manifestação Prévia - Improbidade Administrativa':'Elaboração de Peça Processual',
-'Prazo / Manifestação sobre documentos (art. 437, § 1º CPC)':'Elaboração de Peça Processual',
-'Prazo / Manifestação Sobre Laudo Pericial CONAT - CE':'Elaboração de Peça Processual',
-'Prazo / Nomeação de bens ou depósito em Execução Trabalhista':'Elaboração de Peça Processual',
-'Prazo / Pagamento de acordo':'Elaboração de Peça Processual',
-'Prazo / Pagamento de custas sob pena de cancelamento da distribuição (art. 290, CPC)':'Elaboração de Peça Processual',
-'Prazo / Pagamento em execução trabalhista -15d':'Elaboração de Peça Processual',
-'Prazo / Pagamento em execução trabalhista -48h':'Elaboração de Peça Processual',
-'Prazo / Pedido de esclarecimentos ou correções da decisão de saneamento e organização do processo (art. 357, § 1º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Pedido Inicial- Emendar ou Completar (art. 321 e 801 CPC)':'Elaboração de Peça Processual',
-'Prazo para apresentação de rol de testemunhas (prazo máximo - art. 357, § 4º, CPC)':'Elaboração de Peça Processual',
-'Prazo / Protocolar apelação':'Elaboração de Peça Processual',
-'Prazo / Protocolar prova depósito 30% em Execução':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 1':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 2':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 3':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 4':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 5':'Elaboração de Peça Processual',
-'Prazo / PROTOCOLAR prova depósito parcelamento em Execução 6':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso decisao TJ TRF':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso Hierárquico DRF':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso sobre decisão de Relator e Colegiados TJ TRF':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso sobre Decisão STJ STF':'Elaboração de Peça Processual',
-'Prazo / Protocolar recurso sobre Decisão TJ TRF de inadmissibilidade de REsp / RE':'Elaboração de Peça Processual',
-'Prazo / Protocolar recurso sobre decisão TST (4d)':'Elaboração de Peça Processual',
-'Prazo / Protocolar recurso sobre sentença':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso voluntário para CARF':'Elaboração de Peça Processual',
-'Prazo / Protocolar Recurso Voluntario Sefaz':'Elaboração de Peça Processual',
-'Prazo / Protocolar REsp para CARF':'Elaboração de Peça Processual',
-'Prazo / Protocolo Penal 2d corridos D-0':'Elaboração de Peça Processual',
-'Prazo / Razões Finais Trabalhista (10 dias)':'Elaboração de Peça Processual',
-'Prazo / Razões Finais Trabalhista (5 dias)':'Elaboração de Peça Processual',
-'Prazo / Recurso Adesivo':'Elaboração de Peça Processual',
-'Prazo / Recurso Administrativo':'Elaboração de Peça Processual',
-'Prazo / Recurso de Revista':'Elaboração de Peça Processual',
-'Prazo / Recurso Especial':'Elaboração de Peça Processual',
-'Prazo / Recurso Especial - CARF':'Elaboração de Peça Processual',
-'Prazo / Recurso Especial ou Extraordinário - Contrarrazões (art. 1.030, caput, CPC)':'Elaboração de Peça Processual',
-'Prazo / Recurso Extraordinário':'Elaboração de Peça Processual',
-'Prazo / Recurso Extraordinário PAF SEFAZ':'Elaboração de Peça Processual',
-'Prazo / Recurso Inominado':'Elaboração de Peça Processual',
-'Prazo / Recurso Ordinário':'Elaboração de Peça Processual',
-'Prazo / Recurso Ordinário (JECF)':'Elaboração de Peça Processual',
-'Prazo / Recurso Ordinário em Habeas Corpus':'Elaboração de Peça Processual',
-'Prazo / Recurso Ordinário-Trabalhista (art. 895 CLT)':'Elaboração de Peça Processual',
-'Prazo / Recurso Voluntário':'Elaboração de Peça Processual',
-'Prazo / Recurso Voluntário - SEFIN - FOR':'Elaboração de Peça Processual',
-'Prazo / Réplica':'Elaboração de Peça Processual',
-'Prazo / Réplica a contestação - (art 350 e 351 CPC)':'Elaboração de Peça Processual',
-'Prazo / Requerer o que entender De-Direito':'Elaboração de Peça Processual',
-'Prazo / Vista aos Autos (art. 107, II CPC)':'Elaboração de Peça Processual',
-'Razões finais escritas - Prazos sucessivos autor réu Ministério Público (art. 364 § 2º CPC)':'Elaboração de Peça Processual',
-'Protocolo':'Elaboração de Peça Processual',
-'Protocolo / Protocolar REsp Sefaz':'Elaboração de Peça Processual',
-'Serviços/COOP':'Elaboração de Peça Processual',
-'Serviço / Notificação Extrajudicial':'Elaboração de Peça Processual',
-'Serviço / Requerimento':'Elaboração de Peça Processual',
-'Serviço / Requerimento Administrativo':'Elaboração de Peça Processual',
-'Serviço / Requerimento Complexo':'Elaboração de Peça Processual',
-'Elaboração de Manifestação':'Elaboração de Peça Processual',
-'Diversos / Elaborar apelação':'Elaboração de Peça Processual',
-'Diversos / Manifestação Diversa (1d)':'Elaboração de Peça Processual',
-'Diversos / Manifestação diversa (2d)':'Elaboração de Peça Processual',
-'Diversos / Manifestação diversa (5d)':'Elaboração de Peça Processual',
-'Workflow / Elaborar Agravo':'Elaboração de Peça Processual',
-'Workflow / Elaborar agravo de petição':'Elaboração de Peça Processual',
-'Workflow / Elaborar Agravo Interno - negativa de segmento a RE e REsp (duas peças)':'Elaboração de Peça Processual',
-'Workflow / Elaborar Agravo Interno - negativa de segmento a RE ou REsp':'Elaboração de Peça Processual',
-'Workflow / Elaborar Agravo Interno TST':'Elaboração de Peça Processual',
-'Workflow / Elaborar apelação':'Elaboração de Peça Processual',
-'Workflow / Elaborar Apelação Penal':'Elaboração de Peça Processual',
-'Workflow / Elaborar ARE e AREsp (duas peças)':'Elaboração de Peça Processual',
-'Workflow / Elaborar ARE ou AREsp':'Elaboração de Peça Processual',
-'Workflow / Elaborar ED':'Elaboração de Peça Processual',
-'Workflow / Elaborar ED Penal':'Elaboração de Peça Processual',
-'Workflow / Elaborar Embargos à Execução':'Elaboração de Peça Processual',
-'Workflow / Elaborar Embargos de Divergência':'Elaboração de Peça Processual',
-'Workflow / Elaborar Emenda a inicial':'Elaboração de Peça Processual',
-'Workflow / Elaborar Mandado de Segurança':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 10d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 15d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 20d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 30d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 5d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Manifestação Diversa 8 d':'Elaboração de Peça Processual',
-'Workflow / Elaborar Pet Custas complementares':'Elaboração de Peça Processual',
-'Workflow / Elaborar Razões Finais':'Elaboração de Peça Processual',
-'Workflow / Elaborar RE':'Elaboração de Peça Processual',
-'Workflow / Elaborar RE e REsp':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso de Sentença Penal em Juizado':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso Hierárquico Lei 9.874/99':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso para Juizado':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso Sefin':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso voluntário para CARF':'Elaboração de Peça Processual',
-'Workflow / Elaborar Recurso Voluntário Sefaz':'Elaboração de Peça Processual',
-'Workflow / Elaborar Replica à contestação':'Elaboração de Peça Processual',
-'Workflow / Elaborar REsp':'Elaboração de Peça Processual',
-'Workflow / Elaborar REsp para CARF':'Elaboração de Peça Processual',
-'Workflow / Elaborar RO':'Elaboração de Peça Processual',
-'Workflow / Elaborar: Especificar provas e temas sobre provas':'Elaboração de Peça Processual',
+'AtualizaÃ§Ã£o Be Compliance':'AtualizaÃ§Ã£o Be Compliance',
+'ElaboraÃ§Ã£o de Aviso de cookies':'ElaboraÃ§Ã£o de Aviso de Cookies',
+'ElaboraÃ§Ã£o de Aviso de Privacidade':'ElaboraÃ§Ã£o de Aviso de Privacidade',
+'ElaboraÃ§Ã£o de Plano de NotificaÃ§Ãµes':'ElaboraÃ§Ã£o de Plano de NotificaÃ§Ãµes',
+'ElaboraÃ§Ã£o de PolÃ­tica':'ElaboraÃ§Ã£o de PolÃ­tica',
+'ElaboraÃ§Ã£o de PolÃ­tica de Privacidade':'ElaboraÃ§Ã£o de PolÃ­tica de Privacidade',
+'ElaboraÃ§Ã£o de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o':'ElaboraÃ§Ã£o de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o',
+'ElaboraÃ§Ã£o de relatÃ³rio da anÃ¡lise dos riscos':'ElaboraÃ§Ã£o de RelatÃ³rio da AnÃ¡lise dos Riscos',
+'ElaboraÃ§Ã£o de ROPA':'ElaboraÃ§Ã£o de ROPA',
+'ElaboraÃ§Ã£o de termos de uso':'ElaboraÃ§Ã£o de Termos de Uso',
+// ELABORAÃÃO DE PEÃA PROCESSUAL
+'Prazo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / AÃ§Ã£o RescisÃ³ria-RazÃµes Finais (art. 973 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Acompanhar Julgamento.':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Aditivo do contrato':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo contra decisÃ£o que inadmite na origem Resp ou Rext - ContrarrazÃµes (art. 1.042, Â§ 3Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo contra decisÃ£o que inadmite na origem Resp ou Rext (art. 1.042 c/c art. 1.003, Â§ 5Âº CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de Instrumento':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de Instrumento Civel pz em dobro (Art. 525 c/c 191 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de Instrumento Trabalhista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de Instrumento Trabalhista (art. 897, b CLT)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de PetiÃ§Ã£o (art. 897, Â§ 1Âº, CLT)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo de PetiÃ§Ã£o (art. 897, a, CLT)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo Interno - ContrarrazÃµes (art. 1.021, Â§ 2Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo Interno de decisÃ£o TRT':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo Interno/Regimental':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Agravo Retido':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / AIRO':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / AIRR':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ApelaÃ§Ã£o - ContrarrazÃµes (art. 1.010, Â§ 1Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ApelaÃ§Ã£o Civel':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ApresentaÃ§Ã£o De-Documentos':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Ato processual sem prazo fixado (art. 218, Â§ 3Âº CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContestaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ContestaÃ§Ã£o (art. 190 c/c 240, III CPC - Prazo em dobro)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContestaÃ§Ã£o (art. 335 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContestaÃ§Ã£o Trabalhista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Contra RazÃµes em Recurso Trabalhista (4d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContrarrazÃµes':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContrarrazÃµes Embargos Ã  ExecuÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ContrarrazÃµes RO/RR':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Cumprimento de SentenÃ§a':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Defesa Administrativa':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Defesa Administrativa - SEMACE':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Defesa Penal':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Defesa Penal - Arts. 396 e 396 A do CPP':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Elaborar e protocolar Agravo para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Elaborar e Protocolar ED para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos Ã  ExecuÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos Ã  ExecuÃ§Ã£o Fiscal':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos Ã  ExecuÃ§Ã£o Trabalhista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos a ExecuÃ§Ã£o Trabalhista (art. 884 CLT)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos de DeclaraÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos de DeclaraÃ§Ã£o (art. 1.023/1.024 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos de DivergÃªncia (art. 1.003 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos de Terceiro':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Embargos MonitÃ³rios':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Emenda da petiÃ§Ã£o inicial na tutela antecipada em carÃ¡ter antecedente denegada (art. 303, Â§ 6Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Emendar Inicial':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Especificar provas e temas sobre provas':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ExceÃ§Ã£o de PrÃ©-Executividade':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ExceÃ§Ã£o PrÃ© Executividade Trabalhista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / HabilitaÃ§Ã£o - ManifestaÃ§Ã£o dos Requeridos (art. 690, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ImpugnaÃ§Ã£o aos Embargos MonitÃ³rios':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ImpugnaÃ§Ã£o Auto de InfraÃ§Ã£o SRFB':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ImpugnaÃ§Ã£o de CÃ¡lculos Trabalhista 8d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / IndicaÃ§Ã£o de bens Ã-Penhora':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / IndicaÃ§Ã£o de testemunhas (CPC art. 357) ou assistente tÃ©cnico e apresentaÃ§Ã£o de quesitos Ã  perÃ­cia (art. 465, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Juntar Documentos':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Liminar':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Mandado de SeguranÃ§a':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManfestaÃ§Ã£o Diversa (20d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Manif Trab 48h':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o diversa':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Diversa (30d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Diversa 10d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Diversa 15d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Diversa 5d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Diversa 8d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o do sÃ³cio ou da pessoa jurÃ­dica no pedido de desconsideraÃ§Ã£o da personalidade jurÃ­dica (art. 135, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o PrÃ©via - Improbidade Administrativa':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o sobre documentos (art. 437, Â§ 1Âº CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / ManifestaÃ§Ã£o Sobre Laudo Pericial CONAT - CE':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / NomeaÃ§Ã£o de bens ou depÃ³sito em ExecuÃ§Ã£o Trabalhista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pagamento de acordo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pagamento de custas sob pena de cancelamento da distribuiÃ§Ã£o (art. 290, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pagamento em execuÃ§Ã£o trabalhista -15d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pagamento em execuÃ§Ã£o trabalhista -48h':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pedido de esclarecimentos ou correÃ§Ãµes da decisÃ£o de saneamento e organizaÃ§Ã£o do processo (art. 357, Â§ 1Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Pedido Inicial- Emendar ou Completar (art. 321 e 801 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo para apresentaÃ§Ã£o de rol de testemunhas (prazo mÃ¡ximo - art. 357, Â§ 4Âº, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar apelaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar prova depÃ³sito 30% em ExecuÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 1':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 2':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 3':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 4':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 5':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / PROTOCOLAR prova depÃ³sito parcelamento em ExecuÃ§Ã£o 6':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso decisao TJ TRF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso HierÃ¡rquico DRF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso sobre decisÃ£o de Relator e Colegiados TJ TRF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso sobre DecisÃ£o STJ STF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar recurso sobre DecisÃ£o TJ TRF de inadmissibilidade de REsp / RE':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar recurso sobre decisÃ£o TST (4d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar recurso sobre sentenÃ§a':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso voluntÃ¡rio para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar Recurso Voluntario Sefaz':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolar REsp para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Protocolo Penal 2d corridos D-0':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / RazÃµes Finais Trabalhista (10 dias)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / RazÃµes Finais Trabalhista (5 dias)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Adesivo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Administrativo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso de Revista':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Especial':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Especial - CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Especial ou ExtraordinÃ¡rio - ContrarrazÃµes (art. 1.030, caput, CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso ExtraordinÃ¡rio':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso ExtraordinÃ¡rio PAF SEFAZ':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso Inominado':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso OrdinÃ¡rio':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso OrdinÃ¡rio (JECF)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso OrdinÃ¡rio em Habeas Corpus':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso OrdinÃ¡rio-Trabalhista (art. 895 CLT)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso VoluntÃ¡rio':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Recurso VoluntÃ¡rio - SEFIN - FOR':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / RÃ©plica':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / RÃ©plica a contestaÃ§Ã£o - (art 350 e 351 CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Requerer o que entender De-Direito':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Prazo / Vista aos Autos (art. 107, II CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'RazÃµes finais escritas - Prazos sucessivos autor rÃ©u MinistÃ©rio PÃºblico (art. 364 Â§ 2Âº CPC)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Protocolo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Protocolo / Protocolar REsp Sefaz':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ServiÃ§os/COOP':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ServiÃ§o / NotificaÃ§Ã£o Extrajudicial':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ServiÃ§o / Requerimento':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ServiÃ§o / Requerimento Administrativo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ServiÃ§o / Requerimento Complexo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'ElaboraÃ§Ã£o de ManifestaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Diversos / Elaborar apelaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Diversos / ManifestaÃ§Ã£o Diversa (1d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Diversos / ManifestaÃ§Ã£o diversa (2d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Diversos / ManifestaÃ§Ã£o diversa (5d)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Agravo':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar agravo de petiÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Agravo Interno - negativa de segmento a RE e REsp (duas peÃ§as)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Agravo Interno - negativa de segmento a RE ou REsp':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Agravo Interno TST':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar apelaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ApelaÃ§Ã£o Penal':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ARE e AREsp (duas peÃ§as)':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ARE ou AREsp':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ED':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ED Penal':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Embargos Ã  ExecuÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Embargos de DivergÃªncia':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Emenda a inicial':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Mandado de SeguranÃ§a':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 10d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 15d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 20d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 30d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 5d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar ManifestaÃ§Ã£o Diversa 8 d':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Pet Custas complementares':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar RazÃµes Finais':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar RE':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar RE e REsp':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso de SentenÃ§a Penal em Juizado':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso HierÃ¡rquico Lei 9.874/99':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso para Juizado':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso Sefin':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso voluntÃ¡rio para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Recurso VoluntÃ¡rio Sefaz':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar Replica Ã  contestaÃ§Ã£o':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar REsp':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar REsp para CARF':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar RO':'ElaboraÃ§Ã£o de PeÃ§a Processual',
+'Workflow / Elaborar: Especificar provas e temas sobre provas':'ElaboraÃ§Ã£o de PeÃ§a Processual',
 // CONTRATOS ESPECIAIS
 'Diversos / Reajuste contratual':'Reajuste contratual',
-'Diversos / Renovação contratual':'Renovação contratual',
+'Diversos / RenovaÃ§Ã£o contratual':'RenovaÃ§Ã£o contratual',
 // ATIVIDADE INTERNA
-'Alvara':'Atividade Interna','ANÁLISE DE DOCUMENTAÇÃO':'Atividade Interna',
-'ANÁLISE DE PROPOSTA':'Atividade Interna','Andamento':'Atividade Interna',
-'Atendimento/Ligação':'Atividade Interna','Canal de Denúncia':'Atividade Interna',
-'Criação de conteúdo':'Atividade Interna','Diversos':'Atividade Interna',
-'Diversos / Contato Telefônico':'Atividade Interna',
-'Diversos / Informar sentença ao cliente':'Atividade Interna',
+'Alvara':'Atividade Interna','ANÃLISE DE DOCUMENTAÃÃO':'Atividade Interna',
+'ANÃLISE DE PROPOSTA':'Atividade Interna','Andamento':'Atividade Interna',
+'Atendimento/LigaÃ§Ã£o':'Atividade Interna','Canal de DenÃºncia':'Atividade Interna',
+'CriaÃ§Ã£o de conteÃºdo':'Atividade Interna','Diversos':'Atividade Interna',
+'Diversos / Contato TelefÃ´nico':'Atividade Interna',
+'Diversos / Informar sentenÃ§a ao cliente':'Atividade Interna',
 'Diversos / Resposta de E-mail':'Atividade Interna',
-'Edital':'Atividade Interna','Elaboração de certificados':'Atividade Interna',
-'Elaboração de material treinamento':'Atividade Interna',
-'Estudo de Caso':'Atividade Interna','Intimação':'Atividade Interna',
-'Intimação Eletrônica':'Atividade Interna','Intimação Eletrônica / Verificação':'Atividade Interna',
-'Intimações Iprazos':'Atividade Interna','Pesquisas/Estudos':'Atividade Interna',
-'Pesquisas/Estudos / Elaboração de Nova Tese':'Atividade Interna',
-'Pesquisas/Estudos / Elaboração de Relatório':'Atividade Interna',
-'Publicação':'Atividade Interna','Publicação / Intimação':'Atividade Interna',
-'Publicação / Verificação':'Atividade Interna','Publicações Iprazos':'Atividade Interna',
-'Relatório de Processos':'Atividade Interna','Resposta de E-mail':'Atividade Interna',
-'Revisão':'Atividade Interna','Revisão / Agravo contra decisão que inadmite na origem Resp ou Rext (art. 1.042 c/c art. 1.003, § 5º CPC)':'Atividade Interna',
-'Saneamento de relatório':'Atividade Interna','Tratativa de Acordo':'Atividade Interna',
+'Edital':'Atividade Interna','ElaboraÃ§Ã£o de certificados':'Atividade Interna',
+'ElaboraÃ§Ã£o de material treinamento':'Atividade Interna',
+'Estudo de Caso':'Atividade Interna','IntimaÃ§Ã£o':'Atividade Interna',
+'IntimaÃ§Ã£o EletrÃ´nica':'Atividade Interna','IntimaÃ§Ã£o EletrÃ´nica / VerificaÃ§Ã£o':'Atividade Interna',
+'IntimaÃ§Ãµes Iprazos':'Atividade Interna','Pesquisas/Estudos':'Atividade Interna',
+'Pesquisas/Estudos / ElaboraÃ§Ã£o de Nova Tese':'Atividade Interna',
+'Pesquisas/Estudos / ElaboraÃ§Ã£o de RelatÃ³rio':'Atividade Interna',
+'PublicaÃ§Ã£o':'Atividade Interna','PublicaÃ§Ã£o / IntimaÃ§Ã£o':'Atividade Interna',
+'PublicaÃ§Ã£o / VerificaÃ§Ã£o':'Atividade Interna','PublicaÃ§Ãµes Iprazos':'Atividade Interna',
+'RelatÃ³rio de Processos':'Atividade Interna','Resposta de E-mail':'Atividade Interna',
+'RevisÃ£o':'Atividade Interna','RevisÃ£o / Agravo contra decisÃ£o que inadmite na origem Resp ou Rext (art. 1.042 c/c art. 1.003, Â§ 5Âº CPC)':'Atividade Interna',
+'Saneamento de relatÃ³rio':'Atividade Interna','Tratativa de Acordo':'Atividade Interna',
 'Venda':'Atividade Interna','Verificar protocolo':'Atividade Interna',
-'Verificar protocolo / Apelação':'Atividade Interna',
-'VISTO JURÍDICO':'Atividade Interna',
-'Workflow / Informar acórdão ao cliente':'Atividade Interna',
-'Workflow / Enviar ao cliente petição inicial RT e documentos':'Atividade Interna',
-'Workflow / Enviar sentença ao cliente (2d)':'Atividade Interna',
-'Workflow / Enviar sentença ao cliente (3d)':'Atividade Interna',
-'Workflow / Informar sentença ao cliente (4d)':'Atividade Interna',
-'Workflow / Analisar se há honorários contratuais':'Atividade Interna',
-'Workflow / Análise de execução de honorários (20d)':'Atividade Interna',
+'Verificar protocolo / ApelaÃ§Ã£o':'Atividade Interna',
+'VISTO JURÃDICO':'Atividade Interna',
+'Workflow / Informar acÃ³rdÃ£o ao cliente':'Atividade Interna',
+'Workflow / Enviar ao cliente petiÃ§Ã£o inicial RT e documentos':'Atividade Interna',
+'Workflow / Enviar sentenÃ§a ao cliente (2d)':'Atividade Interna',
+'Workflow / Enviar sentenÃ§a ao cliente (3d)':'Atividade Interna',
+'Workflow / Informar sentenÃ§a ao cliente (4d)':'Atividade Interna',
+'Workflow / Analisar se hÃ¡ honorÃ¡rios contratuais':'Atividade Interna',
+'Workflow / AnÃ¡lise de execuÃ§Ã£o de honorÃ¡rios (20d)':'Atividade Interna',
 'Workflow / Atos de Impulso (15d)':'Atividade Interna','Workflow / Atos de Impulso (5d)':'Atividade Interna',
-'Workflow / Conferência (4d)':'Atividade Interna','Workflow / Conferencia (7d)':'Atividade Interna',
-'Workflow / Decidir providências PAT':'Atividade Interna',
+'Workflow / ConferÃªncia (4d)':'Atividade Interna','Workflow / Conferencia (7d)':'Atividade Interna',
+'Workflow / Decidir providÃªncias PAT':'Atividade Interna',
 'Workflow / Habilitar Dra. Imaculada no Processo':'Atividade Interna',
-'Workflow / Interlocutória CPC':'Atividade Interna','Workflow / Interlocutória trabalhista':'Atividade Interna',
-'Workflow / Interlocutória Trabalhista em Audiência':'Atividade Interna',
+'Workflow / InterlocutÃ³ria CPC':'Atividade Interna','Workflow / InterlocutÃ³ria trabalhista':'Atividade Interna',
+'Workflow / InterlocutÃ³ria Trabalhista em AudiÃªncia':'Atividade Interna',
 'Workflow / Memoriais (25d)':'Atividade Interna',
-'Workflow / Pagamento de parcelamento execução CPC Art. 916':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 1':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 2':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 3':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 4':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 5':'Atividade Interna',
-'Workflow / Parcelamento CPC Art. 916 em execução parcela 6':'Atividade Interna',
+'Workflow / Pagamento de parcelamento execuÃ§Ã£o CPC Art. 916':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 1':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 2':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 3':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 4':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 5':'Atividade Interna',
+'Workflow / Parcelamento CPC Art. 916 em execuÃ§Ã£o parcela 6':'Atividade Interna',
 'Workflow / Protocolo (14d)':'Atividade Interna','Workflow / Protocolo (2d)':'Atividade Interna',
 'Workflow / Protocolo (4d)':'Atividade Interna','Workflow / Protocolo (7d)':'Atividade Interna',
 'Workflow / Protocolo (9d)':'Atividade Interna',
 'Workflow / Providenciar REsp Sefaz':'Atividade Interna',
-'Workflow / Providências (1d)':'Atividade Interna','Workflow / Providências (2d)':'Atividade Interna',
-'Workflow / Providencias em Execução Trabalhista':'Atividade Interna',
+'Workflow / ProvidÃªncias (1d)':'Atividade Interna','Workflow / ProvidÃªncias (2d)':'Atividade Interna',
+'Workflow / Providencias em ExecuÃ§Ã£o Trabalhista':'Atividade Interna',
 'Workflow / Saneamento de dados (10d)':'Atividade Interna','Workflow / Saneamento de dados (1d)':'Atividade Interna',
 'Workflow / Saneamento de dados (20d)':'Atividade Interna','Workflow / Saneamento de dados (35d)':'Atividade Interna',
-'Workflow / Sinalizar':'Atividade Interna','Workflow / Sinalizar Perícia':'Atividade Interna',
-'Workflow / Acordão TJ TRF':'Atividade Interna','Workflow / Acórdão TRT':'Atividade Interna',
-'Workflow / Contrarrazões Trabalhista':'Atividade Interna',
-'Workflow / Decidir providências PAT':'Atividade Interna',
-'Workflow / Decisão complexa':'Atividade Interna','Workflow / Decisão Presidencia TRT':'Atividade Interna',
-'Workflow / Decisão STJ/STF':'Atividade Interna','Workflow / Decisão TJ TRF sobre REsp e RE':'Atividade Interna',
-'Workflow / Decisão TST':'Atividade Interna',
-'Workflow / Elaborar Pet Custas complementares':'Elaboração de Peça Processual',
+'Workflow / Sinalizar':'Atividade Interna','Workflow / Sinalizar PerÃ­cia':'Atividade Interna',
+'Workflow / AcordÃ£o TJ TRF':'Atividade Interna','Workflow / AcÃ³rdÃ£o TRT':'Atividade Interna',
+'Workflow / ContrarrazÃµes Trabalhista':'Atividade Interna',
+'Workflow / Decidir providÃªncias PAT':'Atividade Interna',
+'Workflow / DecisÃ£o complexa':'Atividade Interna','Workflow / DecisÃ£o Presidencia TRT':'Atividade Interna',
+'Workflow / DecisÃ£o STJ/STF':'Atividade Interna','Workflow / DecisÃ£o TJ TRF sobre REsp e RE':'Atividade Interna',
+'Workflow / DecisÃ£o TST':'Atividade Interna',
+'Workflow / Elaborar Pet Custas complementares':'ElaboraÃ§Ã£o de PeÃ§a Processual',
 'Workflow / Gerar taxa recurso Sefaz':'Atividade Interna',
 'Workflow / Providenciar REsp Sefaz':'Atividade Interna',
-'Workflow / Registro de audiência':'Audiência',
+'Workflow / Registro de audiÃªncia':'AudiÃªncia',
 'Memoriais':'Atividade Interna',
-'Elaboração de Política de Segurança da Informação':'Elaboração de Política de Segurança da Informação',
-'Serviço / Análise de Procuração':'Atividade Interna',
-'Serviço / Elaboração de Procuração':'Atividade Interna',
-'Serviço / Elaboração de Proposta':'Atividade Interna',
-'Serviço / Elaboração de Recibo':'Atividade Interna',
-'Pagamento Solidário/Subsidiário':'Atividade Interna',
-'Honorários - Verificar / Monitorar':'Atividade Interna',
-'Cobrança de honorarios':'Atividade Interna',
+'ElaboraÃ§Ã£o de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o':'ElaboraÃ§Ã£o de PolÃ­tica de SeguranÃ§a da InformaÃ§Ã£o',
+'ServiÃ§o / AnÃ¡lise de ProcuraÃ§Ã£o':'Atividade Interna',
+'ServiÃ§o / ElaboraÃ§Ã£o de ProcuraÃ§Ã£o':'Atividade Interna',
+'ServiÃ§o / ElaboraÃ§Ã£o de Proposta':'Atividade Interna',
+'ServiÃ§o / ElaboraÃ§Ã£o de Recibo':'Atividade Interna',
+'Pagamento SolidÃ¡rio/SubsidiÃ¡rio':'Atividade Interna',
+'HonorÃ¡rios - Verificar / Monitorar':'Atividade Interna',
+'CobranÃ§a de honorarios':'Atividade Interna',
 'Diversos / Reajuste contratual':'Reajuste contratual',
-'Diversos / Renovação contratual':'Renovação contratual',
-'Diversos / Ida à Delegacia':'Atividade Interna','Diversos / Ida à Secretaria':'Atividade Interna',
+'Diversos / RenovaÃ§Ã£o contratual':'RenovaÃ§Ã£o contratual',
+'Diversos / Ida Ã  Delegacia':'Atividade Interna','Diversos / Ida Ã  Secretaria':'Atividade Interna',
 'Diversos / CJ Atualizar Sistema de Cliente':'Atividade Interna',
-'Diversos / CJ Solicitações equipe técnica':'Atividade Interna',
-'Diversos / CJ Verificar Trânsito em Julgado/ Cadastrar eSocial':'Atividade Interna',
-'Diversos / ET Solicitações CJ':'Atividade Interna',
+'Diversos / CJ SolicitaÃ§Ãµes equipe tÃ©cnica':'Atividade Interna',
+'Diversos / CJ Verificar TrÃ¢nsito em Julgado/ Cadastrar eSocial':'Atividade Interna',
+'Diversos / ET SolicitaÃ§Ãµes CJ':'Atividade Interna',
 'Diversos / Encaminhar inicial e solicitar documentos / habilitar no processo':'Atividade Interna',
 'Diversos / Verificar Processo Especial':'Atividade Interna',
-'Diversos / Verificar se contrato é por ato e fazer a cobrança':'Atividade Interna',
-'Reunião / Prospect':'Reunião',
-  'Audiência / Audiência - Cível':'Audiência',
-  'Serviço /':'Elaboração de Contrato',
-  'Audiência /':'Audiência',
-  'Reunião /':'Reunião',
-  'Reunião / Reunião':'Reunião',
+'Diversos / Verificar se contrato Ã© por ato e fazer a cobranÃ§a':'Atividade Interna',
+'ReuniÃ£o / Prospect':'ReuniÃ£o',
+  'AudiÃªncia / AudiÃªncia - CÃ­vel':'AudiÃªncia',
+  'ServiÃ§o /':'ElaboraÃ§Ã£o de Contrato',
+  'AudiÃªncia /':'AudiÃªncia',
+  'ReuniÃ£o /':'ReuniÃ£o',
+  'ReuniÃ£o / ReuniÃ£o':'ReuniÃ£o',
 };
 
-// Natureza simplification map (from services spreadsheet full name → short name)
+// Natureza simplification map (from services spreadsheet full name â short name)
 const NAT_MAP = {
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área administrativa':'Societária',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Ambiental':'Ambiental',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Cível':'Cível',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Cível / Consultas':'Consultas',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Cível / Processos':'Cível',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Contratual':'Contratual',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Empresarial / Societária':'Societária',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Hospitalar':'Hospitalar',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Hospitalar / Pareceres':'Hospitalar',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / LGPD':'LGPD',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Operações e Negocios':'Operações e Negócios',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Penal':'Penal',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Penal / Processos':'Penal',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Regulatório':'Regulatório',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Trabalhista':'Trabalhista',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Trabalhista / Consultas':'Consultas',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Trabalhista / Pareceres':'Trabalhista',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Trabalhista / Processos':'Trabalhista',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Tributário':'Tributário',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Tributário / Consultas':'Consultas',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Tributário / Processos':'Tributário',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Direito Administrativo':'Direito Administrativo',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Direito Administrativo / Processos':'Direito Administrativo',
-'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Área operacional / Consumidor':'Consumidor',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea administrativa':'SocietÃ¡ria',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Ambiental':'Ambiental',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / CÃ­vel':'CÃ­vel',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / CÃ­vel / Consultas':'Consultas',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / CÃ­vel / Processos':'CÃ­vel',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Contratual':'Contratual',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Empresarial / SocietÃ¡ria':'SocietÃ¡ria',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Hospitalar':'Hospitalar',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Hospitalar / Pareceres':'Hospitalar',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / LGPD':'LGPD',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / OperaÃ§Ãµes e Negocios':'OperaÃ§Ãµes e NegÃ³cios',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Penal':'Penal',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Penal / Processos':'Penal',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / RegulatÃ³rio':'RegulatÃ³rio',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Trabalhista':'Trabalhista',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Trabalhista / Consultas':'Consultas',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Trabalhista / Pareceres':'Trabalhista',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Trabalhista / Processos':'Trabalhista',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / TributÃ¡rio':'TributÃ¡rio',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / TributÃ¡rio / Consultas':'Consultas',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / TributÃ¡rio / Processos':'TributÃ¡rio',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Direito Administrativo':'Direito Administrativo',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Direito Administrativo / Processos':'Direito Administrativo',
+'IMACULADA GORDIANO SOCIEDADE DE ADVOGADOS / Ãrea operacional / Consumidor':'Consumidor',
 };
 
-// Robust year extractor — handles dd/MM/yyyy, yyyy-MM-dd, Date objects, any format
+// Robust year extractor â handles dd/MM/yyyy, yyyy-MM-dd, Date objects, any format
 function parseYear(d){
   if(!d) return NaN;
   if(d instanceof Date) return isNaN(d.getTime()) ? NaN : d.getFullYear();
@@ -540,32 +540,32 @@ function uT(t){
   return raw;
 }
 function uNat(n){
-  if(!n || String(n).trim()==='') return 'Não informado';
+  if(!n || String(n).trim()==='') return 'NÃ£o informado';
   return NAT_MAP[String(n).trim()] || String(n).trim();
 }
 
 function extractNat(assunto){
-  if(!assunto || String(assunto).trim()==='') return 'Não classificado';
+  if(!assunto || String(assunto).trim()==='') return 'NÃ£o classificado';
   var s = String(assunto).trim().toUpperCase();
   // Must start with CONSULTIVO
-  if(s.indexOf('CONSULTIVO') !== 0) return 'Não classificado';
+  if(s.indexOf('CONSULTIVO') !== 0) return 'NÃ£o classificado';
   // Remove leading CONSULTIVO and optional spaces
   var rest = s.replace(/^CONSULTIVO\s*/, '');
   // Extract first word (the nature keyword)
   var word = rest.split(/[\s:,/\-]/)[0] || '';
-  if(!word) return 'Não classificado';
+  if(!word) return 'NÃ£o classificado';
   // Normalization map
   var norm = {
     'CONTRATOS':'Contratos','CONTRATUAL':'Contratos',
-    'TRIBUTARIO':'Tributário','TRIBUTARIA':'Tributário','TRIBUTÁRIA':'Tributário','TRIBUTÁRIO':'Tributário',
-    'CIVEL':'Cível','CÍVEL':'Cível',
-    'REGULATORIO':'Regulatório','REGULATÓRIO':'Regulatório',
+    'TRIBUTARIO':'TributÃ¡rio','TRIBUTARIA':'TributÃ¡rio','TRIBUTÃRIA':'TributÃ¡rio','TRIBUTÃRIO':'TributÃ¡rio',
+    'CIVEL':'CÃ­vel','CÃVEL':'CÃ­vel',
+    'REGULATORIO':'RegulatÃ³rio','REGULATÃRIO':'RegulatÃ³rio',
     'TRABALHISTA':'Trabalhista',
     'HOSPITALAR':'Hospitalar',
     'AMBIENTAL':'Ambiental',
     'DIGITAL':'Digital',
     'EMPRESARIAL':'Empresarial',
-    'CIVIL':'Cível'
+    'CIVIL':'CÃ­vel'
   };
   if(norm[word]) return norm[word];
   // Capitalize first letter, rest lowercase
@@ -598,7 +598,7 @@ function clrErr(){
 function showWarns(list){
   var el = document.getElementById('warnblock');
   if(!list || list.length===0){ el.innerHTML=''; return; }
-  var html = '<div class="warn"><h4>Atenção — '+list.length+' inconsistência(s)</h4><ul>';
+  var html = '<div class="warn"><h4>AtenÃ§Ã£o â '+list.length+' inconsistÃªncia(s)</h4><ul>';
   list.forEach(function(w){ html += '<li>'+w+'</li>'; });
   html += '</ul></div>';
   el.innerHTML = html;
@@ -628,7 +628,7 @@ function loadF(inp, key){
       ST[key] = rows;
       document.getElementById('dz-'+key).classList.add('ok');
       var ids = {proc:'sp', serv:'ss', aud:'sa', dec:'sd'};
-      document.getElementById(ids[key]).textContent = '✓ '+f.name+' ('+rows.length+')';
+      document.getElementById(ids[key]).textContent = 'â '+f.name+' ('+rows.length+')';
     }catch(ex){
       showErr('Erro ao ler '+f.name+': '+ex.message);
     }
@@ -643,7 +643,7 @@ function loadLogo(inp){
     ST.logo = e.target.result;
     var p = document.getElementById('lprev');
     p.src = e.target.result; p.style.display='block';
-    document.getElementById('sl').textContent = '✓ '+f.name;
+    document.getElementById('sl').textContent = 'â '+f.name;
     document.getElementById('dz-logo').classList.add('ok');
   };
   r.readAsDataURL(f);
@@ -739,10 +739,8 @@ function filterClients(rows, field, clients){
 
 function generate(){
   clrErr();
-  if(!ST.proc){ showErr('Faça upload da planilha de Processos.'); return; }
-  if(!ST.serv){ showErr('Faça upload da planilha de Serviços.'); return; }
-
-  var title = document.getElementById('ttl').value.trim() || 'Dashboard Jurídico';
+  
+  var title = document.getElementById('ttl').value.trim() || 'Dashboard JurÃ­dico';
   var cliRaw = document.getElementById('cli').value.trim();
   var yrRaw = document.getElementById('ayr').value.trim();
   var clients = cliRaw ? cliRaw.split(';').map(function(s){return s.trim();}).filter(Boolean) : null;
@@ -754,22 +752,17 @@ function generate(){
   var servFld = getField(ST.serv, ['Cliente principal','cliente principal']);
   var audFld  = ST.aud ? getField(ST.aud,  ['Cliente Processo','Cliente processo']) : null;
 
-  if(clients && !procFld) warns.push('Campo "Cliente principal" não encontrado na planilha de Processos.');
-  if(clients && !servFld) warns.push('Campo "Cliente principal" não encontrado na planilha de Serviços.');
-  if(ST.aud && clients && !audFld) warns.push('Campo "Cliente Processo" não encontrado na planilha de Audiências/Prazos.');
+  if(ST.proc && clients && !procFld) warns.push('Campo "Cliente principal" nÃ£o encontrado na planilha de Processos.');
+  if(ST.serv && clients && !servFld) warns.push('Campo "Cliente principal" nÃ£o encontrado na planilha de ServiÃ§os.');
+  if(ST.aud && clients && !audFld) warns.push('Campo "Cliente Processo" nÃ£o encontrado na planilha de AudiÃªncias/Prazos.');
 
-  var proc = (clients && procFld) ? filterClients(ST.proc, procFld, clients) : ST.proc;
-  var serv = (clients && servFld) ? filterClients(ST.serv, servFld, clients) : ST.serv;
+  var proc = ST.proc ? ((clients && procFld) ? filterClients(ST.proc, procFld, clients) : ST.proc) : [];
+  var serv = ST.serv ? ((clients && servFld) ? filterClients(ST.serv, servFld, clients) : ST.serv) : [];
   var aud  = ST.aud ? ((clients && audFld) ? filterClients(ST.aud, audFld, clients) : ST.aud) : [];
 
-  if(proc.length===0){
-    warns.push('ERRO: Nenhum processo encontrado. Verifique os nomes dos clientes.');
-    showWarns(warns);
-    showErr('Nenhum processo encontrado. Verifique os nomes dos clientes.');
-    return;
-  }
+  // (proc.length check removed - handled by procblock visibility)
 
-  // Processes — Ativo+Suspenso = Ativo; ignore Inativo
+  // Processes â Ativo+Suspenso = Ativo; ignore Inativo
   var active   = proc.filter(function(r){ return r['Status']==='Ativo'||r['Status']==='Suspenso'; });
   var archived = proc.filter(function(r){ return r['Status']==='Arquivado'; });
 
@@ -806,22 +799,22 @@ function generate(){
   var syArr = Object.keys(servY).map(Number).sort();
   var refY = yrRaw ? parseInt(yrRaw) : (syArr[syArr.length-1] || new Date().getFullYear());
   var refYCount = servY[refY] || 0;
-  if(refYCount===0 && serv.length>0) warns.push('Nenhum serviço encontrado para '+refY+'. Deixe o campo em branco para usar o ano mais recente.');
+  if(refYCount===0 && serv.length>0) warns.push('Nenhum serviÃ§o encontrado para '+refY+'. Deixe o campo em branco para usar o ano mais recente.');
 
-  // Audiências — current year only
+  // AudiÃªncias â current year only
   var nAud=0, nPrz=0, nPer=0;
-  if(aud.length===0 && ST.aud && clients) warns.push('Nenhum registro de Aud/Prazos/Perícias encontrado para os clientes. Verifique os nomes no campo "Cliente Processo".');
+  if(aud.length===0 && ST.aud && clients) warns.push('Nenhum registro de Aud/Prazos/PerÃ­cias encontrado para os clientes. Verifique os nomes no campo "Cliente Processo".');
   aud.forEach(function(r){
-    var d=r['Data de início']; if(!d) return;
+    var d=r['Data de inÃ­cio']; if(!d) return;
     if(parseYear(d)!==refY) return;
     var t=String(r['Tipo']||'');
-    if(t==='Audiência') nAud++;
+    if(t==='AudiÃªncia') nAud++;
     else if(t==='Prazo') nPrz++;
-    else if(t==='Perícia'||t==='Pauta de Julgamento') nPer++;
+    else if(t==='PerÃ­cia'||t==='Pauta de Julgamento') nPer++;
   });
 
 
-  // ── Item 2: Cadastrados vs Encerrados por mês no ano vigente ──
+  // ââ Item 2: Cadastrados vs Encerrados por mÃªs no ano vigente ââ
   var MONTHS = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   var cmpRegMon = new Array(12).fill(0);
   var cmpArcMon = new Array(12).fill(0);
@@ -840,19 +833,19 @@ function generate(){
         if(parseYear(d)===refY) cmpArcMon[dt.getMonth()]++;
       });
 
-  // ── Item 3: Distribuição de fases (ativos+suspensos) ──
+  // ââ Item 3: DistribuiÃ§Ã£o de fases (ativos+suspensos) ââ
   var faseC = {};
   active.forEach(function(r){
-    var f = r['Fase'] || 'Não informado';
+    var f = r['Fase'] || 'NÃ£o informado';
     faseC[f] = (faseC[f]||0)+1;
   });
   var faseSort = Object.entries(faseC).sort(function(a,b){return b[1]-a[1];});
 
-  // ── Item 4: Passivo processual — probabilidade Provável ──
+  // ââ Item 4: Passivo processual â probabilidade ProvÃ¡vel ââ
   var provTotalCausa = 0, provTotalEnvolvido = 0, provQtd = 0;
   active.forEach(function(r){
     var prob = String(r['Tipo da probabilidade atual']||'').trim();
-    if(prob !== 'Provável' && prob !== 'Perda' && prob !== 'Perda Provável') return;
+    if(prob !== 'ProvÃ¡vel' && prob !== 'Perda' && prob !== 'Perda ProvÃ¡vel') return;
     var causa = parseFloat(r['Valor da causa']) || 0;
     var envol  = parseFloat(r['Valor envolvido']) || 0;
     if(causa > 0 || envol > 0){
@@ -863,14 +856,14 @@ function generate(){
   });
   var provReducao = provTotalCausa - provTotalEnvolvido;
 
-  // ── Item 5: Audiências últimos 3 anos ──
+  // ââ Item 5: AudiÃªncias Ãºltimos 3 anos ââ
   var audYears = [refY-2, refY-1, refY];
   var audByYear = {};
   audYears.forEach(function(y){ audByYear[y]=0; });
   aud.forEach(function(r){
-    var d=r['Data de início']; if(!d) return;
+    var d=r['Data de inÃ­cio']; if(!d) return;
     var y=parseYear(d);
-    if(audYears.indexOf(y)>=0 && String(r['Tipo']||'')==='Audiência') audByYear[y]=(audByYear[y]||0)+1;
+    if(audYears.indexOf(y)>=0 && String(r['Tipo']||'')==='AudiÃªncia') audByYear[y]=(audByYear[y]||0)+1;
   });
 
   var sCompY={};
@@ -903,21 +896,21 @@ function generate(){
 
   // Header
   document.getElementById('dtitle').textContent = title;
-  document.getElementById('dsub').textContent = 'Dashboard Jurídico Executivo — Referência '+refY;
-  // Build services row dynamically — hide company chart for single client
+  document.getElementById('dsub').textContent = 'Dashboard JurÃ­dico Executivo â ReferÃªncia '+refY;
+  // Build services row dynamically â hide company chart for single client
   var sMulti = sCYS.length > 1;
   var rowserv = document.getElementById('rowserv');
   rowserv.className = 'cg ' + (sMulti ? 'c3' : 'c2');
   var compCard = sMulti
-    ? '<div class="cc"><div class="ct" id="sct1">—</div><div class="ch" style="height:210px"><canvas id="chsc"></canvas></div></div>'
+    ? '<div class="cc"><div class="ct" id="sct1">â</div><div class="ch" style="height:210px"><canvas id="chsc"></canvas></div></div>'
     : '';
   rowserv.innerHTML = compCard +
-    '<div class="cc"><div class="ct" id="sct2">—</div><div class="ch" style="height:210px"><canvas id="chst"></canvas></div></div>' +
-    '<div class="cc"><div class="ct" id="sct3">—</div><div class="ch" style="height:210px"><canvas id="chsn"></canvas></div></div>';
+    '<div class="cc"><div class="ct" id="sct2">â</div><div class="ch" style="height:210px"><canvas id="chst"></canvas></div></div>' +
+    '<div class="cc"><div class="ct" id="sct3">â</div><div class="ch" style="height:210px"><canvas id="chsn"></canvas></div></div>';
 
-  if(sMulti) document.getElementById('sct1').textContent = 'Total de Serviços por Empresa Realizados em '+refY;
-  document.getElementById('sct2').textContent = 'Total de Serviços Realizados em '+refY+' – As 10 Atividades Mais Executadas';
-  document.getElementById('sct3').textContent = 'Total de Serviços Realizados em '+refY+' por Natureza';
+  if(sMulti) document.getElementById('sct1').textContent = 'Total de ServiÃ§os por Empresa Realizados em '+refY;
+  document.getElementById('sct2').textContent = 'Total de ServiÃ§os Realizados em '+refY+' â As 10 Atividades Mais Executadas';
+  document.getElementById('sct3').textContent = 'Total de ServiÃ§os Realizados em '+refY+' por Natureza';
   if(ST.logo){
     document.getElementById('clogoimg').src=ST.logo;
     document.getElementById('clogoimg').style.display='block';
@@ -929,20 +922,20 @@ function generate(){
     kpiCard('c7','Processos Ativos',active.length,'Ativos') +
     kpiCard('c8x','Processos Arquivados',archived.length,'Encerrados') +
     kpiCard('c4','Total da Carteira',active.length+archived.length,'Ativos e Encerrados') +
-    kpiCard('gd','Serviços em '+refY,refYCount,'Serviços realizados');
+    (ST.serv ? kpiCard('gd','Serviços em '+refY,refYCount,'Serviços realizados') : '');
 
-  var audLbl = ST.aud ? 'Clientes filtrados' : 'Planilha não carregada';
+  var audLbl = ST.aud ? 'Clientes filtrados' : 'Planilha nÃ£o carregada';
   document.getElementById('kpi2').innerHTML =
-    kpiCard('c6','Audiências em '+refY,nAud,audLbl) +
+    kpiCard('c6','AudiÃªncias em '+refY,nAud,audLbl) +
     kpiCard('c5','Prazos em '+refY,nPrz,audLbl) +
-    kpiCard('gd','Perícias em '+refY,nPer,audLbl);
+    kpiCard('gd','PerÃ­cias em '+refY,nPer,audLbl);
 
   // Top charts row
   var rtop = document.getElementById('rowtop');
   rtop.className = 'cg '+(multi?'c3':'c2');
   var compHtml = multi ? '<div class="cc"><div class="ct">Processos Ativos por Empresa</div><div class="ch" style="height:210px"><canvas id="chcmp"></canvas></div></div>' : '';
   rtop.innerHTML =
-    '<div class="cc"><div class="ct">Distribuição por Status</div><div class="ch" style="height:210px"><canvas id="chpie"></canvas></div></div>' +
+    '<div class="cc"><div class="ct">DistribuiÃ§Ã£o por Status</div><div class="ch" style="height:210px"><canvas id="chpie"></canvas></div></div>' +
     '<div class="cc"><div class="ct">Processos Ativos por Natureza</div><div class="ch" style="height:210px"><canvas id="chnat"></canvas></div></div>' +
     compHtml;
 
@@ -952,7 +945,7 @@ function generate(){
     natSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   if(multi && document.getElementById('chcmp')){
     mkBar('chcmp',
-      compSort.map(function(e){return e[0].length>22?e[0].substring(0,22)+'…':e[0];}),
+      compSort.map(function(e){return e[0].length>22?e[0].substring(0,22)+'â¦':e[0];}),
       compSort.map(function(e){return e[1];}), true,
       compSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   }
@@ -965,11 +958,11 @@ function generate(){
   mkBar('chay', ayK, ayK.map(function(y){return archY[y]||0;}), false,
     ayK.map(function(){return GOLD;}));
 
-  // ── Item 2a: Cadastrados por mês no ano vigente ──
+  // ââ Item 2a: Cadastrados por mÃªs no ano vigente ââ
   var todayMon = new Date().getMonth(); // 0-based, e.g. 4 = Mai
   var cmpRegLabels = MONTHS.slice(0, todayMon + 1);
   var cmpRegData   = cmpRegMon.slice(0, todayMon + 1);
-  document.getElementById('ctcmp').textContent = 'Processos Cadastrados em '+refY+' (por mês)';
+  document.getElementById('ctcmp').textContent = 'Processos Cadastrados em '+refY+' (por mÃªs)';
   if(CH['chcmp2']) CH['chcmp2'].destroy();
   CH['chcmp2'] = new Chart(document.getElementById('chcmp2'), {
     type:'bar',
@@ -991,10 +984,10 @@ function generate(){
       layout:{padding:{top:24}}}
   });
 
-  // ── Item 2b: Encerrados por mês no ano vigente (até hoje) ──
+  // ââ Item 2b: Encerrados por mÃªs no ano vigente (atÃ© hoje) ââ
   var cmpArcLabels = MONTHS.slice(0, todayMon + 1);
   var cmpArcData   = cmpArcMon.slice(0, todayMon + 1);
-  document.getElementById('ctcmp3').textContent = 'Processos Encerrados em '+refY+' (por mês)';
+  document.getElementById('ctcmp3').textContent = 'Processos Encerrados em '+refY+' (por mÃªs)';
   if(CH['chcmp3']) CH['chcmp3'].destroy();
   CH['chcmp3'] = new Chart(document.getElementById('chcmp3'), {
     type:'bar',
@@ -1016,7 +1009,7 @@ function generate(){
       layout:{padding:{top:24}}}
   });
 
-  // ── Item 3: Fases processuais ──
+  // ââ Item 3: Fases processuais ââ
   if(CH['chfase']) CH['chfase'].destroy();
   CH['chfase'] = new Chart(document.getElementById('chfase'), {
     type:'bar',
@@ -1033,7 +1026,7 @@ function generate(){
       layout:{padding:{right:40}}}
   });
 
-  // ── Item 4: Passivo processual ──
+  // ââ Item 4: Passivo processual ââ
   (function(){
     var fmt = function(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});};
     var pct = provTotalCausa>0 ? Math.round(provReducao/provTotalCausa*100) : 0;
@@ -1045,18 +1038,18 @@ function generate(){
     html += '<div style="background:var(--c0);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--gd)">';
     html += '<div style="font-size:.62rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Valor Envolvido</div>';
     html += '<div style="font-family:Libre Baskerville,serif;font-size:1.1rem;color:var(--c8);font-weight:700;margin-top:4px">'+fmt(provTotalEnvolvido)+'</div>';
-    html += '<div style="font-size:.65rem;color:var(--mu);margin-top:3px">Exposição real</div></div>';
+    html += '<div style="font-size:.65rem;color:var(--mu);margin-top:3px">ExposiÃ§Ã£o real</div></div>';
     html += '<div style="background:#EAF5EA;border-radius:8px;padding:14px;text-align:center;border-top:3px solid #4A8A4A">';
-    html += '<div style="font-size:.62rem;color:#2A5A2A;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Redução Obtida</div>';
+    html += '<div style="font-size:.62rem;color:#2A5A2A;text-transform:uppercase;letter-spacing:.05em;font-weight:600">ReduÃ§Ã£o Obtida</div>';
     html += '<div style="font-family:Libre Baskerville,serif;font-size:1.1rem;color:#2A5A2A;font-weight:700;margin-top:4px">'+fmt(provReducao)+'</div>';
-    html += '<div style="font-size:.65rem;color:#2A5A2A;margin-top:3px">'+pct+'% de redução</div></div>';
+    html += '<div style="font-size:.65rem;color:#2A5A2A;margin-top:3px">'+pct+'% de reduÃ§Ã£o</div></div>';
     html += '</div>';
     if(provQtd===0) html='<div style="padding:20px;text-align:center;color:var(--mu);font-size:.82rem">Nenhum processo com probabilidade de perda e valores cadastrados.</div>';
     document.getElementById('passivo-content').innerHTML=html;
   })();
 
-  // ── Item 5: Audiências últimos 3 anos ──
-  document.getElementById('ctaud3').textContent = 'Audiências Realizadas — '+audYears[0]+' a '+audYears[2];
+  // ââ Item 5: AudiÃªncias Ãºltimos 3 anos ââ
+  document.getElementById('ctaud3').textContent = 'AudiÃªncias Realizadas â '+audYears[0]+' a '+audYears[2];
   if(CH['chaud3']) CH['chaud3'].destroy();
   CH['chaud3'] = new Chart(document.getElementById('chaud3'), {
     type:'bar',
@@ -1078,7 +1071,7 @@ function generate(){
 
   if(sMulti && document.getElementById('chsc')){
     mkBar('chsc',
-      sCYS.map(function(e){return e[0].length>22?e[0].substring(0,22)+'…':e[0];}),
+      sCYS.map(function(e){return e[0].length>22?e[0].substring(0,22)+'â¦':e[0];}),
       sCYS.map(function(e){return e[1];}), true,
       sCYS.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   }
@@ -1093,7 +1086,7 @@ function generate(){
     sNYS.map(function(e){return e[1];}), true,
     sNYS.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
 
-  // ── Decisões: classification & chart ──
+  // ââ DecisÃµes: classification & chart ââ
   (function(){
     var decBlock = document.getElementById('decblock');
     if(!ST.dec || ST.dec.length===0){ decBlock.innerHTML=''; return; }
@@ -1118,30 +1111,30 @@ function generate(){
     var nFav=0, nDesfav=0, nAcordo=0;
     var minDate=null, maxDate=null;
 
-    // ── Text-based classification using decision verbs + pole rule ──
+    // ââ Text-based classification using decision verbs + pole rule ââ
     function classifyDecision(polo, texto){
       var polo_l = String(polo||'').trim().toLowerCase();
       var polAt = polo_l==='ativo'||polo_l==='autor';
-      var polPas= polo_l==='passivo'||polo_l==='réu'||polo_l==='reu';
+      var polPas= polo_l==='passivo'||polo_l==='rÃ©u'||polo_l==='reu';
       if(!polAt && !polPas) return null;
 
       var t = String(texto||'').toLowerCase();
       if(!t||t==='nan'||t==='null') return null;
 
-      // Extinção
-      if(/declaro\s+extint|extingo\s+o\s+processo|extinta\s+a\s+execu|extinção.*processo/.test(t))
+      // ExtinÃ§Ã£o
+      if(/declaro\s+extint|extingo\s+o\s+processo|extinta\s+a\s+execu|extinÃ§Ã£o.*processo/.test(t))
         return 'extinto';
 
-      // Parcial procedência
+      // Parcial procedÃªncia
       if(/parcialmente\s+proced|julgo\s+parcial|procedente\s+em\s+parte|em\s+parte\s+procedente/.test(t)){
         return polAt ? 'favoravel_parcial' : 'desfavoravel_parcial';
       }
-      // Procedência
-      if(/julgo\s+proced[ea]nte(?!\s*ncia)|julgado\s+proced(?!ência)|julgar\s+proced(?!ência)|procedência\s+do|dou\s+provimento|concedo\s+(parcialmente\s+)?a\s+seguran|condeno\s+[ao]\s+r[eéu]|acolho\s+os?\s+pedidos?/.test(t)){
+      // ProcedÃªncia
+      if(/julgo\s+proced[ea]nte(?!\s*ncia)|julgado\s+proced(?!Ãªncia)|julgar\s+proced(?!Ãªncia)|procedÃªncia\s+do|dou\s+provimento|concedo\s+(parcialmente\s+)?a\s+seguran|condeno\s+[ao]\s+r[eÃ©u]|acolho\s+os?\s+pedidos?/.test(t)){
         return polAt ? 'favoravel' : 'desfavoravel';
       }
-      // Improcedência (inclui "REJEITAR preliminar...julgar IMPROCEDENTES", "decide...IMPROCEDENTES")
-      if(/julgo\s+improced[ea]nte|julgado\s+improced|julgar\s+improced|improcedência\s+do|improcedentes\s+os\s+pedidos|totalmente\s+improcedentes|pedidos?.*improced|rejeito\s+os?\s+pedidos?|decide.*julgar\s+improced|decide.*improcedente|julgar\s+os\s+pedidos.*improced/.test(t)){
+      // ImprocedÃªncia (inclui "REJEITAR preliminar...julgar IMPROCEDENTES", "decide...IMPROCEDENTES")
+      if(/julgo\s+improced[ea]nte|julgado\s+improced|julgar\s+improced|improcedÃªncia\s+do|improcedentes\s+os\s+pedidos|totalmente\s+improcedentes|pedidos?.*improced|rejeito\s+os?\s+pedidos?|decide.*julgar\s+improced|decide.*improcedente|julgar\s+os\s+pedidos.*improced/.test(t)){
         return polAt ? 'desfavoravel' : 'favoravel';
       }
       return null; // verb not identified
@@ -1172,10 +1165,10 @@ function generate(){
           ? fmtD(minDate)
           : fmtD(minDate)+' a '+fmtD(maxDate))
       : '';
-    var chartTitle = 'Resultado das Decisões'+(period?' — '+period:'');
+    var chartTitle = 'Resultado das DecisÃµes'+(period?' â '+period:'');
 
     // Build chart HTML
-    decBlock.innerHTML = '<div class="sd"></div><div class="sbn" style="background:var(--c9)"><h2>🏛️ Decisões Judiciais</h2></div>' +
+    decBlock.innerHTML = '<div class="sd"></div><div class="sbn" style="background:var(--c9)"><h2>ðï¸ DecisÃµes Judiciais</h2></div>' +
       '<div class="cg c2" style="margin-bottom:12px">' +
       '<div class="cc"><div class="ct">'+chartTitle+'</div>' +
       '<div class="ch" style="height:220px"><canvas id="chdec"></canvas></div></div>' +
@@ -1189,11 +1182,11 @@ function generate(){
     var pctAcordo= nAcordo>0?Math.round(nAcordo/total*100):0;
     var kpiHtml =
       '<div style="background:#EAF5EA;border-radius:8px;padding:14px;text-align:center;border-top:3px solid #4A8A4A">'+
-        '<div style="font-size:.6rem;color:#2A5A2A;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Favoráveis</div>'+
+        '<div style="font-size:.6rem;color:#2A5A2A;text-transform:uppercase;letter-spacing:.05em;font-weight:600">FavorÃ¡veis</div>'+
         '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:#2A5A2A;font-weight:700">'+nFav+'</div>'+
         '<div style="font-size:.65rem;color:#2A5A2A">'+pctFav+'% do total</div></div>'+
       '<div style="background:var(--c0);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--c7)">'+
-        '<div style="font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Desfavoráveis</div>'+
+        '<div style="font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">DesfavorÃ¡veis</div>'+
         '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:var(--c8);font-weight:700">'+nDesfav+'</div>'+
         '<div style="font-size:.65rem;color:var(--mu)">'+pctDesfav+'% do total</div></div>'+
       (nAcordo>0?
@@ -1204,12 +1197,12 @@ function generate(){
         :'<div style="background:var(--c0);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--bd)">'+
           '<div style="font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Total Analisado</div>'+
           '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:var(--c8);font-weight:700">'+total+'</div>'+
-          '<div style="font-size:.65rem;color:var(--mu)">decisões classificadas</div></div>');
+          '<div style="font-size:.65rem;color:var(--mu)">decisÃµes classificadas</div></div>');
     document.getElementById('dec-kpis').innerHTML = kpiHtml;
 
     // Chart
     if(CH['chdec']) CH['chdec'].destroy();
-    var decLabels = ['Favoráveis','Desfavoráveis'];
+    var decLabels = ['FavorÃ¡veis','DesfavorÃ¡veis'];
     var decVals   = [nFav, nDesfav];
     var decColors = ['#4A8A4A','#8B0E1A'];
     if(nAcordo>0){ decLabels.push('Extintos'); decVals.push(nAcordo); decColors.push('#C4A85A'); }
@@ -1231,6 +1224,14 @@ function generate(){
 
   window._rpt = {proc:proc, active:active, archived:archived, natSort:natSort, title:title, refY:refY, nAud:nAud, nPrz:nPrz, nPer:nPer};
 
+  // === Ocultar seções sem planilha ===
+  var procBlock = document.getElementById('procblock');
+  var audBlock  = document.getElementById('audblock');
+  var servBlock = document.getElementById('servblock');
+  if(procBlock){ procBlock.style.display = ST.proc ? '' : 'none'; }
+  if(audBlock){  audBlock.style.display  = ST.aud  ? '' : 'none'; }
+  if(servBlock){ servBlock.style.display = ST.serv ? '' : 'none'; }
+
   document.getElementById('cfg').style.display = 'none';
   document.getElementById('dsh').style.display = 'block';
   window.scrollTo(0,0);
@@ -1247,16 +1248,16 @@ function kpiCard(col, lbl, val, det){
 
 function showReport(){
   var d = window._rpt; if(!d) return;
-  document.getElementById('rtitle').textContent = 'Relatório de Processos — '+d.title;
+  document.getElementById('rtitle').textContent = 'RelatÃ³rio de Processos â '+d.title;
   var now = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
   document.getElementById('rsub').textContent = 'Gerado em: '+now;
   document.getElementById('rfdate').textContent = now;
-  document.getElementById('rnote').textContent = 'Processos com status Ativo e Suspenso, ordenados por Natureza. Os campos Data da Distribuição e Contrário principal são preenchidos quando disponíveis na planilha.';
+  document.getElementById('rnote').textContent = 'Processos com status Ativo e Suspenso, ordenados por Natureza. Os campos Data da DistribuiÃ§Ã£o e ContrÃ¡rio principal sÃ£o preenchidos quando disponÃ­veis na planilha.';
   document.getElementById('rkpis').innerHTML =
     '<div class="rk"><div class="l">Ativos</div><div class="v">'+d.active.length+'</div></div>' +
     '<div class="rk"><div class="l">Arquivados</div><div class="v">'+d.archived.length+'</div></div>' +
     '<div class="rk"><div class="l">Total</div><div class="v">'+(d.active.length+d.archived.length)+'</div></div>' +
-    '<div class="rk"><div class="l">Audiências '+d.refY+'</div><div class="v">'+d.nAud+'</div></div>' +
+    '<div class="rk"><div class="l">AudiÃªncias '+d.refY+'</div><div class="v">'+d.nAud+'</div></div>' +
     '<div class="rk"><div class="l">Prazos '+d.refY+'</div><div class="v">'+d.nPrz+'</div></div>';
 
   var nh = '<table class="pt"><thead><tr><th>Natureza</th><th style="text-align:right">Qtd.</th><th style="text-align:right">%</th></tr></thead><tbody>';
@@ -1269,22 +1270,22 @@ function showReport(){
   var sorted = d.active.slice().sort(function(a,b){return (a['Natureza']||'').localeCompare(b['Natureza']||'');});
   var tbody = document.getElementById('rtbody'); tbody.innerHTML='';
   sorted.forEach(function(r,i){
-    var dtD = r['Data da distribuição'] || r['Data do cadastro'];
+    var dtD = r['Data da distribuiÃ§Ã£o'] || r['Data do cadastro'];
     var tr = '<tr>' +
       '<td>'+(i+1)+'</td>' +
       '<td><b>'+esc(r['Natureza'])+'</b></td>' +
-      '<td title="'+esc(r['Ação'])+'">'+esc((r['Ação']||'').substring(0,35))+'</td>' +
+      '<td title="'+esc(r['AÃ§Ã£o'])+'">'+esc((r['AÃ§Ã£o']||'').substring(0,35))+'</td>' +
       '<td style="white-space:nowrap">'+fDate(dtD)+'</td>' +
       '<td>'+esc((r['Cliente principal']||'').substring(0,28))+'</td>' +
-      '<td>'+esc(r['Posição']||'')+'</td>' +
-      '<td>'+esc((r['Contrário principal']||'').substring(0,28))+'</td>' +
-      '<td>'+esc((r['Órgão']||'').substring(0,25))+'</td>' +
+      '<td>'+esc(r['PosiÃ§Ã£o']||'')+'</td>' +
+      '<td>'+esc((r['ContrÃ¡rio principal']||'').substring(0,28))+'</td>' +
+      '<td>'+esc((r['ÃrgÃ£o']||'').substring(0,25))+'</td>' +
       '<td>'+esc(r['Cidade']||'')+'</td><td>'+esc(r['UF']||'')+'</td>' +
       '<td style="text-align:right;white-space:nowrap">'+fVal(r['Valor da causa'])+'</td>' +
       '<td style="text-align:right;white-space:nowrap">'+fVal(r['Valor envolvido'])+'</td>' +
       '<td>'+esc(r['Tipo da probabilidade atual']||'')+'</td>' +
       '<td>'+esc(r['Faixa de probabilidade atual']||'')+'</td>' +
-      '<td>'+esc(r['Classificação do Processo']||'Comum')+'</td>' +
+      '<td>'+esc(r['ClassificaÃ§Ã£o do Processo']||'Comum')+'</td>' +
       '</tr>';
     tbody.innerHTML += tr;
   });
@@ -1301,26 +1302,26 @@ function exportXLS(){
   var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;vertical-align:top;background:';
   var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt;text-align:left"';
 
-  var headers=['Natureza','Ação','Data da Distribuição','Cliente principal','Posição','Contrário principal','Órgão','Cidade','UF','Valor da causa (R$)','Valor envolvido (R$)','Tipo da probabilidade atual','Faixa de probabilidade atual','Classificação do Processo'];
+  var headers=['Natureza','AÃ§Ã£o','Data da DistribuiÃ§Ã£o','Cliente principal','PosiÃ§Ã£o','ContrÃ¡rio principal','ÃrgÃ£o','Cidade','UF','Valor da causa (R$)','Valor envolvido (R$)','Tipo da probabilidade atual','Faixa de probabilidade atual','ClassificaÃ§Ã£o do Processo'];
   var hRow = '<tr>'+headers.map(function(h){return '<th '+coH+'>'+h+'</th>';}).join('')+'</tr>';
 
   var dRows = sorted.map(function(r,i){
     var bg = i%2 ? ALT : '#fff';
     var cols=[
       '<b style="color:'+H+'">'+esc(r['Natureza'])+'</b>',
-      esc(r['Ação']),
-      fDate(r['Data da distribuição']||r['Data do cadastro']),
+      esc(r['AÃ§Ã£o']),
+      fDate(r['Data da distribuiÃ§Ã£o']||r['Data do cadastro']),
       esc(r['Cliente principal']),
-      esc(r['Posição']),
-      esc(r['Contrário principal']||''),
-      esc(r['Órgão']),
+      esc(r['PosiÃ§Ã£o']),
+      esc(r['ContrÃ¡rio principal']||''),
+      esc(r['ÃrgÃ£o']),
       esc(r['Cidade']),
       esc(r['UF']),
       fValBlankAsZero(r['Valor da causa']).replace('R$ ',''),
       fValBlankAsZero(r['Valor envolvido']).replace('R$ ',''),
       esc(r['Tipo da probabilidade atual']),
       esc(r['Faixa de probabilidade atual']),
-      esc(r['Classificação do Processo']||'Comum')
+      esc(r['ClassificaÃ§Ã£o do Processo']||'Comum')
     ];
     return '<tr>'+cols.map(function(v){return '<td '+co+bg+'">'+(v||'')+'</td>';}).join('')+'</tr>';
   }).join('');
@@ -1332,13 +1333,13 @@ function exportXLS(){
 
   var proc_table =
     '<table>' +
-    '<tr><td colspan="'+headers.length+'" style="padding:12px;background:'+H+';color:#fff;font-size:14pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — Processos Ativos</td></tr>' +
-    '<tr><td colspan="'+headers.length+'" style="padding:5px 12px;background:'+H2+';color:#fff;font-size:9pt;font-family:Calibri">Total: '+sorted.length+' processos · Gerado em '+new Date().toLocaleDateString('pt-BR')+'</td></tr>' +
+    '<tr><td colspan="'+headers.length+'" style="padding:12px;background:'+H+';color:#fff;font-size:14pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' â Processos Ativos</td></tr>' +
+    '<tr><td colspan="'+headers.length+'" style="padding:5px 12px;background:'+H2+';color:#fff;font-size:9pt;font-family:Calibri">Total: '+sorted.length+' processos Â· Gerado em '+new Date().toLocaleDateString('pt-BR')+'</td></tr>' +
     hRow + dRows + '</table>';
 
   var res_table =
     '<table>' +
-    '<tr><td colspan="3" style="padding:12px;background:'+H+';color:#fff;font-size:14pt;font-weight:700;font-family:Calibri">'+esc(d.title.toUpperCase())+' — RESUMO</td></tr>' +
+    '<tr><td colspan="3" style="padding:12px;background:'+H+';color:#fff;font-size:14pt;font-weight:700;font-family:Calibri">'+esc(d.title.toUpperCase())+' â RESUMO</td></tr>' +
     '<tr><td colspan="3" style="padding:6px 12px;background:'+H2+';color:#fff;font-size:10pt;font-family:Calibri">Gerado em: '+new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})+'</td></tr>' +
     '<tr><td colspan="3" style="padding:4px"></td></tr>' +
     '<tr><td style="padding:8px 12px;background:'+GC+';color:#fff;font-weight:700;border:1px solid '+BD+';font-family:Calibri">INDICADOR</td><td style="padding:8px 12px;background:'+GC+';color:#fff;font-weight:700;border:1px solid '+BD+';font-family:Calibri">VALOR</td><td style="background:'+GC+';border:1px solid '+BD+'"></td></tr>' +
@@ -1406,7 +1407,7 @@ html = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Dashboard Jurídico — IGSA</title>
+<title>Dashboard JurÃ­dico â IGSA</title>
 <style>
 """ + CSS + """
 </style>
@@ -1417,7 +1418,7 @@ html = """<!DOCTYPE html>
 <div id="cfg">
 <div class="cfgh">
   <img src=\"""" + LOGO + """\" alt="IGSA">
-  <h1 class="sf">Gerador de Dashboard Jurídico</h1>
+  <h1 class="sf">Gerador de Dashboard JurÃ­dico</h1>
   <p>Imaculada Gordiano Sociedade de Advogados</p>
 </div>
 <div class="card">
@@ -1427,50 +1428,50 @@ html = """<!DOCTYPE html>
   <div class="up3">
     <div class="dz" id="dz-proc">
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'proc')">
-      <div class="dzi">📋</div><div class="dzl">Processos</div>
+      <div class="dzi">ð</div><div class="dzl">Processos</div>
       <div class="dzs">.xlsx / .xls</div><div class="dzst" id="sp">Nenhum arquivo</div>
     </div>
     <div class="dz" id="dz-serv">
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'serv')">
-      <div class="dzi">⚖️</div><div class="dzl">Serviços</div>
+      <div class="dzi">âï¸</div><div class="dzl">ServiÃ§os</div>
       <div class="dzs">.xlsx / .xls</div><div class="dzst" id="ss">Nenhum arquivo</div>
     </div>
     <div class="dz" id="dz-aud">
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'aud')">
-      <div class="dzi">🗓️</div><div class="dzl">Aud / Prazos / Perícias</div>
+      <div class="dzi">ðï¸</div><div class="dzl">Aud / Prazos / PerÃ­cias</div>
       <div class="dzs">.xlsx / .xls</div><div class="dzst" id="sa">Nenhum arquivo</div>
     </div>
     <div class="dz" id="dz-dec">
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'dec')">
-      <div class="dzi">⚖️</div><div class="dzl">Decisões <em style="font-size:.62rem;font-weight:400">(opcional)</em></div>
+      <div class="dzi">âï¸</div><div class="dzl">DecisÃµes <em style="font-size:.62rem;font-weight:400">(opcional)</em></div>
       <div class="dzs">.xlsx / .xls</div><div class="dzst" id="sd">Nenhum arquivo</div>
     </div>
   </div>
   <div class="stl"><span class="sn">2</span>Logo do cliente / grupo</div>
   <div class="dz" id="dz-logo" style="display:flex;align-items:center;gap:12px;text-align:left">
     <input type="file" accept="image/*" onchange="loadLogo(this)">
-    <div style="font-size:1.5rem">🏢</div>
+    <div style="font-size:1.5rem">ð¢</div>
     <div style="flex:1"><div class="dzl">Carregar logo do cliente</div>
     <div class="dzs">PNG, JPG, SVG</div><div class="dzst" id="sl">Nenhuma imagem</div></div>
     <img id="lprev" style="display:none;max-height:42px;max-width:80px;border-radius:4px" src="" alt="">
   </div>
 </div>
 <div>
-  <div class="stl"><span class="sn">3</span>Configurações</div>
-  <div class="fld"><label>Título do dashboard</label>
+  <div class="stl"><span class="sn">3</span>ConfiguraÃ§Ãµes</div>
+  <div class="fld"><label>TÃ­tulo do dashboard</label>
     <input type="text" id="ttl" placeholder="Ex: Alscience Metrologia">
   </div>
-  <div class="fld"><label>Cliente(s) — separe por ; para múltiplos</label>
-    <input type="text" id="cli" placeholder="Ex: EMPRESA LTDA.;SÓCIO NOME">
-    <small>💡 Nomes idênticos ao campo "Cliente principal" / "Cliente Processo" das planilhas</small>
+  <div class="fld"><label>Cliente(s) â separe por ; para mÃºltiplos</label>
+    <input type="text" id="cli" placeholder="Ex: EMPRESA LTDA.;SÃCIO NOME">
+    <small>ð¡ Nomes idÃªnticos ao campo "Cliente principal" / "Cliente Processo" das planilhas</small>
   </div>
-  <div class="fld"><label>Ano de referência dos serviços <em style="font-weight:300;text-transform:none">(opcional)</em></label>
+  <div class="fld"><label>Ano de referÃªncia dos serviÃ§os <em style="font-weight:300;text-transform:none">(opcional)</em></label>
     <input type="text" id="ayr" placeholder="Deixe em branco para usar o ano mais recente">
   </div>
   <div id="errbox" class="err"></div>
-  <button class="bgen" onclick="generate()">▶ Gerar Dashboard</button>
+  <button class="bgen" onclick="generate()">â¶ Gerar Dashboard</button>
   <div id="warnblock"></div>
-  <div style="text-align:center;font-size:.65rem;color:var(--mu);margin-top:7px">Processamento 100% local — sem envio de dados externos</div>
+  <div style="text-align:center;font-size:.65rem;color:var(--mu);margin-top:7px">Processamento 100% local â sem envio de dados externos</div>
 </div>
 </div>
 </div>
@@ -1479,28 +1480,30 @@ html = """<!DOCTYPE html>
 <!-- DASHBOARD -->
 <div id="dsh">
 <div class="tbar">
-  <button class="tb tbk" onclick="goBack()">← Voltar</button>
-  <span class="thi">Imaculada Gordiano Sociedade de Advogados · Dashboard Jurídico</span>
+  <button class="tb tbk" onclick="goBack()">â Voltar</button>
+  <span class="thi">Imaculada Gordiano Sociedade de Advogados Â· Dashboard JurÃ­dico</span>
   <div class="tbtns">
-    <button class="tb trl" onclick="showReport()">📄 Relatório de Processos</button>
-    <button class="tb tpd" onclick="printDash()">⬇ Exportar PDF</button>
-        <button class="tb tbk" onclick="shareDash()" title="Baixar HTML para compartilhar">📤 Compartilhar</button>
+    <button class="tb trl" onclick="showReport()">ð RelatÃ³rio de Processos</button>
+    <button class="tb tpd" onclick="printDash()">â¬ Exportar PDF</button>
+        <button class="tb tbk" onclick="shareDash()" title="Baixar HTML para compartilhar">ð¤ Compartilhar</button>
   </div>
 </div>
 <div class="dw">
   <div class="dh">
     <div class="dhl"><img src=\"""" + LOGO + """\" alt="IGSA"></div>
     <div class="dht">
-      <div class="dmt sf" id="dtitle">—</div>
-      <div class="dsb" id="dsub">Dashboard Jurídico Executivo</div>
+      <div class="dmt sf" id="dtitle">â</div>
+      <div class="dsb" id="dsub">Dashboard JurÃ­dico Executivo</div>
     </div>
     <div class="clo">
       <img id="clogoimg" src="" style="display:none" alt="">
       <div id="clph" class="clph">Logo do Cliente</div>
     </div>
   </div>
-  <div class="sbn"><h2>📋 Processos Judiciais</h2></div>
+<div id="procblock">
+  <div class="sbn"><h2>ð Processos Judiciais</h2></div>
   <div class="kr" id="kpi1"></div>
+<div id="audblock">
   <div class="kr" id="kpi2" style="margin-bottom:18px"></div>
   <div class="cg c3" id="rowtop"></div>
   <div class="cg c2" style="margin-bottom:12px">
@@ -1508,63 +1511,67 @@ html = """<!DOCTYPE html>
     <div class="cc"><div class="ct">Processos Encerrados por Ano</div><div class="ch" style="height:190px"><canvas id="chay"></canvas></div></div>
   </div>
   <div class="cg c3" style="margin-bottom:12px">
-    <div class="cc"><div class="ct" id="ctcmp">—</div><div class="ch" style="height:200px"><canvas id="chcmp2"></canvas></div></div>
-    <div class="cc"><div class="ct" id="ctcmp3">—</div><div class="ch" style="height:200px"><canvas id="chcmp3"></canvas></div></div>
-    <div class="cc"><div class="ct">Distribuição por Fase Processual</div><div class="ch" style="height:200px"><canvas id="chfase"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctcmp">â</div><div class="ch" style="height:200px"><canvas id="chcmp2"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctcmp3">â</div><div class="ch" style="height:200px"><canvas id="chcmp3"></canvas></div></div>
+    <div class="cc"><div class="ct">DistribuiÃ§Ã£o por Fase Processual</div><div class="ch" style="height:200px"><canvas id="chfase"></canvas></div></div>
   </div>
   <div class="cg c2" style="margin-bottom:12px">
     <div class="cc" id="passivo-card">
-      <div class="ct">Redução do Passivo Processual — Probabilidade de Perda</div>
+      <div class="ct">ReduÃ§Ã£o do Passivo Processual â Probabilidade de Perda</div>
       <div id="passivo-content" style="padding:8px 0"></div>
     </div>
-    <div class="cc"><div class="ct" id="ctaud3">—</div><div class="ch" style="height:200px"><canvas id="chaud3"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctaud3">â</div><div class="ch" style="height:200px"><canvas id="chaud3"></canvas></div></div>
   </div>
+</div><!-- /audblock -->
   <div id="decblock"></div>
+</div><!-- /procblock -->
+<div id="servblock">
   <div class="sd"></div>
-  <div class="sbn" style="background:var(--c7)"><h2>⚖️ Serviços Realizados</h2></div>
+  <div class="sbn" style="background:var(--c7)"><h2>âï¸ ServiÃ§os Realizados</h2></div>
   <div class="cg c1" style="margin-bottom:12px">
-    <div class="cc"><div class="ct">Total de Serviços por Ano</div><div class="ch" style="height:150px"><canvas id="chsy"></canvas></div></div>
+    <div class="cc"><div class="ct">Total de ServiÃ§os por Ano</div><div class="ch" style="height:150px"><canvas id="chsy"></canvas></div></div>
   </div>
   <div id="rowserv"></div>
+</div><!-- /servblock -->
 </div>
 </div>
 
-<!-- RELATÓRIO -->
+<!-- RELATÃRIO -->
 <div id="rpt">
 <div class="tbar">
-  <button class="tb tbk" onclick="hideReport()">← Voltar ao Dashboard</button>
-  <span class="thi" style="color:var(--c3)">Relatório de Processos — Imaculada Gordiano</span>
-  <button class="tb tpd" onclick="printReport()">⬇ Exportar PDF</button>
+  <button class="tb tbk" onclick="hideReport()">â Voltar ao Dashboard</button>
+  <span class="thi" style="color:var(--c3)">RelatÃ³rio de Processos â Imaculada Gordiano</span>
+  <button class="tb tpd" onclick="printReport()">â¬ Exportar PDF</button>
 </div>
 <div class="rw">
   <div class="rh">
     <img src=\"""" + LOGO + """\" alt="IGSA">
     <div class="rtb">
-      <h1 id="rtitle">Relatório de Processos</h1>
-      <p id="rsub">—</p>
+      <h1 id="rtitle">RelatÃ³rio de Processos</h1>
+      <p id="rsub">â</p>
     </div>
   </div>
   <div class="rnote" id="rnote"></div>
   <div class="rbtns">
-    <button class="rb rxl" onclick="exportXLS()">⬇ Exportar Excel (.xls)</button>
-    <button class="rb rpf" onclick="printReport()">⬇ Exportar PDF (Imprimir)</button>
+    <button class="rb rxl" onclick="exportXLS()">â¬ Exportar Excel (.xls)</button>
+    <button class="rb rpf" onclick="printReport()">â¬ Exportar PDF (Imprimir)</button>
   </div>
   <div class="rks" id="rkpis"></div>
   <div class="rs">Processos Ativos e Suspensos por Natureza</div>
   <div id="rnat"></div>
-  <div class="rs">Lista Completa — Processos Ativos e Suspensos</div>
+  <div class="rs">Lista Completa â Processos Ativos e Suspensos</div>
   <table class="pt" id="rptable">
     <thead><tr>
-      <th>#</th><th>Natureza</th><th>Ação</th><th>Data Distribuição</th>
-      <th>Cliente principal</th><th>Posição</th><th>Contrário principal</th>
-      <th>Órgão</th><th>Cidade</th><th>UF</th>
+      <th>#</th><th>Natureza</th><th>AÃ§Ã£o</th><th>Data DistribuiÃ§Ã£o</th>
+      <th>Cliente principal</th><th>PosiÃ§Ã£o</th><th>ContrÃ¡rio principal</th>
+      <th>ÃrgÃ£o</th><th>Cidade</th><th>UF</th>
       <th>Valor da causa</th><th>Valor envolvido</th>
-      <th>Probabilidade</th><th>Faixa</th><th>Classificação</th>
+      <th>Probabilidade</th><th>Faixa</th><th>ClassificaÃ§Ã£o</th>
     </tr></thead>
     <tbody id="rtbody"></tbody>
   </table>
   <div style="margin-top:32px;padding-top:12px;border-top:1px solid var(--bd);font-size:.63rem;color:var(--mu);text-align:center">
-    Imaculada Gordiano Sociedade de Advogados · Gerado em <span id="rfdate"></span>
+    Imaculada Gordiano Sociedade de Advogados Â· Gerado em <span id="rfdate"></span>
   </div>
 </div>
 </div>
@@ -1583,11 +1590,11 @@ st.set_page_config(page_title="Dashboard Jur\u00eddico - IGSA", layout="wide")
 st.components.v1.html(html, height=900, scrolling=True)
 
 
-# ── Ferramenta: Corrigir HTML antigo (sem gráficos) ──────────────────────────
+# ââ Ferramenta: Corrigir HTML antigo (sem grÃ¡ficos) ââââââââââââââââââââââââââ
 with st.sidebar:
     st.markdown("---")
-    st.markdown("### 🔧 Corrigir HTML existente")
-    st.caption("Faça upload de um HTML gerado antes do fix para embutir as bibliotecas automaticamente.")
+    st.markdown("### ð§ Corrigir HTML existente")
+    st.caption("FaÃ§a upload de um HTML gerado antes do fix para embutir as bibliotecas automaticamente.")
     uploaded_fix = st.file_uploader("Selecione o arquivo HTML", type=["html"], key="fix_uploader")
     if uploaded_fix is not None:
         with st.spinner("Baixando bibliotecas e corrigindo... (pode levar ~20s)"):
@@ -1604,19 +1611,19 @@ with st.sidebar:
                             f'<script>{_dlbl}</script>', _html)
             _html = _re.sub(r'<link[^>]*fonts\.googleapis\.com[^>]*>', '', _html)
             _out_name = uploaded_fix.name.replace(".html", "_OFFLINE.html")
-            st.success("✅ HTML corrigido com sucesso!")
+            st.success("â HTML corrigido com sucesso!")
             st.download_button(
-                label="⬇️ Baixar HTML corrigido (funciona offline e no Teams)",
+                label="â¬ï¸ Baixar HTML corrigido (funciona offline e no Teams)",
                 data=_html.encode("utf-8"),
                 file_name=_out_name,
                 mime="text/html"
             )
 
 
-# ── Ferramenta: Publicar dashboard no Netlify ────────────────────────────────────────────
+# ââ Ferramenta: Publicar dashboard no Netlify ââââââââââââââââââââââââââââââââââââââââââââ
 with st.sidebar:
     st.markdown("---")
-    st.markdown("### 🌐 Publicar no Netlify")
+    st.markdown("### ð Publicar no Netlify")
     st.caption("Publique o HTML gerado e receba um link para enviar por e-mail ou WhatsApp.")
 
     _netlify_token = ""
@@ -1641,7 +1648,7 @@ with st.sidebar:
                 try:
                     _html_bytes = _html_to_publish.read()
 
-                    # netlify.toml para forçar Content-Type correto
+                    # netlify.toml para forÃ§ar Content-Type correto
                     _toml_lines = [
                         "[[headers]]",
                         '  for = "/*"',
@@ -1684,7 +1691,7 @@ with st.sidebar:
                     with _ur2.urlopen(_req_deploy) as _r:
                         _deploy = _json2.loads(_r.read().decode("utf-8"))
 
-                    # Polling até ficar pronto
+                    # Polling atÃ© ficar pronto
                     import time as _time
                     _deploy_id = _deploy["id"]
                     _status = _deploy
