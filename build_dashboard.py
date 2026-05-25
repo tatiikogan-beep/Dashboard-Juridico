@@ -1557,6 +1557,7 @@ window.addEventListener('load', function(){
 
 # Build complete HTML
 html = """<!DOCTYPE html>
+<!-- build: 2026-05-25T17:02:38.480Z -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -1771,7 +1772,7 @@ html = """<!DOCTYPE html>
 
 # Display in Streamlit
 st.set_page_config(page_title="Dashboard Jur\u00eddico - IGSA", layout="wide")
-st.components.v1.html(html, height=900, scrolling=True)
+st.components.v1.html(html, height=3000, scrolling=True)
 
 # ── Ferramenta: Corrigir HTML antigo (sem gráficos) ──────────────────────────
 with st.sidebar:
