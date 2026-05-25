@@ -55,6 +55,14 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .dzs{font-size:.68rem;color:var(--mu);margin-top:2px}
 .dzst{font-size:.68rem;color:var(--c8);font-weight:700;margin-top:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .up3{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.up5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.reldrop{position:relative;display:inline-block}
+.reldrop-menu{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);min-width:220px;z-index:999;overflow:hidden}
+.reldrop-menu a{display:block;padding:9px 16px;font-size:.72rem;font-weight:600;color:var(--c8);text-decoration:none;cursor:pointer;border-bottom:1px solid #f0e8e8;transition:.15s}
+.reldrop-menu a:last-child{border-bottom:none}
+.reldrop-menu a:hover{background:var(--c0);color:var(--c7)}
+.reldrop-menu .reldrop-title{padding:7px 16px 4px;font-size:.65rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;cursor:default;pointer-events:none;border-bottom:1px solid #f0e8e8}
+.reldrop.open .reldrop-menu{display:block}
 .fld{margin-bottom:12px}
 .fld label{display:block;font-size:.72rem;font-weight:600;color:var(--mu);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
 .fld input{width:100%;padding:9px 12px;border:1.5px solid var(--bd);border-radius:var(--r);font-family:'Inter',sans-serif;font-size:.86rem;color:var(--tx);background:#fff;transition:border-color .2s;outline:none}
@@ -132,7 +140,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
   .dw{padding:10px;max-width:none}
 }
 @media(max-width:860px){
-  .grid2,.up3,.c3,.c2{grid-template-columns:1fr}
+  .grid2,.up3,.up5,.c3,.c2{grid-template-columns:1fr}
   .kr{grid-template-columns:repeat(2,1fr)}
 }
 """
@@ -624,7 +632,7 @@ function loadF(inp, key){
       }
       ST[key] = rows;
       document.getElementById('dz-'+key).classList.add('ok');
-      var ids = {proc:'sp', serv:'ss', aud:'sa', dec:'sd'};
+      var ids = {proc:'sp', serv:'ss', aud:'sa', dec:'sd', fut:'sf'};
       document.getElementById(ids[key]).textContent = '✓ '+f.name+' ('+rows.length+')';
     }catch(ex){
       showErr('Erro ao ler '+f.name+': '+ex.message);
@@ -1232,6 +1240,57 @@ function generate(){
 
   window._rpt = {proc:proc, active:active, archived:archived, natSort:natSort, title:title, refY:refY, nAud:nAud, nPrz:nPrz, nPer:nPer};
 
+  // ── Audiências e Perícias Futuras ──
+  var today = new Date(); today.setHours(0,0,0,0);
+  var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo']) : null;
+  var fut = ST.fut ? ((clients && futFld) ? filterClients(ST.fut, futFld, clients) : ST.fut) : [];
+  var futAud = [], futPer = [];
+  fut.forEach(function(r){
+    var d = r['Data de Início'] || r['Data de inicio'] || r['Data'];
+    if(!d) return;
+    var dt = d instanceof Date ? d : new Date(String(d).trim());
+    if(isNaN(dt.getTime())) return;
+    dt.setHours(0,0,0,0);
+    if(dt < today) return;
+    var tipo = String(r['Tipo']||'').trim();
+    if(tipo === 'Perícia' || tipo === 'Pericia') futPer.push(r);
+    else futAud.push(r);
+  });
+  function sortByDate(arr){ return arr.slice().sort(function(a,b){ var da=new Date(a['Data de Início']||a['Data de inicio']||a['Data']), db=new Date(b['Data de Início']||b['Data de inicio']||b['Data']); return da-db; }); }
+  futAud = sortByDate(futAud);
+  futPer = sortByDate(futPer);
+  var futAudNat={}, futPerNat={}, futAudCid={}, futPerCid={};
+  futAud.forEach(function(r){ var n=r['Natureza']||'Não informado'; futAudNat[n]=(futAudNat[n]||0)+1; var k=r['Cidade/UF']||r['Cidade']||'N/I'; futAudCid[k]=(futAudCid[k]||0)+1; });
+  futPer.forEach(function(r){ var n=r['Natureza']||'Não informado'; futPerNat[n]=(futPerNat[n]||0)+1; var k=r['Cidade/UF']||r['Cidade']||'N/I'; futPerCid[k]=(futPerCid[k]||0)+1; });
+  var futAudNatSort=Object.entries(futAudNat).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
+  var futPerNatSort=Object.entries(futPerNat).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
+  var futAudCidSort=Object.entries(futAudCid).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
+  var futPerCidSort=Object.entries(futPerCid).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
+  window._exports = { title:title, refY:refY,
+    proc:{rows:proc,active:active,archived:archived,natSort:natSort,nAud:nAud,nPrz:nPrz,nPer:nPer},
+    serv:{rows:ST.serv||[]}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[]},
+    fut:{rows:ST.fut||[],futAud:futAud,futPer:futPer} };
+  if(ST.fut && fut.length===0 && clients) warns.push('Nenhum registro futuro encontrado para os clientes em Aud. e Perícias Futuras.');
+  (function(){
+    var fb=document.getElementById('futblock');
+    if(!ST.fut){ fb.style.display='none'; return; }
+    var proxAud=futAud.length>0?fDate(futAud[0]['Data de Início']||futAud[0]['Data de inicio']||futAud[0]['Data']):'—';
+    var proxPer=futPer.length>0?fDate(futPer[0]['Data de Início']||futPer[0]['Data de inicio']||futPer[0]['Data']):'—';
+    document.getElementById('futkpi').innerHTML=
+      kpiCard('c6','Audiências Futuras',futAud.length,'Agendadas a partir de hoje')+
+      kpiCard('gd','Perícias Futuras',futPer.length,'Agendadas a partir de hoje')+
+      kpiCard('c5','Próxima Audiência',proxAud,'Data mais próxima')+
+      kpiCard('c4','Próxima Perícia',proxPer,'Data mais próxima');
+    document.getElementById('ctfut1').textContent='Audiências Futuras por Natureza';
+    mkBar('chfut1',futAudNatSort.map(function(e){return e[0];}),futAudNatSort.map(function(e){return e[1];}),true,futAudNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    document.getElementById('ctfut2').textContent='Perícias Futuras por Natureza';
+    mkBar('chfut2',futPerNatSort.map(function(e){return e[0];}),futPerNatSort.map(function(e){return e[1];}),true,futPerNatSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    document.getElementById('ctfut3').textContent='Audiências Futuras por Cidade/UF';
+    mkBar('chfut3',futAudCidSort.map(function(e){return e[0];}),futAudCidSort.map(function(e){return e[1];}),true,futAudCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+    document.getElementById('ctfut4').textContent='Perícias Futuras por Cidade/UF';
+    mkBar('chfut4',futPerCidSort.map(function(e){return e[0];}),futPerCidSort.map(function(e){return e[1];}),true,futPerCidSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
+  })();
+
   document.getElementById('cfg').style.display = 'none';
   document.getElementById('dsh').style.display = 'block';
     // ── Ocultar seções sem planilha ──
@@ -1367,6 +1426,91 @@ function exportXLS(){
   setTimeout(function(){URL.revokeObjectURL(url);}, 5000);
 }
 
+function toggleRelDrop(){
+  var el=document.getElementById('reldropBtn');
+  if(el) el.classList.toggle('open');
+}
+function closeRelDrop(){
+  var el=document.getElementById('reldropBtn');
+  if(el) el.classList.remove('open');
+}
+document.addEventListener('click',function(e){
+  var btn=document.getElementById('reldropBtn');
+  if(btn&&!btn.contains(e.target)) btn.classList.remove('open');
+});
+function _xlsDl(blob,name){
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=name;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},5000);
+}
+function _xlsWrap(title,tbl){
+  return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body>'+tbl+'</body></html>';
+}
+function _xlsTbl(rows,headers,title){
+  var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
+  var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  var hRow='<tr>'+headers.map(function(h){return '<th '+coH+'>'+h+'</th>';}).join('')+'</tr>';
+  var dRows=rows.map(function(r,i){var bg=i%2?ALT:'#fff';var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';return '<tr>'+headers.map(function(h){return '<td '+co+'>'+esc(r[h])+'</td>';}).join('')+'</tr>';}).join('');
+  return '<table><tr><td colspan="'+headers.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(title)+'</td></tr>'+hRow+dRows+'</table>';
+}
+function exportXLS_proc(){
+  var d=window._exports; if(!d||!d.proc) return;
+  var rows=d.proc.active.slice().sort(function(a,b){return (a['Natureza']||'').localeCompare(b['Natureza']||'');});
+  var hdrs=['Natureza','Ação','Data da distribuição','Cliente principal','Posição','Contrário principal','Órgão','Cidade','UF','Valor da causa','Valor envolvido','Tipo da probabilidade atual','Faixa de probabilidade atual','Classificação do Processo'];
+  var tbl=_xlsTbl(rows,hdrs,d.title+' — Processos Ativos');
+  _xlsDl(new Blob(['﻿'+_xlsWrap(d.title,tbl)],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Processos.xls');
+}
+function exportXLS_serv(){
+  var d=window._exports; if(!d||!d.serv||!d.serv.rows.length) return alert('Planilha de Serviços não carregada.');
+  var rows=d.serv.rows; var hdrs=Object.keys(rows[0]||{});
+  var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
+  var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
+  var dRows=rows.map(function(r,i){var bg=i%2?ALT:'#fff';var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';return '<tr>'+hdrs.map(function(h){return '<td '+co+'>'+esc(r[h])+'</td>';}).join('')+'</tr>';}).join('');
+  var tbl='<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — Serviços</td></tr>'+hRow+dRows+'</table>';
+  _xlsDl(new Blob(['﻿'+_xlsWrap(d.title,tbl)],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Servicos.xls');
+}
+function exportXLS_aud(){
+  var d=window._exports; if(!d||!d.aud||!d.aud.rows.length) return alert('Planilha de Aud/Prazos/Perícias não carregada.');
+  var rows=d.aud.rows; var hdrs=Object.keys(rows[0]||{});
+  var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
+  var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
+  var dRows=rows.map(function(r,i){var bg=i%2?ALT:'#fff';var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';return '<tr>'+hdrs.map(function(h){return '<td '+co+'>'+esc(r[h])+'</td>';}).join('')+'</tr>';}).join('');
+  var tbl='<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — Aud / Prazos / Perícias</td></tr>'+hRow+dRows+'</table>';
+  _xlsDl(new Blob(['﻿'+_xlsWrap(d.title,tbl)],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Aud_Prazos_Pericias.xls');
+}
+function exportXLS_dec(){
+  var d=window._exports; if(!d||!d.dec||!d.dec.rows.length) return alert('Planilha de Decisões não carregada.');
+  var rows=d.dec.rows; var hdrs=Object.keys(rows[0]||{});
+  var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
+  var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
+  var dRows=rows.map(function(r,i){var bg=i%2?ALT:'#fff';var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';return '<tr>'+hdrs.map(function(h){return '<td '+co+'>'+esc(r[h])+'</td>';}).join('')+'</tr>';}).join('');
+  var tbl='<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — Decisões</td></tr>'+hRow+dRows+'</table>';
+  _xlsDl(new Blob(['﻿'+_xlsWrap(d.title,tbl)],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Decisoes.xls');
+}
+function exportXLS_fut(){
+  var d=window._exports; if(!d||!d.fut||!d.fut.rows.length) return alert('Planilha de Aud. e Perícias Futuras não carregada.');
+  var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
+  var hdrs=['Data de Início','Natureza','Tipo','Número CNJ','Parte Contrária','Cliente do Processo','Órgão','Cidade/UF'];
+  var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  function makeSheet(rows,label){
+    var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+h+'</th>';}).join('')+'</tr>';
+    var dRows=rows.map(function(r,i){
+      var bg=i%2?ALT:'#fff';
+      var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';
+      var vals=[fDate(r['Data de Início']||r['Data de inicio']||r['Data']),esc(r['Natureza']),esc(r['Tipo']),esc(r['Número CNJ']||r['Numero CNJ']||r['CNJ']),esc(r['Parte Contrária']||r['Parte Contraria']),esc(r['Cliente do Processo']||r['Cliente Processo']),esc(r['Órgão']||r['Orgao']),esc(r['Cidade/UF']||r['Cidade'])];
+      return '<tr>'+vals.map(function(v){return '<td '+co+'>'+(v||'')+'</td>';}).join('')+'</tr>';
+    }).join('');
+    return '<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — '+label+'</td></tr>'+hRow+dRows+'</table>';
+  }
+  var xls='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Audiencias Futuras</x:Name></x:ExcelWorksheet><x:ExcelWorksheet><x:Name>Pericias Futuras</x:Name></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><div id="Audiencias Futuras">'+makeSheet(d.fut.futAud,'Audiências Futuras')+'</div><div id="Pericias Futuras">'+makeSheet(d.fut.futPer,'Perícias Futuras')+'</div></body></html>';
+  _xlsDl(new Blob(['﻿'+xls],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Aud_Pericias_Futuras.xls');
+}
+
 function goBack(){ document.getElementById('dsh').style.display='none'; document.getElementById('cfg').style.display='flex'; }
 function hideReport(){ document.getElementById('rpt').style.display='none'; document.getElementById('dsh').style.display='block'; }
 function printDash(){ document.body.setAttribute('data-print','dash'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');},2000); }
@@ -1432,7 +1576,7 @@ html = """<!DOCTYPE html>
 <div class="grid2">
 <div>
   <div class="stl"><span class="sn">1</span>Planilhas de dados</div>
-  <div class="up3">
+  <div class="up5">
     <div class="dz" id="dz-proc">
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'proc')">
       <div class="dzi">📋</div><div class="dzl">Processos</div>
@@ -1452,6 +1596,11 @@ html = """<!DOCTYPE html>
       <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'dec')">
       <div class="dzi">⚖️</div><div class="dzl">Decisões <em style="font-size:.62rem;font-weight:400">(opcional)</em></div>
       <div class="dzs">.xlsx / .xls</div><div class="dzst" id="sd">Nenhum arquivo</div>
+    </div>
+    <div class="dz" id="dz-fut">
+      <input type="file" accept=".xlsx,.xls" onchange="loadF(this,'fut')">
+      <div class="dzi">📅</div><div class="dzl">Aud. e Perícias Futuras <em style="font-size:.62rem;font-weight:400">(opcional)</em></div>
+      <div class="dzs">.xlsx / .xls</div><div class="dzst" id="sf">Nenhum arquivo</div>
     </div>
   </div>
   <div class="stl"><span class="sn">2</span>Logo do cliente / grupo</div>
@@ -1490,9 +1639,21 @@ html = """<!DOCTYPE html>
   <button class="tb tbk" onclick="goBack()">← Voltar</button>
   <span class="thi">Imaculada Gordiano Sociedade de Advogados · Dashboard Jurídico</span>
   <div class="tbtns">
-    <button class="tb trl" onclick="showReport()">📄 Relatório de Processos</button>
+    <div class="reldrop" id="reldropBtn">
+      <button class="tb trl" onclick="toggleRelDrop()">📊 Relatórios e Exportações ▾</button>
+      <div class="reldrop-menu" id="reldropMenu">
+        <div class="reldrop-title">Relatório de Processos</div>
+        <a onclick="showReport();closeRelDrop()">📄 Ver Relatório de Processos</a>
+        <div class="reldrop-title">Exportar Planilhas Excel</div>
+        <a onclick="exportXLS_proc();closeRelDrop()">⬇ Processos (.xls)</a>
+        <a onclick="exportXLS_serv();closeRelDrop()">⬇ Serviços (.xls)</a>
+        <a onclick="exportXLS_aud();closeRelDrop()">⬇ Aud / Prazos / Perícias (.xls)</a>
+        <a onclick="exportXLS_dec();closeRelDrop()">⬇ Decisões (.xls)</a>
+        <a onclick="exportXLS_fut();closeRelDrop()">⬇ Aud. e Perícias Futuras (.xls)</a>
+      </div>
+    </div>
     <button class="tb tpd" onclick="printDash()">⬇ Exportar PDF</button>
-        <button class="tb tbk" onclick="shareDash()" title="Baixar HTML para compartilhar">📤 Compartilhar</button>
+    <button class="tb tbk" onclick="shareDash()" title="Baixar HTML para compartilhar">📤 Compartilhar</button>
   </div>
 </div>
 <div class="dw">
@@ -1539,6 +1700,19 @@ html = """<!DOCTYPE html>
   <div id="rowserv"></div>
 </div></div>
 </div>
+</div>
+  <div id="futblock">
+  <div class="sd"></div>
+  <div class="sbn" style="background:var(--c8)"><h2>📅 Audiências e Perícias Futuras</h2></div>
+  <div class="cg c2" style="margin-bottom:14px" id="futkpi"></div>
+  <div class="cg c2" id="rowfut">
+    <div class="cc"><div class="ct" id="ctfut1">—</div><div class="ch" style="height:280px"><canvas id="chfut1"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctfut2">—</div><div class="ch" style="height:280px"><canvas id="chfut2"></canvas></div></div>
+  </div>
+  <div class="cg c2" style="margin-top:14px" id="rowfut2">
+    <div class="cc"><div class="ct" id="ctfut3">—</div><div class="ch" style="height:240px"><canvas id="chfut3"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctfut4">—</div><div class="ch" style="height:240px"><canvas id="chfut4"></canvas></div></div>
+  </div>
 </div>
 
 <!-- RELATÓRIO -->
