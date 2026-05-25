@@ -1567,9 +1567,9 @@ html = """<!DOCTYPE html>
 <title>Dashboard Jurídico — IGSA</title>
 </head>
 <body>
-<script>(function(){var _s=document.createElement('style');_s.textContent=
+<script>(function(){var _css=
 """ + repr(CSS) + """
-;(document.head||document.body).appendChild(_s);})();</script>
+;var _sh=new CSSStyleSheet();_sh.replaceSync(_css);document.adoptedStyleSheets=[...(document.adoptedStyleSheets||[]),_sh];})();</script>
 
 <!-- CONFIG -->
 <div id="cfg">
