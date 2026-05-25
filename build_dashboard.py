@@ -36,6 +36,8 @@ CSS = """
   --r:8px;--r2:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
+img{max-width:100%;height:auto}
+#cfg img,.cfgh img,.dhl img,.rh img{max-height:84px!important;max-width:160px!important;width:auto!important;height:auto!important;object-fit:contain!important}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
 h1,h2,.sf{font-family:'Libre Baskerville',serif}
 /* CONFIG */
@@ -1574,7 +1576,7 @@ html = """<!DOCTYPE html>
 <!-- CONFIG -->
 <div id="cfg">
 <div class="cfgh">
-  <img src=\"""" + LOGO + """\" alt="IGSA">
+  <img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:80px;max-width:160px;width:auto;object-fit:contain;display:block;margin:0 auto">
   <h1 class="sf">Gerador de Dashboard Jurídico</h1>
   <p>Imaculada Gordiano Sociedade de Advogados</p>
 </div>
@@ -1664,7 +1666,7 @@ html = """<!DOCTYPE html>
 </div>
 <div class="dw">
   <div class="dh">
-    <div class="dhl"><img src=\"""" + LOGO + """\" alt="IGSA"></div>
+    <div class="dhl"><img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:62px;max-width:120px;width:auto;object-fit:contain;display:block"></div>
     <div class="dht">
       <div class="dmt sf" id="dtitle">—</div>
       <div class="dsb" id="dsub">Dashboard Jurídico Executivo</div>
@@ -1732,7 +1734,7 @@ html = """<!DOCTYPE html>
 </div>
 <div class="rw">
   <div class="rh">
-    <img src=\"""" + LOGO + """\" alt="IGSA">
+    <img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:64px;max-width:120px;width:auto;object-fit:contain;display:block">
     <div class="rtb">
       <h1 id="rtitle">Relatório de Processos</h1>
       <p id="rsub">—</p>
