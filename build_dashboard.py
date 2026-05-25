@@ -1496,15 +1496,16 @@ function exportXLS_dec(){
 function exportXLS_fut(){
   var d=window._exports; if(!d||!d.fut||!d.fut.rows.length) return alert('Planilha de Aud. e Perícias Futuras não carregada.');
   var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
-  var hdrs=['Data de Início','Natureza','Tipo','Número CNJ','Parte Contrária','Cliente do Processo','Órgão','Cidade/UF'];
   var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
+  var allKeys={};
+  d.fut.rows.forEach(function(r){ Object.keys(r).forEach(function(k){ allKeys[k]=1; }); });
+  var hdrs=Object.keys(allKeys);
   function makeSheet(rows,label){
-    var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+h+'</th>';}).join('')+'</tr>';
+    var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
     var dRows=rows.map(function(r,i){
       var bg=i%2?ALT:'#fff';
       var co='style="padding:5px 8px;border:1px solid '+BD+';font-family:Calibri;font-size:9pt;background:'+bg+'"';
-      var vals=[fDate(r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']),esc(r['Natureza']),esc(r['Tipo']),esc(r['Número CNJ']||r['Numero CNJ']||r['CNJ']),esc(r['Parte Contrária']||r['Parte Contraria']),esc(r['Cliente do Processo']||r['Cliente Processo']),esc(r['Órgão']||r['Orgao']),esc(r['Cidade/UF']||r['Cidade'])];
-      return '<tr>'+vals.map(function(v){return '<td '+co+'>'+(v||'')+'</td>';}).join('')+'</tr>';
+      return '<tr>'+hdrs.map(function(h){return '<td '+co+'>'+esc(r[h])+'</td>';}).join('')+'</tr>';
     }).join('');
     return '<table><tr><td colspan="'+hdrs.length+'" style="padding:10px;background:'+H+';color:#fff;font-size:13pt;font-weight:700;font-family:Calibri">'+esc(d.title)+' — '+label+'</td></tr>'+hRow+dRows+'</table>';
   }
@@ -1705,14 +1706,16 @@ html = """<!DOCTYPE html>
   <div id="futblock">
   <div class="sd"></div>
   <div class="sbn" style="background:var(--c8)"><h2>📅 Audiências e Perícias Futuras</h2></div>
-  <div class="cg c2" style="margin-bottom:14px" id="futkpi"></div>
-  <div class="cg c2" id="rowfut">
-    <div class="cc"><div class="ct" id="ctfut1">—</div><div class="ch" style="height:280px"><canvas id="chfut1"></canvas></div></div>
-    <div class="cc"><div class="ct" id="ctfut2">—</div><div class="ch" style="height:280px"><canvas id="chfut2"></canvas></div></div>
+  <div class="kr" style="margin-bottom:16px" id="futkpi"></div>
+  <div class="sbn" style="background:var(--c7);margin-bottom:10px"><h2>🗓️ Audiências Futuras</h2></div>
+  <div class="cg c2" id="rowfut" style="margin-bottom:16px">
+    <div class="cc"><div class="ct" id="ctfut1">—</div><div class="ch" style="height:320px"><canvas id="chfut1"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctfut3">—</div><div class="ch" style="height:320px"><canvas id="chfut3"></canvas></div></div>
   </div>
-  <div class="cg c2" style="margin-top:14px" id="rowfut2">
-    <div class="cc"><div class="ct" id="ctfut3">—</div><div class="ch" style="height:240px"><canvas id="chfut3"></canvas></div></div>
-    <div class="cc"><div class="ct" id="ctfut4">—</div><div class="ch" style="height:240px"><canvas id="chfut4"></canvas></div></div>
+  <div class="sbn" style="background:var(--c7);margin-bottom:10px"><h2>🔬 Perícias Futuras</h2></div>
+  <div class="cg c2" id="rowfut2">
+    <div class="cc"><div class="ct" id="ctfut2">—</div><div class="ch" style="height:320px"><canvas id="chfut2"></canvas></div></div>
+    <div class="cc"><div class="ct" id="ctfut4">—</div><div class="ch" style="height:320px"><canvas id="chfut4"></canvas></div></div>
   </div>
 </div>
 
