@@ -36,30 +36,28 @@ CSS = """
   --r:8px;--r2:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-img{max-width:100%;height:auto}
-#cfg img,.cfgh img,.dhl img,.rh img{max-height:84px!important;max-width:160px!important;width:auto!important;height:auto!important;object-fit:contain!important}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
 h1,h2,.sf{font-family:'Libre Baskerville',serif}
 /* CONFIG */
-#cfg{background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 20px}
-.cfgh{text-align:center;margin-bottom:16px}
-.cfgh img{height:auto;max-height:84px;max-width:160px;width:auto;object-fit:contain;margin:0 auto 12px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+#cfg{min-height:100vh;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
+.cfgh{text-align:center;margin-bottom:24px}
+.cfgh img{height:84px;margin:0 auto 12px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
 .cfgh h1{color:var(--c9);font-size:1.7rem}
 .cfgh p{color:var(--mu);font-size:.82rem;margin-top:5px}
-.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:24px;width:100%;max-width:840px}
+.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:32px;width:100%;max-width:840px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .stl{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--c7);padding-bottom:7px;border-bottom:2px solid var(--c1);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .sn{width:20px;height:20px;background:var(--c7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
-.dz{border:2px dashed var(--c3);border-radius:var(--r);padding:18px 12px;min-height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;background:var(--c0);transition:.2s;position:relative;overflow:hidden}
+.dz{border:2px dashed var(--c3);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;background:var(--c0);transition:.2s;position:relative;overflow:hidden}
 .dz:hover{border-color:var(--c6);background:var(--c1)}
 .dz.ok{border-style:solid;border-color:var(--c7);background:var(--c1)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dzi{font-size:1.8rem;margin-bottom:6px;line-height:1}
-.dzl{font-size:.82rem;color:var(--c7);font-weight:700;line-height:1.2;margin-bottom:2px}
+.dzi{font-size:1.5rem;margin-bottom:4px}
+.dzl{font-size:.75rem;color:var(--c7);font-weight:600}
 .dzs{font-size:.68rem;color:var(--mu);margin-top:2px}
 .dzst{font-size:.68rem;color:var(--c8);font-weight:700;margin-top:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .up3{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.up5{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.up5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
 .reldrop{position:relative;display:inline-block}
 .reldrop-menu{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);min-width:220px;z-index:999;overflow:hidden}
 .reldrop-menu a{display:block;padding:9px 16px;font-size:.72rem;font-weight:600;color:var(--c8);text-decoration:none;cursor:pointer;border-bottom:1px solid #f0e8e8;transition:.15s}
@@ -87,7 +85,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 /* DASH */
 .dw{padding:0 26px 36px;max-width:1360px;margin:0 auto}
 .dh{display:flex;align-items:center;justify-content:space-between;padding:22px 0 16px;border-bottom:2px solid var(--c1);margin-bottom:20px;gap:14px}
-.dhl img{height:auto;max-height:62px;max-width:120px;width:auto;object-fit:contain}
+.dhl img{height:62px}
 .dht{text-align:center;flex:1;padding:0 14px}
 .dmt{font-size:1.6rem;font-weight:700;color:var(--c9)}
 .dsb{font-size:.7rem;color:var(--mu);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
@@ -115,7 +113,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 /* REPORT */
 .rw{max-width:1100px;margin:0 auto;padding:28px 36px;background:#fff;min-height:100vh}
 .rh{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:3px solid var(--c7);margin-bottom:20px}
-.rh img{height:auto;max-height:64px;max-width:120px;width:auto;object-fit:contain}
+.rh img{height:64px}
 .rtb h1{font-family:'Libre Baskerville',serif;font-size:1.3rem;color:var(--c9);text-align:right}
 .rtb p{font-size:.72rem;color:var(--mu);text-align:right;margin-top:3px}
 .rnote{background:#FFF8E0;border-left:3px solid var(--gd);padding:8px 14px;border-radius:4px;margin-bottom:16px;font-size:.71rem;color:#6A5000}
@@ -144,8 +142,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
   .dw{padding:10px;max-width:none}
 }
 @media(max-width:860px){
-  .grid2,.up3,.c3,.c2{grid-template-columns:1fr}
-  .up5{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+  .grid2,.up3,.up5,.c3,.c2{grid-template-columns:1fr}
   .kr{grid-template-columns:repeat(2,1fr)}
 }
 """
@@ -1577,7 +1574,7 @@ html = """<!DOCTYPE html>
 <!-- CONFIG -->
 <div id="cfg">
 <div class="cfgh">
-  <img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:80px;max-width:160px;width:auto;object-fit:contain;display:block;margin:0 auto">
+  <img src=\"""" + LOGO + """\" alt="IGSA">
   <h1 class="sf">Gerador de Dashboard Jurídico</h1>
   <p>Imaculada Gordiano Sociedade de Advogados</p>
 </div>
@@ -1667,7 +1664,7 @@ html = """<!DOCTYPE html>
 </div>
 <div class="dw">
   <div class="dh">
-    <div class="dhl"><img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:62px;max-width:120px;width:auto;object-fit:contain;display:block"></div>
+    <div class="dhl"><img src=\"""" + LOGO + """\" alt="IGSA"></div>
     <div class="dht">
       <div class="dmt sf" id="dtitle">—</div>
       <div class="dsb" id="dsub">Dashboard Jurídico Executivo</div>
@@ -1735,7 +1732,7 @@ html = """<!DOCTYPE html>
 </div>
 <div class="rw">
   <div class="rh">
-    <img src=\"""" + LOGO + """\" alt="IGSA" style="height:auto;max-height:64px;max-width:120px;width:auto;object-fit:contain;display:block">
+    <img src=\"""" + LOGO + """\" alt="IGSA">
     <div class="rtb">
       <h1 id="rtitle">Relatório de Processos</h1>
       <p id="rsub">—</p>
