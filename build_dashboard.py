@@ -1565,11 +1565,11 @@ html = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Dashboard Jurídico — IGSA</title>
+</head>
+<body>
 <style>
 """ + CSS + """
 </style>
-</head>
-<body>
 
 <!-- CONFIG -->
 <div id="cfg">
