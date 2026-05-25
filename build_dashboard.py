@@ -147,7 +147,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 }
 """
 
-# JavaScript - written carefully without embedded HTML in template literals
+CSS_JS = f'(function(){{var _css={repr(CSS)};var _sh=new CSSStyleSheet();_sh.replaceSync(_css);document.adoptedStyleSheets=[...(document.adoptedStyleSheets||[]),_sh];}})()';
 JS = r"""
 const ST={proc:null,serv:null,aud:null,dec:null,logo:null};
 const CH={};
@@ -1567,9 +1567,9 @@ html = """<!DOCTYPE html>
 <title>Dashboard Jurídico — IGSA</title>
 </head>
 <body>
-<script>(function(){var _css=
+<!--
 """ + repr(CSS) + """
-;var _sh=new CSSStyleSheet();_sh.replaceSync(_css);document.adoptedStyleSheets=[...(document.adoptedStyleSheets||[]),_sh];})();</script>
+-->
 
 <!-- CONFIG -->
 <div id="cfg">
@@ -1763,7 +1763,7 @@ html = """<!DOCTYPE html>
 </div>
 </div>
 
-    <script>""" + XLSX_JS + """</script>
+    <script>""" + CSS_JS + """</script><script>""" + XLSX_JS + """</script>
     <script>""" + CHART_JS + """</script>
     <script>""" + DATALABELS_JS + """</script>
 <script>
