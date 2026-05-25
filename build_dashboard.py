@@ -39,12 +39,12 @@ CSS = """
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
 h1,h2,.sf{font-family:'Libre Baskerville',serif}
 /* CONFIG */
-#cfg{min-height:100vh;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px}
-.cfgh{text-align:center;margin-bottom:24px}
+#cfg{background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 20px}
+.cfgh{text-align:center;margin-bottom:16px}
 .cfgh img{height:auto;max-height:84px;max-width:160px;width:auto;object-fit:contain;margin:0 auto 12px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
 .cfgh h1{color:var(--c9);font-size:1.7rem}
 .cfgh p{color:var(--mu);font-size:.82rem;margin-top:5px}
-.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:32px;width:100%;max-width:840px}
+.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:24px;width:100%;max-width:840px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .stl{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--c7);padding-bottom:7px;border-bottom:2px solid var(--c1);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .sn{width:20px;height:20px;background:var(--c7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
