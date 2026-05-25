@@ -1230,7 +1230,7 @@ function generate(){
   if(!ST.serv){ var sb=document.getElementById('servblock'); if(sb) sb.style.display='none'; }
   if(!ST.aud){
     var kpi2el=document.getElementById('kpi2'); if(kpi2el) kpi2el.style.display='none';
-    var ctaud3el=document.getElementById('ctaud3'); if(ctaud3el) ctaud3el.parentElement.style.display='none';
+    var ab=document.getElementById('audblock'); if(ab) ab.style.display='none';
   }
   window.scrollTo(0,0);
 }
@@ -1498,8 +1498,8 @@ html = """<!DOCTYPE html>
       <div id="clph" class="clph">Logo do Cliente</div>
     </div>
   </div>
-  <div class="sbn"><h2>📋 Processos Judiciais</h2></div>
-  <div id="procblock"><div class="kr" id="kpi1"></div>
+  <div id="procblock"><div class="sbn"><h2>📋 Processos Judiciais</h2></div>
+  <div class="kr" id="kpi1"></div>
   <div class="kr" id="kpi2" style="margin-bottom:18px"></div>
   <div class="cg c3" id="rowtop"></div>
   <div class="cg c2" style="margin-bottom:12px">
@@ -1511,15 +1511,17 @@ html = """<!DOCTYPE html>
     <div class="cc"><div class="ct" id="ctcmp3">—</div><div class="ch" style="height:200px"><canvas id="chcmp3"></canvas></div></div>
     <div class="cc"><div class="ct">Distribuição por Fase Processual</div><div class="ch" style="height:200px"><canvas id="chfase"></canvas></div></div>
   </div>
-  <div class="cg c2" style="margin-bottom:12px">
+  <div class="cg c1" style="margin-bottom:12px">
     <div class="cc" id="passivo-card">
       <div class="ct">Redução do Passivo Processual — Probabilidade de Perda</div>
       <div id="passivo-content" style="padding:8px 0"></div>
     </div>
-    <div class="cc"><div class="ct" id="ctaud3">—</div><div class="ch" style="height:200px"><canvas id="chaud3"></canvas></div></div>
   </div>
-  <div id="decblock"></div>
 </div>
+  <div id="audblock"><div class="cg c1" style="margin-bottom:12px">
+    <div class="cc"><div class="ct" id="ctaud3">—</div><div class="ch" style="height:200px"><canvas id="chaud3"></canvas></div></div>
+  </div></div>
+  <div id="decblock"></div>
   <div id="servblock"><div class="sd"></div>
   <div class="sbn" style="background:var(--c7)"><h2>⚖️ Serviços Realizados</h2></div>
   <div class="cg c1" style="margin-bottom:12px">
