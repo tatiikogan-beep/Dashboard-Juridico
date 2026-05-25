@@ -4,6 +4,7 @@ import urllib.request
 import streamlit as st
 
 # ── Embed external JS/CSS libraries inline for offline/Teams compatibility ──
+# build: 2026-05-25T16:54
 def _fetch_lib(url, fallback=""):
     import urllib.request
     try:
