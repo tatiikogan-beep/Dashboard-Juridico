@@ -44,7 +44,7 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .cfgh img{height:84px;margin:0 auto 12px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
 .cfgh h1{color:var(--c9);font-size:1.7rem}
 .cfgh p{color:var(--mu);font-size:.82rem;margin-top:5px}
-.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:32px;width:100%;max-width:840px}
+.card{background:#fff;border-radius:var(--r2);box-shadow:0 8px 40px rgba(0,0,0,.28);padding:32px;width:100%;max-width:960px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .stl{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--c7);padding-bottom:7px;border-bottom:2px solid var(--c1);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .sn{width:20px;height:20px;background:var(--c7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
@@ -52,8 +52,8 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .dz:hover{border-color:var(--c6);background:var(--c1)}
 .dz.ok{border-style:solid;border-color:var(--c7);background:var(--c1)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dzi{font-size:2.2rem;margin-bottom:8px}
-.dzl{font-size:.85rem;color:var(--c7);font-weight:700}
+.dzi{font-size:1.8rem;margin-bottom:6px}
+.dzl{font-size:.78rem;color:var(--c7);font-weight:700;line-height:1.3}
 .dzs{font-size:.76rem;color:var(--mu);margin-top:4px}
 .dzst{font-size:.75rem;color:var(--c8);font-weight:700;margin-top:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .up3{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
