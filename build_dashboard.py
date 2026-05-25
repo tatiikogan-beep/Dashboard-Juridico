@@ -672,9 +672,9 @@ function mkBar(id, labels, vals, horiz, colors){
       plugins: Object.assign({legend:{display:false}}, dlPlugin),
       scales:{
         x:{grid:{color:horiz?'#F5E8EA':'transparent'}, ticks:{color:'#9A5060',font:{size:10}}, border:{display:false}},
-        y:{grid:{color:horiz?'transparent':'#F5E8EA'}, ticks:{color:'#4A2030',font:{size:10}}, border:{display:false}}
+        y:{grid:{color:horiz?'transparent':'#F5E8EA'}, ticks:{color:'#4A2030',font:{size:10},maxTicksLimit:20,autoSkip:false}, border:{display:false}}
       },
-      layout:{padding:{right:horiz?40:0, top:24}}
+      layout:{padding:{right:horiz?40:0, left:0, top:24}}
     }
   });
 }
@@ -899,13 +899,17 @@ function generate(){
   // Build services row dynamically — hide company chart for single client
   var sMulti = sCYS.length > 1;
   var rowserv = document.getElementById('rowserv');
-  rowserv.className = 'cg ' + (sMulti ? 'c3' : 'c2');
-  var compCard = sMulti
-    ? '<div class="cc"><div class="ct" id="sct1">—</div><div class="ch" style="height:210px"><canvas id="chsc"></canvas></div></div>'
-    : '';
-  rowserv.innerHTML = compCard +
-    '<div class="cc"><div class="ct" id="sct2">—</div><div class="ch" style="height:210px"><canvas id="chst"></canvas></div></div>' +
-    '<div class="cc"><div class="ct" id="sct3">—</div><div class="ch" style="height:210px"><canvas id="chsn"></canvas></div></div>';
+  rowserv.className = 'cg c2';
+  if(sMulti){
+    rowserv.innerHTML =
+      '<div class="cc" style="grid-column:1/-1"><div class="ct" id="sct1">—</div><div class="ch" style="height:280px"><canvas id="chsc"></canvas></div></div>' +
+      '<div class="cc"><div class="ct" id="sct2">—</div><div class="ch" style="height:280px"><canvas id="chst"></canvas></div></div>' +
+      '<div class="cc"><div class="ct" id="sct3">—</div><div class="ch" style="height:280px"><canvas id="chsn"></canvas></div></div>';
+  } else {
+    rowserv.innerHTML =
+      '<div class="cc"><div class="ct" id="sct2">—</div><div class="ch" style="height:280px"><canvas id="chst"></canvas></div></div>' +
+      '<div class="cc"><div class="ct" id="sct3">—</div><div class="ch" style="height:280px"><canvas id="chsn"></canvas></div></div>';
+  }
 
   if(sMulti) document.getElementById('sct1').textContent = 'Total de Serviços por Empresa Realizados em '+refY;
   document.getElementById('sct2').textContent = 'Total de Serviços Realizados em '+refY+' – As 10 Atividades Mais Executadas';
@@ -931,12 +935,17 @@ function generate(){
 
   // Top charts row
   var rtop = document.getElementById('rowtop');
-  rtop.className = 'cg '+(multi?'c3':'c2');
-  var compHtml = multi ? '<div class="cc"><div class="ct">Processos Ativos por Empresa</div><div class="ch" style="height:210px"><canvas id="chcmp"></canvas></div></div>' : '';
-  rtop.innerHTML =
-    '<div class="cc"><div class="ct">Distribuição por Status</div><div class="ch" style="height:210px"><canvas id="chpie"></canvas></div></div>' +
-    '<div class="cc"><div class="ct">Processos Ativos por Natureza</div><div class="ch" style="height:210px"><canvas id="chnat"></canvas></div></div>' +
-    compHtml;
+  rtop.className = 'cg c2';
+  if(multi){
+    rtop.innerHTML =
+      '<div class="cc" style="grid-column:1/-1"><div class="ct">Processos Ativos por Empresa</div><div class="ch" style="height:280px"><canvas id="chcmp"></canvas></div></div>' +
+      '<div class="cc"><div class="ct">Distribuição por Status</div><div class="ch" style="height:210px"><canvas id="chpie"></canvas></div></div>' +
+      '<div class="cc"><div class="ct">Processos Ativos por Natureza</div><div class="ch" style="height:210px"><canvas id="chnat"></canvas></div></div>';
+  } else {
+    rtop.innerHTML =
+      '<div class="cc"><div class="ct">Distribuição por Status</div><div class="ch" style="height:210px"><canvas id="chpie"></canvas></div></div>' +
+      '<div class="cc"><div class="ct">Processos Ativos por Natureza</div><div class="ch" style="height:210px"><canvas id="chnat"></canvas></div></div>';
+  }
 
   // Draw charts
   mkDonut('chpie', ['Ativos','Arquivados'], [active.length, archived.length]);
@@ -944,7 +953,7 @@ function generate(){
     natSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   if(multi && document.getElementById('chcmp')){
     mkBar('chcmp',
-      compSort.map(function(e){return e[0].length>22?e[0].substring(0,22)+'…':e[0];}),
+      compSort.map(function(e){return e[0];}),
       compSort.map(function(e){return e[1];}), true,
       compSort.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   }
@@ -1070,7 +1079,7 @@ function generate(){
 
   if(sMulti && document.getElementById('chsc')){
     mkBar('chsc',
-      sCYS.map(function(e){return e[0].length>22?e[0].substring(0,22)+'…':e[0];}),
+      sCYS.map(function(e){return e[0];}),
       sCYS.map(function(e){return e[1];}), true,
       sCYS.map(function(_,i){return COLORS[i]||COLORS[COLORS.length-1];}));
   }
