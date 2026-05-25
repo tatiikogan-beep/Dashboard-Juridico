@@ -48,16 +48,16 @@ h1,h2,.sf{font-family:'Libre Baskerville',serif}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .stl{font-family:'Libre Baskerville',serif;font-size:.88rem;font-weight:700;color:var(--c7);padding-bottom:7px;border-bottom:2px solid var(--c1);margin-bottom:12px;display:flex;align-items:center;gap:7px}
 .sn{width:20px;height:20px;background:var(--c7);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
-.dz{border:2px dashed var(--c3);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;background:var(--c0);transition:.2s;position:relative;overflow:hidden}
+.dz{border:2px dashed var(--c3);border-radius:var(--r);padding:22px 12px;text-align:center;cursor:pointer;background:var(--c0);transition:.2s;position:relative;overflow:hidden}
 .dz:hover{border-color:var(--c6);background:var(--c1)}
 .dz.ok{border-style:solid;border-color:var(--c7);background:var(--c1)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dzi{font-size:1.5rem;margin-bottom:4px}
-.dzl{font-size:.75rem;color:var(--c7);font-weight:600}
-.dzs{font-size:.68rem;color:var(--mu);margin-top:2px}
-.dzst{font-size:.68rem;color:var(--c8);font-weight:700;margin-top:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.dzi{font-size:2.2rem;margin-bottom:8px}
+.dzl{font-size:.85rem;color:var(--c7);font-weight:700}
+.dzs{font-size:.76rem;color:var(--mu);margin-top:4px}
+.dzst{font-size:.75rem;color:var(--c8);font-weight:700;margin-top:5px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .up3{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.up5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.up5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
 .reldrop{position:relative;display:inline-block}
 .reldrop-menu{display:none;position:absolute;top:100%;right:0;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15);min-width:220px;z-index:999;overflow:hidden}
 .reldrop-menu a{display:block;padding:9px 16px;font-size:.72rem;font-weight:600;color:var(--c8);text-decoration:none;cursor:pointer;border-bottom:1px solid #f0e8e8;transition:.15s}
