@@ -7,7 +7,7 @@ import streamlit as st
 # ── Embed external JS/CSS libraries inline for offline/Teams compatibility ──
 # build: 2026-05-25T16:54
 def _fetch_lib(url, fallback=""):
-    import urllib.request
+    import urllib.requesth
     try:
         with urllib.request.urlopen(url, timeout=15) as r:
             return r.read().decode("utf-8")
@@ -669,7 +669,7 @@ function mkBar(id, labels, vals, horiz, colors){
         anchor: horiz?'end':'end', align: horiz?'end':'top',
         color: '#333', font:{size:10, weight:'700', family:"Inter,sans-serif"},
         formatter: function(v){ return v>0?v:''; },
-        clamp:true, clip:true,
+        clamp:true, clip:false,
         padding: horiz?{right:6}:{top:2}
       }};
     }
@@ -684,7 +684,7 @@ function mkBar(id, labels, vals, horiz, colors){
         x:{grid:{color:horiz?'#F5E8EA':'transparent'}, ticks:{color:'#9A5060',font:{size:10}}, border:{display:false}},
         y:{grid:{color:horiz?'transparent':'#F5E8EA'}, ticks:{color:'#4A2030',font:{size:10},maxTicksLimit:20,autoSkip:false}, border:{display:false}}
       },
-      layout:{padding:{right:horiz?40:0, left:0, top:24}}
+      layout:{padding:{right:horiz?50:0, left:0, top:24}}
     }
   });
 }
