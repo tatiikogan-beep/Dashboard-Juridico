@@ -801,7 +801,7 @@ function generate(){
 
   // Services
   // Detect date column name (old files use 'Data', new exports use 'Data do cadastro')
-  var servDateFld = (serv.length>0 && serv[0]['Data do cadastro']!==undefined) ? 'Data do cadastro' : 'Data';
+  var servDateFld = (serv.length>0) ? (['Data do cadastro','Data de cadastro','Data de realização'].find(f=>serv[0][f]!==undefined)||'Data') : 'Data';
   var servY={};
   serv.forEach(function(r){
     var d=r[servDateFld]; if(!d) return;
@@ -871,9 +871,9 @@ function generate(){
   var audByYear = {};
   audYears.forEach(function(y){ audByYear[y]=0; });
   aud.forEach(function(r){
-    var d=r['Data de início']; if(!d) return;
+    var d=r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']; if(!d) return;
     var y=parseYear(d);
-    if(audYears.indexOf(y)>=0 && String(r['Tipo']||'')==='Audiência') audByYear[y]=(audByYear[y]||0)+1;
+    if(audYears.indexOf(y)>=0) audByYear[y]=(audByYear[y]||0)+1;
   });
 
   var sCompY={};
