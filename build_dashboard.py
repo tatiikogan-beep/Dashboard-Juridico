@@ -991,9 +991,9 @@ function generate(){
 
   var audLbl = ST.aud ? 'Clientes filtrados' : 'Planilha não carregada';
   document.getElementById('kpi2').innerHTML =
-    kpiCard('c6','Audiências em '+refY,nAud,audLbl) +
-    kpiCard('c5','Prazos em '+refY,nPrz,audLbl) +
-    kpiCard('gd','Perícias em '+refY,nPer,audLbl);
+    kpiCard('c6','Audiências Realizadas em '+refY,nAud,audLbl) +
+    kpiCard('gd','Perícias Realizadas em '+refY,nPer,audLbl) +
+    kpiCard('c5','Audiências Pendentes',futAud.length,audLbl);
 
   // Top charts row
   var rtop = document.getElementById('rowtop');
