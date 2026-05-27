@@ -737,7 +737,14 @@ function parseValBR(v){
   if(v===null||v===undefined||v==='') return 0;
   if(typeof v==='number') return isNaN(v)?0:v;
   var s=String(v).trim().replace(/R\$/g,'').replace(/\s/g,'').trim();
-  if(s.indexOf(',')>=0){ s=s.replace(/\./g,'').replace(',','.'); }
+  var lastDot=s.lastIndexOf('.'), lastComma=s.lastIndexOf(',');
+  if(lastComma>lastDot){
+    // Formato BR: 2.999.109,76 — vírgula é decimal
+    s=s.replace(/\./g,'').replace(',','.');
+  } else if(lastDot>lastComma && lastComma>=0){
+    // Formato US: 2,999,109.76 — ponto é decimal
+    s=s.replace(/,/g,'');
+  }
   var n=parseFloat(s); return isNaN(n)?0:n;
 }
 function fVal(v){
