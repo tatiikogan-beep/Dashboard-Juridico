@@ -781,9 +781,15 @@ function generate(){
     'TERCEIRO INTERESSADO':'Terceiro Envolvido', 'Interessado':'Terceiro Envolvido',
     'Outros':'Outros'
   };
-  proc.forEach(function(r){
+  // Normaliza Posição sem mutar ST.proc original
+  proc = proc.map(function(r){
     var raw = String(r['Posição']||'').trim();
-    if(raw && POLO_MAP[raw] !== undefined) r['Posição'] = POLO_MAP[raw];
+    if(raw && POLO_MAP[raw] !== undefined){
+      var copy = Object.assign({}, r);
+      copy['Posição'] = POLO_MAP[raw];
+      return copy;
+    }
+    return r;
   });
 
   // Processes — Ativo+Suspenso = Ativo; ignore Inativo
@@ -829,12 +835,12 @@ function generate(){
   var nAud=0, nPrz=0, nPer=0;
   if(aud.length===0 && ST.aud && clients) warns.push('Nenhum registro de Aud/Prazos/Perícias encontrado para os clientes. Verifique os nomes no campo "Cliente Processo".');
   aud.forEach(function(r){
-    var d=r['Data de início']; if(!d) return;
+    var d=r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']; if(!d) return;
     if(parseYear(d)!==refY) return;
-    var t=String(r['Tipo']||'');
+    var t=uT(String(r['Tipo']||'').trim());
     if(t==='Audiência') nAud++;
     else if(t==='Prazo') nPrz++;
-    else if(t==='Perícia'||t==='Pauta de Julgamento') nPer++;
+    else if(t==='Perícia') nPer++;
   });
 
   // ── Item 2: Cadastrados vs Encerrados por mês no ano vigente ──
@@ -1266,8 +1272,10 @@ function generate(){
   // ── Audiências e Perícias Futuras ──
   var today = new Date(); today.setHours(0,0,0,0);
   function futDate(r){ return r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']||null; }
-  var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente principal','cliente principal']) : null;
-  var fut = ST.fut ? ((clients && futFld) ? filterClients(ST.fut, futFld, clients) : ST.fut) : [];
+  // Se ST.fut não for carregado, usa ST.aud como fallback (filtra datas futuras)
+  var _futSource = ST.fut || ST.aud || null;
+  var futFld = _futSource ? getField(_futSource, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente Processo','Cliente principal','cliente principal']) : null;
+  var fut = _futSource ? ((clients && futFld) ? filterClients(_futSource, futFld, clients) : _futSource) : [];
   var futAud = [], futPer = [];
   fut.forEach(function(r){
     var d = futDate(r);
@@ -1296,10 +1304,10 @@ function generate(){
     proc:{rows:proc,active:active,archived:archived,natSort:natSort,nAud:nAud,nPrz:nPrz,nPer:nPer},
     serv:{rows:ST.serv||[]}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[]},
     fut:{rows:ST.fut||[],futAud:futAud,futPer:futPer} };
-  if(ST.fut && fut.length===0 && ST.fut.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
+  if(_futSource && fut.length===0 && _futSource.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
   (function(){
     var fb=document.getElementById('futblock');
-    if(!ST.fut){ fb.style.display='none'; return; }
+    if(!ST.fut && !ST.aud){ fb.style.display='none'; return; }
     var proxAud=futAud.length>0?fDate(futDate(futAud[0])):'—';
     var proxPer=futPer.length>0?fDate(futDate(futPer[0])):'—';
     document.getElementById('futkpi').innerHTML=
