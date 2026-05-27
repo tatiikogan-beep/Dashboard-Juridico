@@ -773,6 +773,19 @@ function generate(){
     warns.push('ATENÇÃO: Nenhum processo encontrado para os clientes selecionados.');
   }
 
+  // ── Normalização da coluna Posição (planilha de processos) ──
+  var POLO_MAP = {
+    'Ativo':'Ativo', 'Autor':'Ativo', 'Testemunha':'Ativo',
+    'Passivo':'Passivo', 'Réu':'Passivo', 'Parte':'Passivo',
+    'Terceiro':'Terceiro Envolvido', 'Terceiro Envolvido':'Terceiro Envolvido',
+    'TERCEIRO INTERESSADO':'Terceiro Envolvido', 'Interessado':'Terceiro Envolvido',
+    'Outros':'Outros'
+  };
+  proc.forEach(function(r){
+    var raw = String(r['Posição']||'').trim();
+    if(raw && POLO_MAP[raw] !== undefined) r['Posição'] = POLO_MAP[raw];
+  });
+
   // Processes — Ativo+Suspenso = Ativo; ignore Inativo
   var active   = proc.filter(function(r){ return r['Status']==='Ativo'||r['Status']==='Suspenso'; });
   var archived = proc.filter(function(r){ return r['Status']==='Arquivado'; });
@@ -855,8 +868,8 @@ function generate(){
   var provTotalCausa = 0, provTotalEnvolvido = 0, provQtd = 0;
   // Filtro: processos arquivados no polo passivo
   var archivedPassivo = archived.filter(function(r){
-    var polo = String(r['Posição']||r['Polo']||'').trim().toLowerCase();
-    return polo.indexOf('passiv') >= 0 || polo === 'réu' || polo === 'reu' || polo.indexOf('executad') >= 0;
+    var polo = String(r['Posição']||r['Polo']||'').trim();
+    return polo === 'Passivo';
   });
   archivedPassivo.forEach(function(r){
     var causa = parseFloat(r['Valor da causa']) || 0;
@@ -1138,9 +1151,10 @@ function generate(){
     // ── Text-based classification using decision verbs + pole rule ──
     function classifyDecision(polo, texto){
       var polo_l = String(polo||'').trim().toLowerCase();
-      var polAt = polo_l==='ativo'||polo_l==='autor';
-      var polPas= polo_l==='passivo'||polo_l==='réu'||polo_l==='reu';
-      if(!polAt && !polPas) return null;
+      var polAt = polo_l==='ativo'||polo_l==='autor'||polo_l==='testemunha';
+      var polPas= polo_l==='passivo'||polo_l==='réu'||polo_l==='reu'||polo_l==='parte';
+      var polTer= polo_l==='terceiro'||polo_l==='terceiro envolvido'||polo_l==='terceiro interessado'||polo_l==='interessado';
+      if(!polAt && !polPas && !polTer) return null;
 
       var t = String(texto||'').toLowerCase();
       if(!t||t==='nan'||t==='null') return null;
