@@ -715,9 +715,23 @@ function mkDonut(id, labels, vals){
   });
 }
 
+function parseDateLocal(v){
+  if(!v) return null;
+  if(v instanceof Date){
+    var d=new Date(v.getTime()+v.getTimezoneOffset()*60000);
+    return isNaN(d.getTime())?null:d;
+  }
+  var s=String(v).trim();
+  if(!s||s==='null'||s==='undefined') return null;
+  var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m2) return new Date(parseInt(m2[1]),parseInt(m2[2])-1,parseInt(m2[3]));
+  var d2=new Date(s); return isNaN(d2.getTime())?null:d2;
+}
 function fDate(v){
   if(!v) return '';
-  try{ var d=new Date(v); return isNaN(d)?String(v):d.toLocaleDateString('pt-BR'); }catch(e){return String(v);}
+  try{ var d=parseDateLocal(v); return d?d.toLocaleDateString('pt-BR'):String(v); }catch(e){return String(v);}
 }
 function fVal(v){
   var n=parseFloat(v);
@@ -1272,16 +1286,14 @@ function generate(){
   // ── Audiências e Perícias Futuras ──
   var today = new Date(); today.setHours(0,0,0,0);
   function futDate(r){ return r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']||null; }
-  // Se ST.fut não for carregado, usa ST.aud como fallback (filtra datas futuras)
-  var _futSource = ST.fut || ST.aud || null;
-  var futFld = _futSource ? getField(_futSource, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente Processo','Cliente principal','cliente principal']) : null;
-  var fut = _futSource ? ((clients && futFld) ? filterClients(_futSource, futFld, clients) : _futSource) : [];
+  var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente principal','cliente principal']) : null;
+  var fut = ST.fut ? ((clients && futFld) ? filterClients(ST.fut, futFld, clients) : ST.fut) : [];
   var futAud = [], futPer = [];
   fut.forEach(function(r){
     var d = futDate(r);
     if(!d) return;
-    var dt = d instanceof Date ? d : new Date(String(d).trim());
-    if(isNaN(dt.getTime())) return;
+    var dt = parseDateLocal(d);
+    if(!dt||isNaN(dt.getTime())) return;
     dt.setHours(0,0,0,0);
     if(dt < today) return;
     var tipoRaw = String(r['Tipo']||'').trim();
@@ -1290,7 +1302,11 @@ function generate(){
     else if(tipo === 'Audiência' || tipoRaw === 'Audiência') futAud.push(r);
     // Ignora outros tipos (Prazo, Reunião, etc.)
   });
-  function sortByDate(arr){ return arr.slice().sort(function(a,b){ var da=new Date(futDate(a)||0), db=new Date(futDate(b)||0); return da-db; }); }
+  function sortByDate(arr){ return arr.slice().sort(function(a,b){
+    var da=parseDateLocal(futDate(a))||new Date(0);
+    var db=parseDateLocal(futDate(b))||new Date(0);
+    return da-db;
+  }); }
   futAud = sortByDate(futAud);
   futPer = sortByDate(futPer);
   var futAudNat={}, futPerNat={}, futAudCid={}, futPerCid={};
@@ -1304,10 +1320,10 @@ function generate(){
     proc:{rows:proc,active:active,archived:archived,natSort:natSort,nAud:nAud,nPrz:nPrz,nPer:nPer},
     serv:{rows:ST.serv||[]}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[]},
     fut:{rows:ST.fut||[],futAud:futAud,futPer:futPer} };
-  if(_futSource && fut.length===0 && _futSource.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
+  if(ST.fut && fut.length===0 && ST.fut.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
   (function(){
     var fb=document.getElementById('futblock');
-    if(!ST.fut && !ST.aud){ fb.style.display='none'; return; }
+    if(!ST.fut){ fb.style.display='none'; return; }
     var proxAud=futAud.length>0?fDate(futDate(futAud[0])):'—';
     var proxPer=futPer.length>0?fDate(futDate(futPer[0])):'—';
     document.getElementById('futkpi').innerHTML=
