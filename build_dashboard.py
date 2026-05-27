@@ -851,11 +851,14 @@ function generate(){
   });
   var faseSort = Object.entries(faseC).sort(function(a,b){return b[1]-a[1];});
 
-  // ── Item 4: Passivo processual — probabilidade Provável ──
+  // ── Item 4: Passivo processual — Processos arquivados, polo passivo ──
   var provTotalCausa = 0, provTotalEnvolvido = 0, provQtd = 0;
-  active.forEach(function(r){
-    var prob = String(r['Tipo da probabilidade atual']||'').trim();
-    if(prob !== 'Provável' && prob !== 'Perda' && prob !== 'Perda Provável') return;
+  // Filtro: processos arquivados no polo passivo
+  var archivedPassivo = archived.filter(function(r){
+    var polo = String(r['Posição']||r['Polo']||'').trim().toLowerCase();
+    return polo.indexOf('passiv') >= 0 || polo === 'réu' || polo === 'reu' || polo.indexOf('executad') >= 0;
+  });
+  archivedPassivo.forEach(function(r){
     var causa = parseFloat(r['Valor da causa']) || 0;
     var envol  = parseFloat(r['Valor envolvido']) || 0;
     if(causa > 0 || envol > 0){
@@ -873,7 +876,10 @@ function generate(){
   aud.forEach(function(r){
     var d=r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']; if(!d) return;
     var y=parseYear(d);
-    if(audYears.indexOf(y)>=0) audByYear[y]=(audByYear[y]||0)+1;
+    if(audYears.indexOf(y)<0) return;
+    var tipo = uT(String(r['Tipo']||'').trim());
+    if(tipo !== 'Audiência') return;
+    audByYear[y]=(audByYear[y]||0)+1;
   });
 
   var sCompY={};
@@ -1183,7 +1189,8 @@ function generate(){
           ? fmtD(minDate)
           : fmtD(minDate)+' a '+fmtD(maxDate))
       : '';
-    var chartTitle = 'Resultado das Decisões'+(period?' — '+period:'');
+    // Título fixo conforme solicitado (período: out/2025 a mai/2026)
+    var chartTitle = 'Resultado das Decisões — out. de 2025 a mai. de 2026';
 
     // Build chart HTML
     decBlock.innerHTML = '<div class="sd"></div><div class="sbn" style="background:var(--c9)"><h2>🏛️ Decisões Judiciais</h2></div>' +
@@ -1255,9 +1262,11 @@ function generate(){
     if(isNaN(dt.getTime())) return;
     dt.setHours(0,0,0,0);
     if(dt < today) return;
-    var tipo = String(r['Tipo']||'').trim();
-    if(tipo === 'Perícia' || tipo === 'Pericia') futPer.push(r);
-    else futAud.push(r);
+    var tipoRaw = String(r['Tipo']||'').trim();
+    var tipo = uT(tipoRaw);
+    if(tipo === 'Perícia' || tipoRaw === 'Perícia' || tipoRaw === 'Pericia') futPer.push(r);
+    else if(tipo === 'Audiência' || tipoRaw === 'Audiência') futAud.push(r);
+    // Ignora outros tipos (Prazo, Reunião, etc.)
   });
   function sortByDate(arr){ return arr.slice().sort(function(a,b){ var da=new Date(futDate(a)||0), db=new Date(futDate(b)||0); return da-db; }); }
   futAud = sortByDate(futAud);
@@ -1689,7 +1698,7 @@ html = """<!DOCTYPE html>
   </div>
   <div class="cg c1" style="margin-bottom:12px">
     <div class="cc" id="passivo-card">
-      <div class="ct">Redução do Passivo Processual — Probabilidade de Perda</div>
+      <div class="ct">Redução do Passivo Processual — Probabilidade de Perda<br><span style="font-size:.6rem;color:var(--mu);font-weight:400;text-transform:none">Processos arquivados, polo passivo</span></div>
       <div id="passivo-content" style="padding:8px 0"></div>
     </div>
   </div>
