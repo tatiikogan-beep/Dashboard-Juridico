@@ -993,7 +993,7 @@ function generate(){
   document.getElementById('kpi2').innerHTML =
     kpiCard('c6','Audiências Realizadas em '+refY,nAud,audLbl) +
     kpiCard('gd','Perícias Realizadas em '+refY,nPer,audLbl) +
-    kpiCard('c5','Audiências Pendentes',futAud.length,audLbl);
+    kpiCard('c5','Audiências Pendentes',‘…’,audLbl);
 
   // Top charts row
   var rtop = document.getElementById('rowtop');
@@ -1322,6 +1322,16 @@ function generate(){
   }); }
   futAud = sortByDate(futAud);
   futPer = sortByDate(futPer);
+  // Atualiza card Audiências Pendentes agora que futAud está disponível
+  (function(){
+    var kpi2el = document.getElementById('kpi2');
+    if(!kpi2el) return;
+    var futLbl = ST.fut ? (clients ? 'Clientes filtrados' : 'Planilha carregada') : 'Planilha não carregada';
+    kpi2el.innerHTML =
+      kpiCard('c6','Audiências Realizadas em '+refY,nAud,audLbl) +
+      kpiCard('gd','Perícias Realizadas em '+refY,nPer,audLbl) +
+      kpiCard('c5','Audiências Pendentes',futAud.length,futLbl);
+  })();
   var futAudNat={}, futPerNat={}, futAudCid={}, futPerCid={};
   futAud.forEach(function(r){ var n=r['Natureza']||'Não informado'; futAudNat[n]=(futAudNat[n]||0)+1; var k=r['Cidade/UF']||r['Cidade']||'N/I'; futAudCid[k]=(futAudCid[k]||0)+1; });
   futPer.forEach(function(r){ var n=r['Natureza']||'Não informado'; futPerNat[n]=(futPerNat[n]||0)+1; var k=r['Cidade/UF']||r['Cidade']||'N/I'; futPerCid[k]=(futPerCid[k]||0)+1; });
