@@ -733,13 +733,20 @@ function fDate(v){
   if(!v) return '';
   try{ var d=parseDateLocal(v); return d?d.toLocaleDateString('pt-BR'):String(v); }catch(e){return String(v);}
 }
+function parseValBR(v){
+  if(v===null||v===undefined||v==='') return 0;
+  if(typeof v==='number') return isNaN(v)?0:v;
+  var s=String(v).trim().replace(/R\$/g,'').replace(/\s/g,'').trim();
+  if(s.indexOf(',')>=0){ s=s.replace(/\./g,'').replace(',','.'); }
+  var n=parseFloat(s); return isNaN(n)?0:n;
+}
 function fVal(v){
-  var n=parseFloat(v);
-  return isNaN(n)||n===0?'R$ 0,00':'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var n=parseValBR(v);
+  return n===0?'R$ 0,00':'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function fValBlankAsZero(v){
-  var n=parseFloat(v);
-  return isNaN(n)?'R$ 0,00':'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var n=parseValBR(v);
+  return 'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function esc(v){
   return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -829,7 +836,8 @@ function generate(){
   var archY={};
   archived.forEach(function(r){
     var d=r['Data do encerramento']; if(!d) return;
-    var y=parseYear(d); if(y>=2008&&y<=2030) archY[y]=(archY[y]||0)+1;
+    var dt=parseDateLocal(d); if(!dt) return;
+    var y=dt.getFullYear(); if(y>=2008&&y<=2030) archY[y]=(archY[y]||0)+1;
   });
 
   // Services
@@ -864,16 +872,14 @@ function generate(){
   proc.filter(function(r){return r['Status']==='Ativo'||r['Status']==='Suspenso'||r['Status']==='Arquivado';})
       .forEach(function(r){
         var d=r['Data do cadastro']; if(!d) return;
-        var dt=d instanceof Date?d:new Date(String(d).trim());
-        if(isNaN(dt.getTime())) return;
-        if(parseYear(d)===refY) cmpRegMon[dt.getMonth()]++;
+        var dt=parseDateLocal(d); if(!dt||isNaN(dt.getTime())) return;
+        if(dt.getFullYear()===refY) cmpRegMon[dt.getMonth()]++;
       });
   proc.filter(function(r){return r['Status']==='Arquivado';})
       .forEach(function(r){
         var d=r['Data do encerramento']; if(!d) return;
-        var dt=d instanceof Date?d:new Date(String(d).trim());
-        if(isNaN(dt.getTime())) return;
-        if(parseYear(d)===refY) cmpArcMon[dt.getMonth()]++;
+        var dt=parseDateLocal(d); if(!dt||isNaN(dt.getTime())) return;
+        if(dt.getFullYear()===refY) cmpArcMon[dt.getMonth()]++;
       });
 
   // ── Item 3: Distribuição de fases (ativos+suspensos) ──
@@ -892,8 +898,8 @@ function generate(){
     return polo === 'Passivo';
   });
   archivedPassivo.forEach(function(r){
-    var causa = parseFloat(r['Valor da causa']) || 0;
-    var envol  = parseFloat(r['Valor envolvido']) || 0;
+    var causa = parseValBR(r['Valor da causa']);
+    var envol  = parseValBR(r['Valor envolvido']);
     if(causa > 0 || envol > 0){
       provTotalCausa    += causa;
       provTotalEnvolvido += envol;
