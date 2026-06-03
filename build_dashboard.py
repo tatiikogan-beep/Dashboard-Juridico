@@ -993,7 +993,7 @@ function generate(){
   document.getElementById('kpi2').innerHTML =
     kpiCard('c6','Audiências Realizadas em '+refY,nAud,audLbl) +
     kpiCard('gd','Perícias Realizadas em '+refY,nPer,audLbl) +
-    kpiCard('c5','Audiências Pendentes',‘…’,audLbl);
+    kpiCard('c5','Audiências Pendentes','…',audLbl);
 
   // Top charts row
   var rtop = document.getElementById('rowtop');
