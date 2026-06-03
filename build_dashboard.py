@@ -1225,6 +1225,17 @@ function generate(){
       else if(cls==='desfavoravel'||cls==='desfavoravel_parcial') nDesfav++;
       else if(cls==='extinto')                                    nAcordo++;
     });
+    // Annotate rows with AI classification
+    decRows = decRows.map(function(r){
+      var cls2 = classifyDecision(r[poloFld], r[keys[keys.length-1]]);
+      var tipo = (cls2==='favoravel'||cls2==='favoravel_parcial') ? 'FAVORÁVEL' :
+                 (cls2==='desfavoravel'||cls2==='desfavoravel_parcial') ? 'DESFAVORÁVEL' :
+                 cls2==='extinto' ? 'EXTINÇÃO' : '';
+      var copy = Object.assign({}, r);
+      copy['Tipo de Decisão'] = tipo;
+      copy['Motivo da Decisão'] = '';
+      return copy;
+    });
 
     var total = nFav+nDesfav+nAcordo;
     if(total===0){ decBlock.innerHTML=''; return; }
@@ -1261,15 +1272,10 @@ function generate(){
         '<div style="font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Desfavoráveis</div>'+
         '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:var(--c8);font-weight:700">'+nDesfav+'</div>'+
         '<div style="font-size:.65rem;color:var(--mu)">'+pctDesfav+'% do total</div></div>'+
-      (nAcordo>0?
-        '<div style="background:#FFF8E0;border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--gd)">'+
-          '<div style="font-size:.6rem;color:#7A6000;text-transform:uppercase;letter-spacing:.05em;font-weight:600">Extintos</div>'+
-          '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:#7A6000;font-weight:700">'+nAcordo+'</div>'+
-          '<div style="font-size:.65rem;color:#7A6000">'+pctAcordo+'% do total</div></div>'
-        :'<div style="background:var(--c0);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--bd)">'+
+      '<div style="background:var(--c0);border-radius:8px;padding:14px;text-align:center;border-top:3px solid var(--bd)">'+
           '<div style="font-size:.6rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600">Total Analisado</div>'+
-          '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:var(--c8);font-weight:700">'+total+'</div>'+
-          '<div style="font-size:.65rem;color:var(--mu)">decisões classificadas</div></div>');
+          '<div style="font-family:Libre Baskerville,serif;font-size:1.8rem;color:var(--c8);font-weight:700">'+(nFav+nDesfav)+'</div>'+
+          '<div style="font-size:.65rem;color:var(--mu)">decisões classificadas</div></div>'
     document.getElementById('dec-kpis').innerHTML = kpiHtml;
 
     // Chart
@@ -1277,7 +1283,7 @@ function generate(){
     var decLabels = ['Favoráveis','Desfavoráveis'];
     var decVals   = [nFav, nDesfav];
     var decColors = ['#4A8A4A','#8B0E1A'];
-    if(nAcordo>0){ decLabels.push('Extintos'); decVals.push(nAcordo); decColors.push('#C4A85A'); }
+    // Extintos removido do gráfico
     CH['chdec'] = new Chart(document.getElementById('chdec'),{
       type:'doughnut',
       data:{labels:decLabels,datasets:[{data:decVals,backgroundColor:decColors,borderWidth:3,borderColor:'#fff'}]},
@@ -1292,6 +1298,7 @@ function generate(){
           tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+ctx.parsed+' ('+Math.round(ctx.parsed/total*100)+'%)';}}}
         }}
     });
+  if(window._exports) window._exports.dec.filteredRows = decRows;
   })();
 
   window._rpt = {proc:proc, active:active, archived:archived, natSort:natSort, title:title, refY:refY, nAud:nAud, nPrz:nPrz, nPer:nPer};
@@ -1341,7 +1348,7 @@ function generate(){
   var futPerCidSort=Object.entries(futPerCid).sort(function(a,b){return b[1]-a[1];}).slice(0,10);
   window._exports = { title:title, refY:refY,
     proc:{rows:proc,active:active,archived:archived,natSort:natSort,nAud:nAud,nPrz:nPrz,nPer:nPer},
-    serv:{rows:ST.serv||[]}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[]},
+    serv:{rows:ST.serv||[], filteredRows:serv}, aud:{rows:ST.aud||[]}, dec:{rows:ST.dec||[], filteredRows:null},
     fut:{rows:ST.fut||[],futAud:futAud,futPer:futPer} };
   if(ST.fut && fut.length===0 && ST.fut.length>0) warns.push('Nenhuma Aud./Perícia futura encontrada. Verifique o campo "Tipo" (deve ser "Audiência" ou "Perícia") e as datas.');
   (function(){
@@ -1537,7 +1544,7 @@ function exportXLS_proc(){
 }
 function exportXLS_serv(){
   var d=window._exports; if(!d||!d.serv||!d.serv.rows.length) return alert('Planilha de Serviços não carregada.');
-  var rows=d.serv.rows; var hdrs=Object.keys(rows[0]||{});
+  var rows=d.serv.filteredRows||d.serv.rows; var hdrs=Object.keys(rows[0]||{});
   var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
   var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
   var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
@@ -1557,7 +1564,11 @@ function exportXLS_aud(){
 }
 function exportXLS_dec(){
   var d=window._exports; if(!d||!d.dec||!d.dec.rows.length) return alert('Planilha de Decisões não carregada.');
-  var rows=d.dec.rows; var hdrs=Object.keys(rows[0]||{});
+  var rows=d.dec.filteredRows||d.dec.rows;
+  var allHdrs=Object.keys(rows[0]||{});
+  var decColIdx=allHdrs.findIndex(function(h){return h.toLowerCase().indexOf("decis")>=0&&h!=="Tipo de Decisão"&&h!=="Motivo da Decisão";});
+  var hdrs=allHdrs.filter(function(h){return h!=="Tipo de Decisão"&&h!=="Motivo da Decisão";});
+  if(decColIdx>=0){hdrs.splice(decColIdx+1,0,"Tipo de Decisão","Motivo da Decisão");}else{hdrs.push("Tipo de Decisão","Motivo da Decisão");}
   var H='#8B0E1A',ALT='#FDE8EA',BD='#EDD8DA';
   var coH='style="padding:7px 8px;background:'+H+';color:#fff;font-weight:700;border:1px solid #6B0010;font-family:Calibri;font-size:9pt"';
   var hRow='<tr>'+hdrs.map(function(h){return '<th '+coH+'>'+esc(h)+'</th>';}).join('')+'</tr>';
