@@ -1196,13 +1196,10 @@ function generate(){
     if(!ST.dec || ST.dec.length===0){ decBlock.innerHTML=''; return; }
 
     // Detect columns from first row
-    var sample = ST.dec[0];
-    var keys = Object.keys(sample);
-    // Column positions (0-based): Natureza=0, Polo=3, ResultadoDecisao=15, DataPublicacao=21
-    var poloFld    = keys[3]  || '';
-    var resultFld  = keys[15] || '';
-    var dataPubFld = keys[21] || '';
-    var clientFld  = keys[2]  || '';
+    var poloFld    = getField(ST.dec,['Polo','polo','Polo processual','POLO']) || '';
+    var resultFld  = getField(ST.dec,['Decisão','Decisao','decisão','decisao','Resultado','resultado','Resultado da Decisão','ResultadoDecisao','Dispositivo','dispositivo']) || '';
+    var dataPubFld = getField(ST.dec,['Data de Publicação','Data Publicação','DataPublicacao','Data de Pub','Data Pub','data_pub']) || '';
+    var clientFld  = getField(ST.dec,['Cliente principal','cliente principal','Cliente','cliente','Cliente do Processo']) || '';
 
     // Filter by clients if provided
     var _decIdxMap = ST.dec.map(function(r,i){ return (clients ? (r[clientFld] && clients.indexOf(String(r[clientFld]).trim())>=0) : true) ? i : -1; }).filter(function(x){return x>=0;});
@@ -1226,7 +1223,7 @@ function generate(){
         }
       }
       var _ri = _decIdxMap[decRows.indexOf(r)];
-      var cls = (window._reviewMap && _ri!==undefined && window._reviewMap[_ri]!==undefined) ? window._reviewMap[_ri] : classifyDecision(r[poloFld], r[keys[keys.length-1]]);
+      var cls = (window._reviewMap && _ri!==undefined && window._reviewMap[_ri]!==undefined) ? window._reviewMap[_ri] : classifyDecision(r[poloFld], r[resultFld]||"");
       if(cls==='favoravel'||cls==='favoravel_parcial')            nFav++;
       else if(cls==='desfavoravel'||cls==='desfavoravel_parcial') nDesfav++;
       else if(cls==='extinto')                                    nAcordo++;
@@ -1234,7 +1231,7 @@ function generate(){
     // Annotate rows with AI classification
     decRows = decRows.map(function(r){
       var _ri2 = _decIdxMap[decRows.indexOf(r)];
-      var cls2 = (window._reviewMap && _ri2!==undefined && window._reviewMap[_ri2]!==undefined) ? window._reviewMap[_ri2] : classifyDecision(r[poloFld], r[keys[keys.length-1]]);
+      var cls2 = (window._reviewMap && _ri2!==undefined && window._reviewMap[_ri2]!==undefined) ? window._reviewMap[_ri2] : classifyDecision(r[poloFld], r[resultFld]||"");
       var tipo = (cls2==='favoravel'||cls2==='favoravel_parcial') ? 'FAVORÁVEL' :
                  (cls2==='desfavoravel'||cls2==='desfavoravel_parcial') ? 'DESFAVORÁVEL' :
                  cls2==='extinto' ? 'EXTINÇÃO' : '';
@@ -1403,7 +1400,7 @@ function showReview(title, clients, yrRaw){
   var classified=decRows.map(function(r,i){
     var oi=decIdxMap[i];
     if(window._reviewMap&&window._reviewMap[oi]!==undefined) return window._reviewMap[oi];
-    return classifyDecision(r[poloFld],r[keys[keys.length-1]]);
+    return classifyDecision(r[poloFld],r[acoFld]||"");
   });
   var BD="#EDD8DA",ALT="#FDE8EA";
   var clsColors={"favoravel":"#2A6A2A","favoravel_parcial":"#4A8A4A","desfavoravel":"#8B0E1A","desfavoravel_parcial":"#A83040","extinto":"#7A6000","null":"#888"};
@@ -1414,7 +1411,7 @@ function showReview(title, clients, yrRaw){
     var color=clsColors[cls]||"#888"; var bg=i%2?ALT:"#fff";
     var acao=esc(String(r[acoFld]||"").substring(0,50));
     var polo=esc(String(r[poloFld]||"").trim()||"\u2014");
-    var dtxt=esc(String(r[keys[keys.length-1]]||"").substring(0,80));
+    var dtxt=esc(String(r[acoFld]||""||"").substring(0,80));
     var selHtml='<select class="rev-sel" data-oi="'+oi+'" style="font-size:.72rem;padding:3px 6px;border:1.5px solid '+BD+';border-radius:5px;background:#fff;color:'+color+';font-weight:700;width:100%;min-width:160px">'+
       optsHtml.replace('value="'+cls+'"','value="'+cls+'" selected')+'</select>';
     return '<tr style="background:'+bg+'">'+
