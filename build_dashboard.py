@@ -1393,6 +1393,7 @@ function showReview(title, clients, yrRaw){
   var clientFld=getField(ST.dec,['Cliente principal','cliente principal','Cliente','cliente'])||"";
   var acoFld=getField(ST.dec,['Ação','Acao','ação','acao','Natureza','natureza'])||"";
   var descFld=getField(ST.dec,['Descrição da Decisão','Descricao da Decisao','Decisão','Decisao','decisão','decisao'])||"";
+  var descFld=getField(ST.dec,['Descrição da Decisão','Descricao da Decisao','Decisão','Decisao','decisão','decisao'])||"";
   var decIdxMap=ST.dec.map(function(r,i){
     return (clients?(r[clientFld]&&clients.indexOf(String(r[clientFld]).trim())>=0):true)?i:-1;
   }).filter(function(x){return x>=0;});
@@ -1412,13 +1413,12 @@ function showReview(title, clients, yrRaw){
     var color=clsColors[cls]||"#888"; var bg=i%2?ALT:"#fff";
     var acao=esc(String(r[acoFld]||"").substring(0,50));
     var polo=esc(String(r[poloFld]||"").trim()||"\u2014");
-    var dtxt=esc(String(r[descFld]||""||"").substring(0,80));
+    var dtxt=esc(String(r[descFld]||""||""));
     var selHtml='<select class="rev-sel" data-oi="'+oi+'" style="font-size:.72rem;padding:3px 6px;border:1.5px solid '+BD+';border-radius:5px;background:#fff;color:'+color+';font-weight:700;width:100%;min-width:160px">'+
       optsHtml.replace('value="'+cls+'"','value="'+cls+'" selected')+'</select>';
     return '<tr style="background:'+bg+'">'+
-      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+acao+'</td>'+
-      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;text-align:center">'+polo+'</td>'+
-      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.70rem;color:#555;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+dtxt+'</td>'+
+            '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;text-align:center">'+polo+'</td>'+
+      '<td style="padding:8px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;color:#333;white-space:normal;word-break:break-word;line-height:1.45">'+dtxt+'</td>'+
       '<td style="padding:5px 8px;border-bottom:1px solid '+BD+'">'+selHtml+'</td></tr>';
   }).join("");
   var revEl=document.getElementById("rev");
@@ -1438,7 +1438,7 @@ function showReview(title, clients, yrRaw){
     '<div style="overflow-x:auto;max-height:58vh;overflow-y:auto">',
     '<table style="width:100%;border-collapse:collapse;min-width:600px">',
     '<thead><tr style="background:#f0e8e8;position:sticky;top:0;z-index:2">',
-    '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Processo / A\u00e7\u00e3o</th>',
+    '',
     '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:center;text-transform:uppercase;letter-spacing:.05em">Polo</th>',
     '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Decis\u00e3o (resumo)</th>',
     '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Classifica\u00e7\u00e3o IA \u2192 Revis\u00e3o</th>',
