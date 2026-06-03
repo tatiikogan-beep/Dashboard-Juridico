@@ -817,7 +817,7 @@ function generate(){
   // Etapa de revisao de decisoes
   if(ST.dec && ST.dec.length>0 && !window._reviewDone){
     try{showReview(title, clients, yrRaw);}catch(e){console.error("showReview error:",e);}
-    return;
+    if(document.getElementById("rev")&&document.getElementById("rev").style.display!=="none"){return;}
   }
   var procFld = getField(ST.proc, ['Cliente principal','cliente principal']);
   var servFld = getField(ST.serv, ['Cliente principal','cliente principal']);
