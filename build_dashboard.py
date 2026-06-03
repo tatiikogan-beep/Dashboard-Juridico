@@ -816,11 +816,9 @@ function generate(){
 
   // Etapa de revisao de decisoes
   if(ST.dec && ST.dec.length>0 && !window._reviewDone){
-    showReview(title, clients, yrRaw);
+    try{showReview(title, clients, yrRaw);}catch(e){console.error("showReview error:",e);}
     return;
   }
-  window._reviewDone = false;
-
   var procFld = getField(ST.proc, ['Cliente principal','cliente principal']);
   var servFld = getField(ST.serv, ['Cliente principal','cliente principal']);
   var audFld  = ST.aud ? getField(ST.aud,  ['Cliente Processo','Cliente processo']) : null;
@@ -1393,8 +1391,10 @@ function generate(){
 }
 
 function showReview(title, clients, yrRaw){
-  var sample=ST.dec[0]; var keys=Object.keys(sample);
-  var poloFld=keys[3]||""; var clientFld=keys[2]||""; var acoFld=keys[1]||keys[0]||"";
+  if(!ST.dec||ST.dec.length===0){return;}
+  var poloFld=getField(ST.dec,['Polo','polo','POLO'])||"";
+  var clientFld=getField(ST.dec,['Cliente principal','cliente principal','Cliente','cliente'])||"";
+  var acoFld=getField(ST.dec,['Decisão','Decisao','decisão','decisao','DECISÃO','DECISAO','Ação','Acao','ação','acao'])||"";
   var decIdxMap=ST.dec.map(function(r,i){
     return (clients?(r[clientFld]&&clients.indexOf(String(r[clientFld]).trim())>=0):true)?i:-1;
   }).filter(function(x){return x>=0;});
