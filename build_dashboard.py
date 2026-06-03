@@ -772,6 +772,35 @@ function filterClients(rows, field, clients){
   return rows.filter(function(r){ return r[field] && clients.indexOf(String(r[field]).trim())>=0; });
 }
 
+function classifyDecision(polo, texto){
+      var polo_l = String(polo||'').trim().toLowerCase();
+      var polAt = polo_l==='ativo'||polo_l==='autor'||polo_l==='testemunha';
+      var polPas= polo_l==='passivo'||polo_l==='réu'||polo_l==='reu'||polo_l==='parte';
+      var polTer= polo_l==='terceiro'||polo_l==='terceiro envolvido'||polo_l==='terceiro interessado'||polo_l==='interessado';
+      if(!polAt && !polPas && !polTer) return null;
+
+      var t = String(texto||'').toLowerCase();
+      if(!t||t==='nan'||t==='null') return null;
+
+      // Extinção
+      if(/declaro\s+extint|extingo\s+o\s+processo|extinta\s+a\s+execu|extinção.*processo/.test(t))
+        return 'extinto';
+
+      // Parcial procedência
+      if(/parcialmente\s+proced|julgo\s+parcial|procedente\s+em\s+parte|em\s+parte\s+procedente/.test(t)){
+        return polAt ? 'favoravel_parcial' : 'desfavoravel_parcial';
+      }
+      // Procedência
+      if(/julgo\s+proced[ea]nte(?!\s*ncia)|julgado\s+proced(?!ência)|julgar\s+proced(?!ência)|procedência\s+do|dou\s+provimento|concedo\s+(parcialmente\s+)?a\s+seguran|condeno\s+[ao]\s+r[eéu]|acolho\s+os?\s+pedidos?/.test(t)){
+        return polAt ? 'favoravel' : 'desfavoravel';
+      }
+      // Improcedência (inclui "REJEITAR preliminar...julgar IMPROCEDENTES", "decide...IMPROCEDENTES")
+      if(/julgo\s+improced[ea]nte|julgado\s+improced|julgar\s+improced|improcedência\s+do|improcedentes\s+os\s+pedidos|totalmente\s+improcedentes|pedidos?.*improced|rejeito\s+os?\s+pedidos?|decide.*julgar\s+improced|decide.*improcedente|julgar\s+os\s+pedidos.*improced/.test(t)){
+        return polAt ? 'desfavoravel' : 'favoravel';
+      }
+      return null; // verb not identified
+    }
+
 function generate(){
   clrErr();
   
@@ -784,6 +813,13 @@ function generate(){
 
   Object.keys(CH).forEach(function(k){ try{CH[k].destroy();}catch(e){} });
   var warns = [];
+
+  // Etapa de revisao de decisoes
+  if(ST.dec && ST.dec.length>0 && !window._reviewDone){
+    showReview(title, clients, yrRaw);
+    return;
+  }
+  window._reviewDone = false;
 
   var procFld = getField(ST.proc, ['Cliente principal','cliente principal']);
   var servFld = getField(ST.serv, ['Cliente principal','cliente principal']);
@@ -1171,9 +1207,8 @@ function generate(){
     var clientFld  = keys[2]  || '';
 
     // Filter by clients if provided
-    var decRows = clients
-      ? ST.dec.filter(function(r){ return r[clientFld] && clients.indexOf(String(r[clientFld]).trim())>=0; })
-      : ST.dec;
+    var _decIdxMap = ST.dec.map(function(r,i){ return (clients ? (r[clientFld] && clients.indexOf(String(r[clientFld]).trim())>=0) : true) ? i : -1; }).filter(function(x){return x>=0;});
+    var decRows = _decIdxMap.map(function(i){ return ST.dec[i]; });
 
     if(decRows.length===0){ decBlock.innerHTML=''; return; }
 
@@ -1182,34 +1217,6 @@ function generate(){
     var minDate=null, maxDate=null;
 
     // ── Text-based classification using decision verbs + pole rule ──
-    function classifyDecision(polo, texto){
-      var polo_l = String(polo||'').trim().toLowerCase();
-      var polAt = polo_l==='ativo'||polo_l==='autor'||polo_l==='testemunha';
-      var polPas= polo_l==='passivo'||polo_l==='réu'||polo_l==='reu'||polo_l==='parte';
-      var polTer= polo_l==='terceiro'||polo_l==='terceiro envolvido'||polo_l==='terceiro interessado'||polo_l==='interessado';
-      if(!polAt && !polPas && !polTer) return null;
-
-      var t = String(texto||'').toLowerCase();
-      if(!t||t==='nan'||t==='null') return null;
-
-      // Extinção
-      if(/declaro\s+extint|extingo\s+o\s+processo|extinta\s+a\s+execu|extinção.*processo/.test(t))
-        return 'extinto';
-
-      // Parcial procedência
-      if(/parcialmente\s+proced|julgo\s+parcial|procedente\s+em\s+parte|em\s+parte\s+procedente/.test(t)){
-        return polAt ? 'favoravel_parcial' : 'desfavoravel_parcial';
-      }
-      // Procedência
-      if(/julgo\s+proced[ea]nte(?!\s*ncia)|julgado\s+proced(?!ência)|julgar\s+proced(?!ência)|procedência\s+do|dou\s+provimento|concedo\s+(parcialmente\s+)?a\s+seguran|condeno\s+[ao]\s+r[eéu]|acolho\s+os?\s+pedidos?/.test(t)){
-        return polAt ? 'favoravel' : 'desfavoravel';
-      }
-      // Improcedência (inclui "REJEITAR preliminar...julgar IMPROCEDENTES", "decide...IMPROCEDENTES")
-      if(/julgo\s+improced[ea]nte|julgado\s+improced|julgar\s+improced|improcedência\s+do|improcedentes\s+os\s+pedidos|totalmente\s+improcedentes|pedidos?.*improced|rejeito\s+os?\s+pedidos?|decide.*julgar\s+improced|decide.*improcedente|julgar\s+os\s+pedidos.*improced/.test(t)){
-        return polAt ? 'desfavoravel' : 'favoravel';
-      }
-      return null; // verb not identified
-    }
 
     decRows.forEach(function(r){
       var datePub = r[dataPubFld];
@@ -1220,14 +1227,16 @@ function generate(){
           if(!maxDate||dp>maxDate) maxDate=dp;
         }
       }
-      var cls = classifyDecision(r[poloFld], r[keys[keys.length-1]]);
+      var _ri = _decIdxMap[decRows.indexOf(r)];
+      var cls = (window._reviewMap && _ri!==undefined && window._reviewMap[_ri]!==undefined) ? window._reviewMap[_ri] : classifyDecision(r[poloFld], r[keys[keys.length-1]]);
       if(cls==='favoravel'||cls==='favoravel_parcial')            nFav++;
       else if(cls==='desfavoravel'||cls==='desfavoravel_parcial') nDesfav++;
       else if(cls==='extinto')                                    nAcordo++;
     });
     // Annotate rows with AI classification
     decRows = decRows.map(function(r){
-      var cls2 = classifyDecision(r[poloFld], r[keys[keys.length-1]]);
+      var _ri2 = _decIdxMap[decRows.indexOf(r)];
+      var cls2 = (window._reviewMap && _ri2!==undefined && window._reviewMap[_ri2]!==undefined) ? window._reviewMap[_ri2] : classifyDecision(r[poloFld], r[keys[keys.length-1]]);
       var tipo = (cls2==='favoravel'||cls2==='favoravel_parcial') ? 'FAVORÁVEL' :
                  (cls2==='desfavoravel'||cls2==='desfavoravel_parcial') ? 'DESFAVORÁVEL' :
                  cls2==='extinto' ? 'EXTINÇÃO' : '';
@@ -1383,6 +1392,93 @@ function generate(){
   window.scrollTo(0,0);
 }
 
+function showReview(title, clients, yrRaw){
+  var sample=ST.dec[0]; var keys=Object.keys(sample);
+  var poloFld=keys[3]||""; var clientFld=keys[2]||""; var acoFld=keys[1]||keys[0]||"";
+  var decIdxMap=ST.dec.map(function(r,i){
+    return (clients?(r[clientFld]&&clients.indexOf(String(r[clientFld]).trim())>=0):true)?i:-1;
+  }).filter(function(x){return x>=0;});
+  var decRows=decIdxMap.map(function(i){return ST.dec[i];});
+  if(decRows.length===0){window._reviewDone=true;generate();return;}
+  var classified=decRows.map(function(r,i){
+    var oi=decIdxMap[i];
+    if(window._reviewMap&&window._reviewMap[oi]!==undefined) return window._reviewMap[oi];
+    return classifyDecision(r[poloFld],r[keys[keys.length-1]]);
+  });
+  var BD="#EDD8DA",ALT="#FDE8EA";
+  var clsColors={"favoravel":"#2A6A2A","favoravel_parcial":"#4A8A4A","desfavoravel":"#8B0E1A","desfavoravel_parcial":"#A83040","extinto":"#7A6000","null":"#888"};
+  var clsLabels={"favoravel":"FAVOR\u00c1VEL","favoravel_parcial":"FAVOR\u00c1VEL PARCIAL","desfavoravel":"DESFAVOR\u00c1VEL","desfavoravel_parcial":"DESFAVOR\u00c1VEL PARCIAL","extinto":"EXTIN\u00c7\u00c3O","null":"N\u00c3O IDENTIFICADO"};
+  var optsHtml=Object.keys(clsLabels).map(function(v){return '<option value="'+v+'">'+clsLabels[v]+'</option>';}).join("");
+  var tableRows=decRows.map(function(r,i){
+    var oi=decIdxMap[i]; var cls=classified[i]||"null";
+    var color=clsColors[cls]||"#888"; var bg=i%2?ALT:"#fff";
+    var acao=esc(String(r[acoFld]||"").substring(0,50));
+    var polo=esc(String(r[poloFld]||"").trim()||"\u2014");
+    var dtxt=esc(String(r[keys[keys.length-1]]||"").substring(0,80));
+    var selHtml='<select class="rev-sel" data-oi="'+oi+'" style="font-size:.72rem;padding:3px 6px;border:1.5px solid '+BD+';border-radius:5px;background:#fff;color:'+color+';font-weight:700;width:100%;min-width:160px">'+
+      optsHtml.replace('value="'+cls+'"','value="'+cls+'" selected')+'</select>';
+    return '<tr style="background:'+bg+'">'+
+      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+acao+'</td>'+
+      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.72rem;text-align:center">'+polo+'</td>'+
+      '<td style="padding:6px 10px;border-bottom:1px solid '+BD+';font-size:.70rem;color:#555;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+dtxt+'</td>'+
+      '<td style="padding:5px 8px;border-bottom:1px solid '+BD+'">'+selHtml+'</td></tr>';
+  }).join("");
+  var revEl=document.getElementById("rev");
+  revEl.innerHTML=[
+    '<div style="min-height:100vh;background:#f7f4f4;padding:28px 16px;font-family:Inter,sans-serif">',
+    '<div style="max-width:1000px;margin:0 auto">',
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">',
+    '<div><h2 style="font-family:Libre Baskerville,serif;color:#6B0010;font-size:1.3rem;margin:0">\u2696\uFE0F Revis\u00e3o das Classifica\u00e7\u00f5es</h2>',
+    '<p style="font-size:.78rem;color:#7A5060;margin:4px 0 0">Confira as classifica\u00e7\u00f5es da IA e corrija as que estiverem incorretas antes de gerar o dashboard.</p></div>',
+    '<button id="rev-back-btn" style="padding:7px 14px;background:rgba(107,0,16,.1);border:1.5px solid #8B0E1A;border-radius:6px;font-size:.72rem;font-weight:700;color:#8B0E1A;cursor:pointer">\u2190 Voltar</button>',
+    '</div>',
+    '<div style="background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(100,0,20,.12);overflow:hidden">',
+    '<div style="background:#8B0E1A;color:#fff;padding:11px 18px;display:flex;align-items:center;justify-content:space-between">',
+    '<span style="font-size:.78rem;font-weight:700">\u2696 '+decRows.length+' DECIS\u00d5ES ENCONTRADAS</span>',
+    '<span style="font-size:.72rem;opacity:.8">'+( clients?clients.join("; "):"Todos os clientes")+'</span>',
+    '</div>',
+    '<div style="overflow-x:auto;max-height:58vh;overflow-y:auto">',
+    '<table style="width:100%;border-collapse:collapse;min-width:600px">',
+    '<thead><tr style="background:#f0e8e8;position:sticky;top:0;z-index:2">',
+    '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Processo / A\u00e7\u00e3o</th>',
+    '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:center;text-transform:uppercase;letter-spacing:.05em">Polo</th>',
+    '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Decis\u00e3o (resumo)</th>',
+    '<th style="padding:8px 10px;font-size:.63rem;font-weight:700;color:#8B0E1A;text-align:left;text-transform:uppercase;letter-spacing:.05em">Classifica\u00e7\u00e3o IA \u2192 Revis\u00e3o</th>',
+    '</tr></thead>',
+    '<tbody>'+tableRows+'</tbody></table></div>',
+    '<div style="padding:14px 18px;border-top:2px solid #FDE8EA;background:#fffafb;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">',
+    '<span style="font-size:.72rem;color:#7A5060">\u2139\uFE0F Altere somente as classifica\u00e7\u00f5es incorretas. As demais ser\u00e3o mantidas conforme classificadas pela IA.</span>',
+    '<button id="rev-confirm-btn" style="padding:10px 26px;background:#8B0E1A;color:#fff;border:none;border-radius:8px;font-size:.86rem;font-weight:700;cursor:pointer;white-space:nowrap;letter-spacing:.03em">\u2714 Confirmar e Gerar Dashboard</button>',
+    '</div></div></div></div>'
+  ].join("");
+  document.getElementById("rev-back-btn").onclick=function(){
+    revEl.style.display="none";
+    document.getElementById("cfg").style.display="flex";
+    window._reviewDone=false; window._reviewMap={};
+  };
+  document.getElementById("rev-confirm-btn").onclick=confirmReview;
+  var clsC={"favoravel":"#2A6A2A","favoravel_parcial":"#4A8A4A","desfavoravel":"#8B0E1A","desfavoravel_parcial":"#A83040","extinto":"#7A6000","null":"#888"};
+  revEl.querySelectorAll(".rev-sel").forEach(function(s){
+    s.addEventListener("change",function(){this.style.color=clsC[this.value]||"#333";});
+  });
+  revEl.style.display="block";
+  document.getElementById("cfg").style.display="none";
+  document.getElementById("dsh").style.display="none";
+  window.scrollTo(0,0);
+}
+
+function confirmReview(){
+  var selects=document.querySelectorAll("#rev .rev-sel");
+  if(!window._reviewMap) window._reviewMap={};
+  selects.forEach(function(sel){
+    var oi=parseInt(sel.getAttribute("data-oi"));
+    var val=sel.value;
+    window._reviewMap[oi]=val==="null"?null:val;
+  });
+  document.getElementById("rev").style.display="none";
+  window._reviewDone=true;
+  generate();
+}
 function kpiCard(col, lbl, val, det){
   var colors = {'c7':'var(--c7)','c8x':'#8A6060','c4':'var(--c4)','gd':'var(--gd)','c6':'var(--c6)','c5':'var(--c5)'};
   var bc = colors[col] || 'var(--c6)';
@@ -1596,7 +1692,7 @@ function exportXLS_fut(){
   _xlsDl(new Blob(['﻿'+xls],{type:'application/vnd.ms-excel;charset=utf-8'}),(d.title||'Dashboard').replace(/[^a-zA-Z0-9À-ɏ ]/g,'_')+' - Aud_Pericias_Futuras.xls');
 }
 
-function goBack(){ document.getElementById('dsh').style.display='none'; document.getElementById('cfg').style.display='flex'; }
+function goBack(){ document.getElementById('dsh').style.display='none'; document.getElementById('cfg').style.display='flex'; window._reviewDone=false; window._reviewMap={}; }
 function hideReport(){ document.getElementById('rpt').style.display='none'; document.getElementById('dsh').style.display='block'; }
 function printDash(){ document.body.setAttribute('data-print','dash'); window.print(); setTimeout(function(){document.body.removeAttribute('data-print');},2000); }
 function shareDash(){
@@ -1719,6 +1815,10 @@ html = """<!DOCTYPE html>
 </div>
 </div>
 </div>
+
+
+<!-- REVISAO DE DECISOES -->
+<div id="rev" style="display:none"></div>
 
 <!-- DASHBOARD -->
 <div id="dsh">
