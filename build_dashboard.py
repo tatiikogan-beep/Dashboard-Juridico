@@ -1317,7 +1317,7 @@ function generate(){
 
   // ── Audiências e Perícias Futuras ──
   var today = new Date(); today.setHours(0,0,0,0);
-  function futDate(r){ return r['Data de Início']||r['Data de início']||r['Data de inicio']||r['Data']||null; }
+  function futDate(r){ var _d=r['Data de In\u00EDcio']||r['Data de in\u00EDcio']||r['Data de inicio']||r['Data da Per\u00EDcia']||r['Data da Per\u00edcia']||r['Data de Realiza\u00e7\u00e3o']||r['Data de Realiza\u00E7\u00E3o']||r['Data de Agendamento']||r['Data']||r['data']||null; if(_d) return _d; var _keys=Object.keys(r); for(var _i=0;_i<_keys.length;_i++){ var _k=_keys[_i]; if(!_k.startsWith('_')&&String(r[_k]||'').match(/\d{2}\/\d{2}\/\d{4}|\d{4}-\d{2}-\d{2}/)) return r[_k]; } return null; }
   var futFld = ST.fut ? getField(ST.fut, ['Cliente do Processo','Cliente Processo','cliente do processo','Cliente principal','cliente principal']) : null;
   var fut = ST.fut ? ((clients && futFld) ? filterClients(ST.fut, futFld, clients) : ST.fut) : [];
   var futAud = [], futPer = [];
@@ -1344,6 +1344,7 @@ function generate(){
   futAud = sortByDate(futAud);
   futPer = sortByDate(futPer);
   console.log("[DEBUG futDate] fut total:", fut.length, "futAud:", futAud.length, "futPer:", futPer.length, "sample _sheetName:", fut.slice(0,3).map(function(r){return r._sheetName||"(N/A)";}), "sample Tipo:", fut.slice(0,3).map(function(r){return r["Tipo"]||"(N/A)";}) );
+  if(fut.length>0){console.log("[DEBUG futDate keys] first row keys:",Object.keys(fut[0]).filter(function(k){return !k.startsWith('_');}),"date field:",futDate(fut[0])||"(NOT FOUND)");}
   // Atualiza card Audiências Pendentes agora que futAud está disponível
   (function(){
     var kpi2el = document.getElementById('kpi2');
