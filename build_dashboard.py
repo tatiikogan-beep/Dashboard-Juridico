@@ -7,7 +7,7 @@ import streamlit as st
 # ── Embed external JS/CSS libraries inline for offline/Teams compatibility ──
 # build: 2026-05-25T16:54
 def _fetch_lib(url, fallback=""):
-    import urllib.request
+    import urllib.requesth
     try:
         with urllib.request.urlopen(url, timeout=15) as r:
             return r.read().decode("utf-8")
@@ -460,7 +460,8 @@ const TAX = {
 'Workflow / Providencias em Execução Trabalhista':'Atividade Interna',
 'Workflow / Saneamento de dados (10d)':'Atividade Interna','Workflow / Saneamento de dados (1d)':'Atividade Interna',
 'Workflow / Saneamento de dados (20d)':'Atividade Interna','Workflow / Saneamento de dados (35d)':'Atividade Interna',
-'Workflow / Sinalizar':'Atividade Interna','Workflow / Sinalizar Perícia':'Atividade Interna',
+'Perícia':'Perícia','Pericia':'Perícia','Perícia Judicial':'Perícia','Perícia Médica':'Perícia','Perícia Contabil':'Perícia','Perícia Contábil':'Perícia','Serviço / Perícia':'Perícia',
+'Workflow / Sinalizar':'Atividade Interna','Workflow / Sinalizar Perícia':'Perícia',
 'Workflow / Acordão TJ TRF':'Atividade Interna','Workflow / Acórdão TRT':'Atividade Interna',
 'Workflow / Contrarrazões Trabalhista':'Atividade Interna',
 'Workflow / Decidir providências PAT':'Atividade Interna',
@@ -1322,7 +1323,8 @@ function generate(){
     if(dt < today) return;
     var tipoRaw = String(r['Tipo']||'').trim();
     var tipo = uT(tipoRaw);
-    if(tipo === 'Perícia' || tipoRaw === 'Perícia' || tipoRaw === 'Pericia') futPer.push(r);
+    var tipoNFD = tipoRaw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(tipo === 'Perícia' || tipoNFD.indexOf('pericia') >= 0) futPer.push(r);
     else if(tipo === 'Audiência' || tipoRaw === 'Audiência') futAud.push(r);
     // Ignora outros tipos (Prazo, Reunião, etc.)
   });
