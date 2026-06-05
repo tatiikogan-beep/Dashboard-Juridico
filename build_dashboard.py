@@ -622,7 +622,7 @@ function loadF(inp, key){
       var rows;
       if(key==='fut'){
         rows=[];
-        wb.SheetNames.forEach(function(sn){var _ws=wb.Sheets[sn];rows=rows.concat(XLSX.utils.sheet_to_json(_ws,{defval:null,raw:false}));});
+        wb.SheetNames.forEach(function(sn){var _ws=wb.Sheets[sn];var _r=XLSX.utils.sheet_to_json(_ws,{defval:null,raw:false});_r.forEach(function(row){row._sheetName=sn;});rows=rows.concat(_r);});
       }else{
         var ws=wb.Sheets[wb.SheetNames[0]];
         rows=XLSX.utils.sheet_to_json(ws,{defval:null,raw:false});
@@ -1330,8 +1330,9 @@ function generate(){
     var tipoRaw = String(r['Tipo']||'').trim();
     var tipo = uT(tipoRaw);
     var tipoNFD = tipoRaw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    if(tipo === 'Perícia' || tipoNFD.indexOf('pericia') >= 0) futPer.push(r);
-    else if(tipo === 'Audiência' || tipoRaw === 'Audiência') futAud.push(r);
+    var _snNFD=String(r._sheetName||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(tipo === 'Perícia' || tipoNFD.indexOf('pericia') >= 0 || _snNFD.indexOf('pericia') >= 0) futPer.push(r);
+    else if(tipo === 'Audiência' || tipoRaw === 'Audiência' || _snNFD.indexOf('audiencia') >= 0) futAud.push(r);
     // Ignora outros tipos (Prazo, Reunião, etc.)
   });
   function sortByDate(arr){ return arr.slice().sort(function(a,b){
