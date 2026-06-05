@@ -619,8 +619,14 @@ function loadF(inp, key){
   reader.onload = function(e){
     try{
       var wb = XLSX.read(new Uint8Array(e.target.result), {type:'array', cellDates:true});
-      var ws = wb.Sheets[wb.SheetNames[0]];
-      var rows = XLSX.utils.sheet_to_json(ws, {defval:null, raw:false});
+      var rows;
+      if(key==='fut'){
+        rows=[];
+        wb.SheetNames.forEach(function(sn){var _ws=wb.Sheets[sn];rows=rows.concat(XLSX.utils.sheet_to_json(_ws,{defval:null,raw:false}));});
+      }else{
+        var ws=wb.Sheets[wb.SheetNames[0]];
+        rows=XLSX.utils.sheet_to_json(ws,{defval:null,raw:false});
+      }
       if(key==='serv' && rows.length>0){
         var firstVals = Object.values(rows[0]);
         if(firstVals.indexOf('Pasta')>=0 || firstVals.indexOf('Natureza')>=0){
