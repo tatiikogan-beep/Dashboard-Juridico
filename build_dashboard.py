@@ -623,6 +623,7 @@ function loadF(inp, key){
       if(key==='fut'){
         rows=[];
         wb.SheetNames.forEach(function(sn){var _ws=wb.Sheets[sn];var _r=XLSX.utils.sheet_to_json(_ws,{defval:null,raw:false});_r.forEach(function(row){row._sheetName=sn;});rows=rows.concat(_r);});
+      console.log("[DEBUG loadF fut] sheets:", wb.SheetNames, "total rows:", rows.length, "sample _sheetName:", rows.slice(0,3).map(function(r){return r._sheetName;}));
       }else{
         var ws=wb.Sheets[wb.SheetNames[0]];
         rows=XLSX.utils.sheet_to_json(ws,{defval:null,raw:false});
@@ -1342,6 +1343,7 @@ function generate(){
   }); }
   futAud = sortByDate(futAud);
   futPer = sortByDate(futPer);
+  console.log("[DEBUG futDate] fut total:", fut.length, "futAud:", futAud.length, "futPer:", futPer.length, "sample _sheetName:", fut.slice(0,3).map(function(r){return r._sheetName||"(N/A)";}), "sample Tipo:", fut.slice(0,3).map(function(r){return r["Tipo"]||"(N/A)";}) );
   // Atualiza card Audiências Pendentes agora que futAud está disponível
   (function(){
     var kpi2el = document.getElementById('kpi2');
@@ -1896,6 +1898,7 @@ html = """<!DOCTYPE html>
 </div>
 </div>
   <div id="futblock">
+  <div id="_dbgFut" style="background:#fffde7;border:1px solid #f9a825;padding:8px;margin:8px 0;font-family:monospace;font-size:12px;white-space:pre-wrap;display:none;"></div>
   <div class="sd"></div>
   <div class="sbn" style="background:var(--c8)"><h2>📅 Audiências e Perícias Futuras</h2></div>
   <div class="kr" style="margin-bottom:16px" id="futkpi"></div>
